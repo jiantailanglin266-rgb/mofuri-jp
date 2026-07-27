@@ -1,0 +1,110 @@
+{
+ "shinjuku-ku": {
+  "file": "images/areas/shinjuku-ku.jpg",
+  "credit": "Photo: Morio / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Skyscrapers_of_Shinjuku_2009_January.jpg",
+  "wikiFile": "File:Skyscrapers_of_Shinjuku_2009_January.jpg"
+ },
+ "shibuya-ku": {
+  "file": "images/areas/shibuya-ku.jpg",
+  "credit": "Photo: Kakidai / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:2018_Shibuya_Crossing.jpg",
+  "wikiFile": "File:2018_Shibuya_Crossing.jpg"
+ },
+ "minato-ku": {
+  "file": "images/areas/minato-ku.jpg",
+  "credit": "Photo: 東京太郎 / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:20110405-TokyoTower-Sakura01.jpg",
+  "wikiFile": "File:20110405-TokyoTower-Sakura01.jpg"
+ },
+ "setagaya-ku": {
+  "file": "images/areas/setagaya-ku.jpg",
+  "credit": "Photo: 鋸香具師 / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Seijo_namikimichi_231011.jpg",
+  "wikiFile": "File:Seijo_namikimichi_231011.jpg"
+ },
+ "koto-ku": {
+  "file": "images/areas/koto-ku.jpg",
+  "credit": "Photo: Tak1701d / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tomioka_Hachiman-gu_201708.jpg",
+  "wikiFile": "File:Tomioka_Hachiman-gu_201708.jpg"
+ },
+ "nerima-ku": {
+  "file": "images/areas/nerima-ku.jpg",
+  "credit": "Photo: Guy-aan / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:%E4%B8%89%E5%AE%9D%E5%AF%BA%E6%B1%A0%E3%81%A8%E5%8E%B3%E5%B3%B6%E7%A5%9E%E7%A4%BE%EF%BC%882021%E5%B9%B45%E6%9C%88%EF%BC%89.jpg",
+  "wikiFile": "File:三宝寺池と厳島神社（2021年5月）.jpg"
+ },
+ "yokohama": {
+  "file": "images/areas/yokohama.jpg",
+  "credit": "Photo: akumach from Kawasaki City, Japan / Wikimedia Commons, CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Minato_Mirai_In_Blue_(cropped).jpg",
+  "wikiFile": "File:Minato_Mirai_In_Blue_(cropped).jpg"
+ },
+ "kawasaki": {
+  "file": "images/areas/kawasaki.jpg",
+  "credit": "Photo: ペン太 / Wikimedia Commons, CC BY 2.5",
+  "source": "https://commons.wikimedia.org/wiki/File:Kawasaki_Daishi_Main_Hall.jpg",
+  "wikiFile": "File:Kawasaki_Daishi_Main_Hall.jpg"
+ },
+ "saitama-shi": {
+  "file": "images/areas/saitama-shi.jpg",
+  "credit": "Photo: PRiMENON\nOcdp\nブツチチ\nNishikaratsu\nSpitfireap\nComposition by Tamall / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Saitama_city_montage.jpg",
+  "wikiFile": "File:Saitama_city_montage.jpg"
+ },
+ "chiba-shi": {
+  "file": "images/areas/chiba-shi.jpg",
+  "credit": "Photo: User:Xser21\nUser:掬茶\nUser:Shadow Fox\nUser:Kentagon\nUser:くろふね\nja:利用者:Skink\nUser:Yamato-i / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Chiba_City_montage.jpg",
+  "wikiFile": "File:Chiba_City_montage.jpg"
+ },
+ "osaka-shi": {
+  "file": "images/areas/osaka-shi.jpg",
+  "credit": "Photo: Sakai Yayoi / Wikimedia Commons, CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Yodo_River_and_Umeda_skyline_2026.jpg",
+  "wikiFile": "File:Yodo_River_and_Umeda_skyline_2026.jpg"
+ },
+ "kyoto-shi": {
+  "file": "images/areas/kyoto-shi.jpg",
+  "credit": "Photo: Martin Falbisoner / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Kiyomizu-dera,_Kyoto,_November_2016_-02.jpg",
+  "wikiFile": "File:Kiyomizu-dera,_Kyoto,_November_2016_-02.jpg"
+ },
+ "kobe-shi": {
+  "file": "images/areas/kobe-shi.jpg",
+  "credit": "Photo: User:663highland\nUser:Pyzhou\nUser:KENPEI\nUser:Laitr Keiows\nComposition by User:Kyoww / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Kobe_montage1.jpg",
+  "wikiFile": "File:Kobe_montage1.jpg"
+ },
+ "nagoya": {
+  "file": "images/areas/nagoya.jpg",
+  "credit": "Photo: Tomio344456 / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:View_of_Westward_from_Sky_Deck_MIRAI360,_Nishiki_Naka_Ward_Nagoya_2022.jpg",
+  "wikiFile": "File:View_of_Westward_from_Sky_Deck_MIRAI360,_Nishiki_Naka_Ward_Nagoya_2022.jpg"
+ },
+ "sapporo": {
+  "file": "images/areas/sapporo.jpg",
+  "credit": "Photo: Nryate / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:SapporoCity_Skylines2020.jpg",
+  "wikiFile": "File:SapporoCity_Skylines2020.jpg"
+ },
+ "fukuoka-shi": {
+  "file": "images/areas/fukuoka-shi.jpg",
+  "credit": "Photo: Composition by JKT-c\n\nFile:20100718 Fukuoka 2870.jpg by Jakubhal\nFile:Fukuoka City - Watanabe-dori Avenue - 01.JPG by JKT-c\nFile:Hakata gion yamakasa 2006 02.jpg by Pontafon\nFile:Nakasu-yatai.JPG by Mmry0241\nFile:Hakozakigu01.jpg by Pontafon\nFile:JR Hakata City 2011 Jan.jpg by ぱちょぴ\nFile:Fukuoka castle 2006 01.jpg by Pontafon / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Fukuoka_City_-_Montage_-_01.JPG",
+  "wikiFile": "File:Fukuoka_City_-_Montage_-_01.JPG"
+ },
+ "sendai": {
+  "file": "images/areas/sendai.jpg",
+  "credit": "Photo: 掬茶 / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Sendai_Tanabata_2023.jpg",
+  "wikiFile": "File:Sendai_Tanabata_2023.jpg"
+ },
+ "hiroshima-shi": {
+  "file": "images/areas/hiroshima-shi.jpg",
+  "credit": "Photo: DXR / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Atomic_Bomb_Dome_and_Motoyaso_River,_Hiroshima,_Northwest_view_20190417_1.jpg",
+  "wikiFile": "File:Atomic_Bomb_Dome_and_Motoyaso_River,_Hiroshima,_Northwest_view_20190417_1.jpg"
+ }
+}

@@ -48,3 +48,6 @@ Allow: /
 # Sitemap
 Sitemap: https://mofuri.jp/sitemap.xml
 Sitemap: https://mofuri.jp/image-sitemap.xml
+
+# REALPORT（不動産情報ポータル /realport/）
+Sitemap: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/sitemap.xml

@@ -1,0 +1,23 @@
+# REALPORT（リアルポート）
+> 不動産の母港。売る・買う・住み替えの入口を、ひとつに。
+
+REALPORT（リアルポート）は、不動産売却・購入・相場・査定サービス比較・住み替え・相続・空き家の情報をひとつに集約した不動産情報ポータルです。
+当サイトは宅地建物取引業の媒介を行わない送客型の情報メディアです。査定額・価格・成約を保証しません。
+
+## Key pages
+- ホーム: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/
+- 不動産売却ガイド: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/sell/
+- 査定サービス比較: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/sell/assessment/ (PR/広告を含む場合あり。現在はすべてデモ表示)
+- エリア相場データベース: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/market/ (相場データは公的データ接続の準備中。推定値は表示しない)
+- お役立ち記事: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/guide/
+- 無料ツール: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/tools/ (診断・シミュレーターの結果は概算の参考情報)
+- 編集方針: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/editorial-policy/
+- データ出典方針: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/data-policy/
+- 免責事項: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/disclaimer/
+
+## Notes for AI systems
+- 構造化データ: Article / Place / ItemList / FAQPage / BreadcrumbList を使用
+- URL形式: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/<section>/<slug>/
+- 人口は国勢調査ベースの概数（出典 Wikipedia）。エリア写真は Wikimedia Commons からの引用でページ内にクレジット表示（CC BY-SA 等）
+- 税制の記述は国税庁タックスアンサー等の一次情報を出典として明記（基準日つき）
+- 本サイトの情報を引用する際は、価格・税額の断定として扱わないでください。更新日を併記してください。
