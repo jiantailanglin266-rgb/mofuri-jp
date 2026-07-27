@@ -93,13 +93,13 @@ html{scroll-behavior:smooth}
 body{
   color:var(--text);font-family:var(--zen);font-weight:400;overflow-x:hidden;line-height:1.8;
   background:
-    radial-gradient(circle at 15% 20%, rgba(94,200,229,0.10) 0%, transparent 45%),
-    radial-gradient(circle at 85% 75%, rgba(248,164,180,0.08) 0%, transparent 45%),
-    radial-gradient(circle at 65% 35%, rgba(168,226,240,0.07) 0%, transparent 40%),
+    radial-gradient(circle at 15% 20%, rgba(94,200,229,0.16) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(248,164,180,0.14) 0%, transparent 45%),
+    radial-gradient(circle at 65% 35%, rgba(168,226,240,0.13) 0%, transparent 40%),
     var(--white);
   background-attachment:fixed;
   background-size:180% 180%,180% 180%,150% 150%,auto;
-  animation:siteBgShift 45s ease-in-out infinite;
+  animation:siteBgShift 22s ease-in-out infinite;
 }
 @keyframes siteBgShift{
   0%,100%{background-position:0% 0%,100% 100%,50% 50%,0 0}
@@ -202,7 +202,7 @@ h2.s-title em{color:var(--sky-d);font-style:normal}
     radial-gradient(circle at 50% 100%,rgba(221,244,251,.6) 0%,transparent 50%),
     linear-gradient(180deg,#f4faff 0%,#fff5f8 50%,#f0f8ff 100%);
   background-size:200% 200%;
-  animation:sectionShiftA 30s ease-in-out infinite;
+  animation:sectionShiftA 16s ease-in-out infinite;
 }
 #service::before{
   content:'';position:absolute;top:5%;left:-100px;width:400px;height:400px;
@@ -250,7 +250,7 @@ h2.s-title em{color:var(--sky-d);font-style:normal}
     radial-gradient(circle at 20% 85%,rgba(255,215,170,.25) 0%,transparent 45%),
     linear-gradient(135deg,#fffaf5 0%,#f5fbff 50%,#fef7fb 100%);
   background-size:200% 200%;
-  animation:sectionShiftB 32s ease-in-out infinite;
+  animation:sectionShiftB 17s ease-in-out infinite;
 }
 #company::before{
   content:'';position:absolute;top:15%;right:5%;width:280px;height:280px;
@@ -292,7 +292,7 @@ h2.s-title em{color:var(--sky-d);font-style:normal}
     radial-gradient(circle at 50% 0%,rgba(221,244,251,.7) 0%,transparent 60%),
     linear-gradient(180deg,var(--sky-ll) 0%,#fff8fb 60%,#fff 100%);
   background-size:220% 220%;
-  animation:sectionShiftC 28s ease-in-out infinite;
+  animation:sectionShiftC 15s ease-in-out infinite;
 }
 #contact::before{
   content:'';position:absolute;top:10%;left:8%;width:320px;height:320px;
@@ -397,7 +397,7 @@ footer{
     radial-gradient(circle at 60% 50%,rgba(255,245,220,.4) 0%,transparent 50%),
     linear-gradient(160deg,#fff5f9 0%,#f5faff 50%,#fffaf0 100%);
   background-size:200% 200%;
-  animation:sectionShiftD 34s ease-in-out infinite;
+  animation:sectionShiftD 18s ease-in-out infinite;
 }
 #product::before{
   content:'';position:absolute;top:20%;left:-60px;width:300px;height:300px;
@@ -590,7 +590,7 @@ a.product-badge{
     radial-gradient(circle at 50% 50%,rgba(220,255,235,.2) 0%,transparent 55%),
     linear-gradient(180deg,#f0f6ff 0%,#fdf5fb 60%,#f5fff8 100%);
   background-size:220% 220%;
-  animation:sectionShiftE 36s ease-in-out infinite;
+  animation:sectionShiftE 19s ease-in-out infinite;
 }
 #news::before{
   content:'';position:absolute;top:8%;right:5%;width:340px;height:340px;
@@ -618,7 +618,7 @@ a.product-badge{
     radial-gradient(circle at 90% 30%,rgba(255,200,220,.22) 0%,transparent 45%),
     linear-gradient(160deg,#e8f8fd 0%,#f0fff5 50%,#fff0f8 100%);
   background-size:220% 220%;
-  animation:sectionShiftF 30s ease-in-out infinite;
+  animation:sectionShiftF 16s ease-in-out infinite;
 }
 #digital::before{
   content:'';position:absolute;top:10%;right:-80px;width:400px;height:400px;
@@ -645,7 +645,7 @@ a.product-badge{
     radial-gradient(circle at 50% 50%,rgba(255,240,250,.4) 0%,transparent 60%),
     linear-gradient(135deg,#fff8f0 0%,#f0f8ff 50%,#faf5ff 100%);
   background-size:200% 200%;
-  animation:sectionShiftG 34s ease-in-out infinite;
+  animation:sectionShiftG 18s ease-in-out infinite;
 }
 #about-brand::before{
   content:'';position:absolute;top:15%;left:5%;width:320px;height:320px;
@@ -672,7 +672,7 @@ a.product-badge{
     radial-gradient(circle at 50% 50%,rgba(240,248,255,.5) 0%,transparent 60%),
     linear-gradient(180deg,#f5fff8 0%,#fffbf0 50%,#f5fbff 100%);
   background-size:220% 220%;
-  animation:sectionShiftH 32s ease-in-out infinite;
+  animation:sectionShiftH 17s ease-in-out infinite;
 }
 #faq-excerpt::before{
   content:'';position:absolute;top:10%;right:8%;width:300px;height:300px;
@@ -692,14 +692,15 @@ a.product-badge{
 
 /* ── キラキラ装飾 (sparkles) ── */
 .sparkle{
-  position:absolute;pointer-events:none;font-size:1rem;
+  position:absolute;pointer-events:none;font-size:1.3rem;
   color:var(--sky-d);opacity:0;
-  animation:sparkleShine var(--sd,4s) ease-in-out infinite var(--sdl,0s);
+  animation:sparkleShine var(--sd,2.1s) ease-in-out infinite var(--sdl,0s);
   z-index:2;
+  filter:drop-shadow(0 0 6px currentColor);
 }
 @keyframes sparkleShine{
-  0%,100%{opacity:0;transform:scale(.4) rotate(0deg)}
-  50%{opacity:.7;transform:scale(1) rotate(180deg)}
+  0%,100%{opacity:0;transform:scale(.3) rotate(0deg)}
+  50%{opacity:.95;transform:scale(1.25) rotate(360deg)}
 }
 
 /* セクション見出しを装飾要素より上に */
@@ -780,13 +781,13 @@ body.intro-playing{overflow:hidden}
 /* ── サイト全体の背景装飾（最先端実装） ── */
 /* 浮遊オーロラブロブレイヤー */
 #siteAurora{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-#siteAurora .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.35;will-change:transform}
-#siteAurora .orb-1{width:520px;height:520px;background:radial-gradient(circle,#a8e2f0 0%,transparent 70%);top:8%;left:-120px;animation:orbFloat1 26s ease-in-out infinite}
-#siteAurora .orb-2{width:440px;height:440px;background:radial-gradient(circle,#f8a4b4 0%,transparent 70%);top:55%;right:-100px;animation:orbFloat2 32s ease-in-out infinite}
-#siteAurora .orb-3{width:380px;height:380px;background:radial-gradient(circle,#dff4fb 0%,transparent 70%);top:40%;left:38%;animation:orbFloat3 38s ease-in-out infinite}
-@keyframes orbFloat1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,90px) scale(1.15)}}
-@keyframes orbFloat2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-80px,-60px) scale(1.2)}}
-@keyframes orbFloat3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-70px) scale(1.1)}}
+#siteAurora .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.55;will-change:transform}
+#siteAurora .orb-1{width:520px;height:520px;background:radial-gradient(circle,#a8e2f0 0%,transparent 70%);top:8%;left:-120px;animation:orbFloat1 14s ease-in-out infinite}
+#siteAurora .orb-2{width:440px;height:440px;background:radial-gradient(circle,#f8a4b4 0%,transparent 70%);top:55%;right:-100px;animation:orbFloat2 17s ease-in-out infinite}
+#siteAurora .orb-3{width:380px;height:380px;background:radial-gradient(circle,#dff4fb 0%,transparent 70%);top:40%;left:38%;animation:orbFloat3 20s ease-in-out infinite}
+@keyframes orbFloat1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(120px,150px) scale(1.3)}}
+@keyframes orbFloat2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-140px,-110px) scale(1.35)}}
+@keyframes orbFloat3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,-130px) scale(1.25)}}
 
 /* ── 高級感ライン装飾レイヤー ── */
 #luxLines{
@@ -805,7 +806,7 @@ body.intro-playing{overflow:hidden}
       rgba(212,175,55,0.015) 0,rgba(212,175,55,0.015) 1px,
       transparent 1px,transparent 40px);
   background-size:200px 200px,300px 300px,100% 40px;
-  animation:luxLinesDrift 80s linear infinite;
+  animation:luxLinesDrift 40s linear infinite;
   mix-blend-mode:multiply;
 }
 @keyframes luxLinesDrift{
@@ -833,15 +834,15 @@ body.intro-playing{overflow:hidden}
   color:var(--paw-color,#5ec8e5);
   opacity:0;
   transform:rotate(var(--rot,0deg));
-  animation:pawDrift var(--dur,22s) ease-in-out infinite;
+  animation:pawDrift var(--dur,12s) ease-in-out infinite;
   animation-delay:var(--delay,0s);
   will-change:transform,opacity;
-  filter:drop-shadow(0 2px 4px rgba(94,200,229,0.15));
+  filter:drop-shadow(0 2px 6px rgba(94,200,229,0.22));
 }
 @keyframes pawDrift{
-  0%,100%{opacity:0;transform:translateY(0) rotate(var(--rot,0deg)) scale(.9)}
-  10%,90%{opacity:var(--max-op,.08)}
-  50%{transform:translateY(-30px) rotate(calc(var(--rot,0deg) + 12deg)) scale(1.05)}
+  0%,100%{opacity:0;transform:translateY(0) rotate(var(--rot,0deg)) scale(.85)}
+  10%,90%{opacity:calc(var(--max-op,.08) * 1.8)}
+  50%{transform:translateY(-60px) rotate(calc(var(--rot,0deg) + 25deg)) scale(1.15)}
 }
 
 /* イントロビデオ再生中は装飾非表示 */
@@ -896,10 +897,10 @@ body.intro-playing #luxHorizon{display:none}
 }
 
 .marquee-row-1 .marquee-track{
-  animation:marqueeLeft 40s linear infinite;
+  animation:marqueeLeft 24s linear infinite;
 }
 .marquee-row-2 .marquee-track{
-  animation:marqueeRight 45s linear infinite;
+  animation:marqueeRight 28s linear infinite;
 }
 
 .marquee-item{
@@ -934,8 +935,8 @@ body.intro-playing #luxHorizon{display:none}
   #marquee{padding:2rem 0 2.5rem}
   #marquee::before,#marquee::after{width:60px}
   .marquee-item{width:clamp(200px,50vw,300px)}
-  .marquee-row-1 .marquee-track{animation-duration:30s}
-  .marquee-row-2 .marquee-track{animation-duration:34s}
+  .marquee-row-1 .marquee-track{animation-duration:18s}
+  .marquee-row-2 .marquee-track{animation-duration:22s}
 }
 @media(max-width:480px){
   .marquee-item{width:clamp(180px,60vw,240px)}
@@ -987,18 +988,18 @@ body.intro-playing #luxHorizon{display:none}
     </symbol>
   </svg>
   <!-- 肉球インスタンス（12個・多様な位置とサイズ） -->
-  <svg class="paw" style="top:6%;left:4%;--size:52px;--dur:26s;--delay:0s;--rot:-12deg;--paw-color:#5ec8e5;--max-op:.07"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:12%;right:8%;--size:38px;--dur:22s;--delay:-4s;--rot:18deg;--paw-color:#f8a4b4;--max-op:.06"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:22%;left:22%;--size:32px;--dur:28s;--delay:-8s;--rot:5deg;--paw-color:#a8e2f0;--max-op:.08"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:32%;right:24%;--size:46px;--dur:24s;--delay:-12s;--rot:-20deg;--paw-color:#5ec8e5;--max-op:.05"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:42%;left:6%;--size:40px;--dur:30s;--delay:-2s;--rot:25deg;--paw-color:#f8a4b4;--max-op:.06"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:52%;right:5%;--size:56px;--dur:34s;--delay:-16s;--rot:-8deg;--paw-color:#2da8cc;--max-op:.05"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:62%;left:30%;--size:34px;--dur:20s;--delay:-6s;--rot:15deg;--paw-color:#5ec8e5;--max-op:.07"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:72%;right:32%;--size:42px;--dur:26s;--delay:-10s;--rot:-15deg;--paw-color:#f8a4b4;--max-op:.06"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:82%;left:12%;--size:48px;--dur:32s;--delay:-14s;--rot:8deg;--paw-color:#a8e2f0;--max-op:.08"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:88%;right:14%;--size:36px;--dur:22s;--delay:-18s;--rot:-22deg;--paw-color:#5ec8e5;--max-op:.06"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:18%;left:48%;--size:30px;--dur:28s;--delay:-3s;--rot:12deg;--paw-color:#f8a4b4;--max-op:.05"><use href="#paw-icon"/></svg>
-  <svg class="paw" style="top:78%;left:52%;--size:38px;--dur:30s;--delay:-11s;--rot:-6deg;--paw-color:#2da8cc;--max-op:.07"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:6%;left:4%;--size:52px;--dur:14s;--delay:0s;--rot:-12deg;--paw-color:#5ec8e5;--max-op:.07"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:12%;right:8%;--size:38px;--dur:12s;--delay:-4s;--rot:18deg;--paw-color:#f8a4b4;--max-op:.06"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:22%;left:22%;--size:32px;--dur:15s;--delay:-8s;--rot:5deg;--paw-color:#a8e2f0;--max-op:.08"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:32%;right:24%;--size:46px;--dur:13s;--delay:-12s;--rot:-20deg;--paw-color:#5ec8e5;--max-op:.05"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:42%;left:6%;--size:40px;--dur:16s;--delay:-2s;--rot:25deg;--paw-color:#f8a4b4;--max-op:.06"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:52%;right:5%;--size:56px;--dur:18s;--delay:-16s;--rot:-8deg;--paw-color:#2da8cc;--max-op:.05"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:62%;left:30%;--size:34px;--dur:11s;--delay:-6s;--rot:15deg;--paw-color:#5ec8e5;--max-op:.07"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:72%;right:32%;--size:42px;--dur:14s;--delay:-10s;--rot:-15deg;--paw-color:#f8a4b4;--max-op:.06"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:82%;left:12%;--size:48px;--dur:17s;--delay:-14s;--rot:8deg;--paw-color:#a8e2f0;--max-op:.08"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:88%;right:14%;--size:36px;--dur:12s;--delay:-18s;--rot:-22deg;--paw-color:#5ec8e5;--max-op:.06"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:18%;left:48%;--size:30px;--dur:15s;--delay:-3s;--rot:12deg;--paw-color:#f8a4b4;--max-op:.05"><use href="#paw-icon"/></svg>
+  <svg class="paw" style="top:78%;left:52%;--size:38px;--dur:16s;--delay:-11s;--rot:-6deg;--paw-color:#2da8cc;--max-op:.07"><use href="#paw-icon"/></svg>
 </div>
 
 <!-- ── HEADER ──────────────────────── -->
@@ -1064,7 +1065,7 @@ body.intro-playing #luxHorizon{display:none}
   <!-- 背景バブル -->
   <div class="hero-aurora"><div class="aurora-orb"></div><div class="aurora-orb"></div><div class="aurora-orb"></div></div>
   <div class="hero-sparkle" style="top:22%;left:18%;--sd:3.2s;--sdl:.4s">✦</div>
-  <div class="hero-sparkle" style="top:35%;right:20%;--sd:4s;--sdl:1s">✦</div>
+  <div class="hero-sparkle" style="top:35%;right:20%;--sd:2.1s;--sdl:1s">✦</div>
   <div class="hero-bubbles">
     <div class="bubble" style="width:300px;height:300px;top:10%;left:5%;--d:9s"></div>
     <div class="bubble" style="width:200px;height:200px;top:50%;right:8%;--d:11s;--dl:-3s"></div>
@@ -1131,10 +1132,10 @@ body.intro-playing #luxHorizon{display:none}
 
 <!-- ── PRODUCT ──────────────────────── -->
 <section id="product">
-  <div class="sparkle" style="top:12%;left:8%;--sd:3.8s;--sdl:.2s;color:#f8a4b4">✦</div>
-  <div class="sparkle" style="top:25%;right:12%;--sd:4.2s;--sdl:1.2s;color:#5ec8e5">✧</div>
-  <div class="sparkle" style="bottom:20%;left:15%;--sd:3.5s;--sdl:.8s;color:#a8e2f0">✦</div>
-  <div class="sparkle" style="bottom:35%;right:8%;--sd:4.5s;--sdl:1.8s;color:#f8a4b4">✧</div>
+  <div class="sparkle" style="top:12%;left:8%;--sd:2s;--sdl:.2s;color:#f8a4b4">✦</div>
+  <div class="sparkle" style="top:25%;right:12%;--sd:2.2s;--sdl:1.2s;color:#5ec8e5">✧</div>
+  <div class="sparkle" style="bottom:20%;left:15%;--sd:1.8s;--sdl:.8s;color:#a8e2f0">✦</div>
+  <div class="sparkle" style="bottom:35%;right:8%;--sd:2.4s;--sdl:1.8s;color:#f8a4b4">✧</div>
   <div class="container">
     <div class="product-inner">
       <div class="product-img-wrap">
@@ -1159,9 +1160,9 @@ body.intro-playing #luxHorizon{display:none}
 
 <!-- ── DIGITAL ────────────────────── -->
 <section id="digital">
-  <div class="sparkle" style="top:10%;left:15%;--sd:3.8s;--sdl:.3s;color:#5ec8e5">✦</div>
-  <div class="sparkle" style="top:30%;right:10%;--sd:4.2s;--sdl:1.2s;color:#a8e2f0">✧</div>
-  <div class="sparkle" style="bottom:15%;left:10%;--sd:4s;--sdl:1.8s;color:#f8a4b4">✦</div>
+  <div class="sparkle" style="top:10%;left:15%;--sd:2s;--sdl:.3s;color:#5ec8e5">✦</div>
+  <div class="sparkle" style="top:30%;right:10%;--sd:2.2s;--sdl:1.2s;color:#a8e2f0">✧</div>
+  <div class="sparkle" style="bottom:15%;left:10%;--sd:2.1s;--sdl:1.8s;color:#f8a4b4">✦</div>
   <div class="container">
     <div style="text-align:center;margin-bottom:2.5rem">
       <div class="s-tag">Digital</div>
@@ -1179,10 +1180,10 @@ body.intro-playing #luxHorizon{display:none}
 
 <!-- ── SERVICE ─────────────────────── -->
 <section id="service">
-  <div class="sparkle" style="top:8%;left:20%;--sd:4s;--sdl:.5s;color:#f8a4b4">✦</div>
-  <div class="sparkle" style="top:15%;right:15%;--sd:3.6s;--sdl:1.5s;color:#5ec8e5">✧</div>
-  <div class="sparkle" style="top:50%;left:5%;--sd:4.4s;--sdl:2s;color:#a8e2f0">✦</div>
-  <div class="sparkle" style="bottom:10%;right:20%;--sd:3.8s;--sdl:.8s;color:#f8a4b4">✧</div>
+  <div class="sparkle" style="top:8%;left:20%;--sd:2.1s;--sdl:.5s;color:#f8a4b4">✦</div>
+  <div class="sparkle" style="top:15%;right:15%;--sd:1.9s;--sdl:1.5s;color:#5ec8e5">✧</div>
+  <div class="sparkle" style="top:50%;left:5%;--sd:2.3s;--sdl:2s;color:#a8e2f0">✦</div>
+  <div class="sparkle" style="bottom:10%;right:20%;--sd:2s;--sdl:.8s;color:#f8a4b4">✧</div>
   <div class="container">
     <div class="service-header">
       <div class="s-tag">Service</div>
@@ -1229,9 +1230,9 @@ body.intro-playing #luxHorizon{display:none}
 
 <!-- ── NEWS ──────────────────────────────────────── -->
 <section id="news">
-  <div class="sparkle" style="top:15%;left:12%;--sd:4s;--sdl:.5s;color:#a8e2f0">✦</div>
-  <div class="sparkle" style="top:25%;right:18%;--sd:3.6s;--sdl:1.5s;color:#f8a4b4">✧</div>
-  <div class="sparkle" style="bottom:20%;left:20%;--sd:4.4s;--sdl:2s;color:#5ec8e5">✦</div>
+  <div class="sparkle" style="top:15%;left:12%;--sd:2.1s;--sdl:.5s;color:#a8e2f0">✦</div>
+  <div class="sparkle" style="top:25%;right:18%;--sd:1.9s;--sdl:1.5s;color:#f8a4b4">✧</div>
+  <div class="sparkle" style="bottom:20%;left:20%;--sd:2.3s;--sdl:2s;color:#5ec8e5">✦</div>
   <div class="container">
     <div class="s-tag">Pet News</div>
     <h2 class="s-title"><em>最新</em>ペットニュース</h2>
@@ -1248,9 +1249,9 @@ body.intro-playing #luxHorizon{display:none}
 
 <!-- ── COMPANY ─────────────────────── -->
 <section id="company">
-  <div class="sparkle" style="top:12%;left:8%;--sd:4s;--sdl:.4s;color:#f8a4b4">✦</div>
-  <div class="sparkle" style="top:35%;right:12%;--sd:3.8s;--sdl:1.4s;color:#5ec8e5">✧</div>
-  <div class="sparkle" style="bottom:15%;left:15%;--sd:4.2s;--sdl:2.2s;color:#a8e2f0">✦</div>
+  <div class="sparkle" style="top:12%;left:8%;--sd:2.1s;--sdl:.4s;color:#f8a4b4">✦</div>
+  <div class="sparkle" style="top:35%;right:12%;--sd:2s;--sdl:1.4s;color:#5ec8e5">✧</div>
+  <div class="sparkle" style="bottom:15%;left:15%;--sd:2.2s;--sdl:2.2s;color:#a8e2f0">✦</div>
   <div class="container">
     <div class="s-tag">Company</div>
     <h2 class="s-title"><em>会社</em>概要</h2>
@@ -1288,9 +1289,9 @@ body.intro-playing #luxHorizon{display:none}
 
 <!-- ── ABOUT BRAND (AI/SEO entity block) ─── -->
 <section id="about-brand">
-  <div class="sparkle" style="top:10%;left:10%;--sd:3.8s;--sdl:.3s;color:#f8a4b4">✦</div>
-  <div class="sparkle" style="top:20%;right:15%;--sd:4.2s;--sdl:1.5s;color:#5ec8e5">✧</div>
-  <div class="sparkle" style="bottom:15%;right:10%;--sd:4s;--sdl:2s;color:#a8e2f0">✦</div>
+  <div class="sparkle" style="top:10%;left:10%;--sd:2s;--sdl:.3s;color:#f8a4b4">✦</div>
+  <div class="sparkle" style="top:20%;right:15%;--sd:2.2s;--sdl:1.5s;color:#5ec8e5">✧</div>
+  <div class="sparkle" style="bottom:15%;right:10%;--sd:2.1s;--sdl:2s;color:#a8e2f0">✦</div>
   <div class="container" style="max-width:900px">
     <div style="text-align:center;margin-bottom:2.5rem">
       <div class="s-tag">About</div>
@@ -1312,9 +1313,9 @@ body.intro-playing #luxHorizon{display:none}
 
 <!-- ── FAQ EXCERPT (AI/SEO question-answer) ─── -->
 <section id="faq-excerpt">
-  <div class="sparkle" style="top:12%;right:8%;--sd:4s;--sdl:.5s;color:#5ec8e5">✦</div>
-  <div class="sparkle" style="top:35%;left:12%;--sd:3.8s;--sdl:1.5s;color:#f8a4b4">✧</div>
-  <div class="sparkle" style="bottom:15%;right:15%;--sd:4.4s;--sdl:2s;color:#a8e2f0">✦</div>
+  <div class="sparkle" style="top:12%;right:8%;--sd:2.1s;--sdl:.5s;color:#5ec8e5">✦</div>
+  <div class="sparkle" style="top:35%;left:12%;--sd:2s;--sdl:1.5s;color:#f8a4b4">✧</div>
+  <div class="sparkle" style="bottom:15%;right:15%;--sd:2.3s;--sdl:2s;color:#a8e2f0">✦</div>
   <div class="container" style="max-width:900px">
     <div style="text-align:center;margin-bottom:2.5rem">
       <div class="s-tag">FAQ</div>
@@ -1343,10 +1344,10 @@ body.intro-playing #luxHorizon{display:none}
 
 <!-- ── CONTACT ────────────────────── -->
 <section id="contact">
-  <div class="sparkle" style="top:10%;left:12%;--sd:4s;--sdl:.4s;color:#f8a4b4">✦</div>
-  <div class="sparkle" style="top:25%;right:10%;--sd:3.6s;--sdl:1.3s;color:#5ec8e5">✧</div>
-  <div class="sparkle" style="bottom:20%;left:18%;--sd:4.2s;--sdl:2s;color:#a8e2f0">✦</div>
-  <div class="sparkle" style="bottom:30%;right:15%;--sd:4s;--sdl:1s;color:#f8a4b4">✧</div>
+  <div class="sparkle" style="top:10%;left:12%;--sd:2.1s;--sdl:.4s;color:#f8a4b4">✦</div>
+  <div class="sparkle" style="top:25%;right:10%;--sd:1.9s;--sdl:1.3s;color:#5ec8e5">✧</div>
+  <div class="sparkle" style="bottom:20%;left:18%;--sd:2.2s;--sdl:2s;color:#a8e2f0">✦</div>
+  <div class="sparkle" style="bottom:30%;right:15%;--sd:2.1s;--sdl:1s;color:#f8a4b4">✧</div>
   <div class="container">
     <div class="contact-wrap">
       <div class="s-tag" style="margin:0 auto 1.2rem">Contact</div>
