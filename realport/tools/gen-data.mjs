@@ -1,9 +1,9 @@
 // REALPORT — data.js 生成スクリプト（data.js の唯一の生成元。data.js を手編集しない）
 // 使い方: node tools/gen-data.mjs  → realport/data.js を書き出す
 // 変更後は index.html / build.mjs の data.js?v=N をバンプすること。
-import { writeFileSync, readFileSync, existsSync } from "fs";
+import { writeFileSync, readFileSync, existsSync, readdirSync } from "fs";
 import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 // 公開日は再現性のため Date.UTC 固定（Date.now() 禁止）
@@ -401,6 +401,18 @@ const ARTICLES = [
     ] }
 ];
 
+/* ---- 追加記事: tools/articles/*.mjs（export default [{slug,cat,date:[y,m,d],title,metaDesc,body,sources,factCheck}]） ---- */
+const artDir = join(ROOT, "tools", "articles");
+if (existsSync(artDir)) {
+  for (const f of readdirSync(artDir).filter(x => x.endsWith(".mjs")).sort()) {
+    const mod = await import(pathToFileURL(join(artDir, f)).href);
+    for (const a of mod.default) {
+      if (ARTICLES.find(x => x.slug === a.slug)) throw new Error("dup article slug: " + a.slug);
+      ARTICLES.push({ ...a, date: D(a.date[0], a.date[1], a.date[2]) });
+    }
+  }
+}
+
 /* ============ ランキング ============ */
 const RANKINGS = [
   { slug: "major-cities-by-population", name: "人口の多い主要掲載エリア",
@@ -473,7 +485,10 @@ const DATA = {
     img: imgMap[slug]?.file || null, imgCredit: imgMap[slug]?.credit || null, imgSource: imgMap[slug]?.source || null,
     translations: { ja: { name, summary, sellNotes } } })).concat(CATALOG),
   stations: [],
-  marketData: [], // 公的データ接続後に import-market-csv.mjs で投入。null/未登録=「データ準備中」表示
+  // 相場の単一ソースは tools/market-data.json（import-chika-koji / import-market-csv がマージ）
+  marketData: (existsSync(join(ROOT, "tools", "market-data.json"))
+    ? JSON.parse(readFileSync(join(ROOT, "tools", "market-data.json"), "utf-8")) : [])
+    .map(m => ({ ...m, areaId: "ar_" + m.areaSlug.replace(/-/g, "_") })),
   services: SERVICES.map(s => ({
     id: "sv_" + s.slug.replace(/-/g, "_"), slug: s.slug, kind: s.kind, isDemo: true,
     affiliateUrl: "", trackingCode: "", partnerCount: null, rating: null, ranking: s.ranking, isPR: true,
@@ -500,6 +515,15 @@ const DATA = {
     updatedAt: "2026-07-27"
   }
 };
+
+/* dataLevel を相場データの有無から客観判定（1=地価公示あり 2=取引相場あり） */
+for (const m of DATA.marketData) {
+  const a = DATA.areas.find(x => x.id === m.areaId);
+  if (!a) throw new Error("marketData: 不明なエリア " + m.areaSlug);
+  if (!a.cat) a.dataLevel = Math.max(a.dataLevel, /地価公示/.test(m.label || "") ? 1 : 2);
+  if ((m.avgPrice != null || m.pricePerSqm != null) && !(m.sourceName && m.sourceUrl && m.sourceDate))
+    throw new Error("marketData: 出典のない価格 " + m.areaSlug);
+}
 
 /* 検証: 参照整合性 */
 for (const p of DATA.prefectures) if (!DATA.regions.find(r => r.id === p.regionId)) throw new Error("dangling region: " + p.slug);

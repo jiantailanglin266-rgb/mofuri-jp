@@ -44,3 +44,4 @@ Thumbs.db
 # REALPORT の画像は配信に必要（Wikimedia Commons引用・クレジット付き）
 !realport/images/
 !realport/images/**
+realport/tools/.cache-l01/

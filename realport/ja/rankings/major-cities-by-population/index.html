@@ -229,7 +229,7 @@ footer{background:#04101a;border-top:1px solid var(--line);padding:46px 0 90px;m
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=2",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=3",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
 })();
 (function(){
@@ -254,7 +254,7 @@ function areasOfPref(pid){return DATA.areas.filter(function(a){return a.prefId==
 function catAreasOfPref(pid){return DATA.areas.filter(function(a){return a.prefId===pid&&a.cat})}
 function curatedAreas(){return DATA.areas.filter(function(a){return !a.cat})}
 function findBy(arr,slug){return arr.find(function(o){return o.slug===slug})}
-function catName(c){return({sell:"売却の基本",inheritance:"相続",divorce:"離婚",relocation:"住み替え","vacant-house":"空き家",cost:"費用",tax:"税金",mortgage:"住宅ローン",assessment:"査定サービス",story:"住まいの歴史"})[c]||c}
+function catName(c){return({sell:"売却の基本",inheritance:"相続",divorce:"離婚",relocation:"住み替え","vacant-house":"空き家",cost:"費用",tax:"税金",mortgage:"住宅ローン",assessment:"査定サービス",story:"住まいの歴史",buy:"購入"})[c]||c}
 /* GA4/計測スタブ: gtag導入後に自動で送信される */
 window.dataLayer=window.dataLayer||[];
 function track(ev,params){try{window.dataLayer.push({event:ev,params:params});if(typeof gtag==="function")gtag("event",ev,params)}catch(e){}}
@@ -501,11 +501,13 @@ function marketSection(a,t){
   var mds=DATA.marketData.filter(function(m){return m.areaId===a.id});
   if(!mds.length)return '<h2 class="ah2">相場情報（準備中）</h2><div class="prep">'+esc(t.name)+'の価格相場データは、公的データ（国土交通省 不動産取引価格情報等）の接続準備中です。<br>REALPORTでは、実データに基づかない推定相場は表示しません。<br><span style="font-size:.72rem">公開時には出典・データ時点・更新日を明記します。</span></div>';
   var tn={mansion:"マンション",house:"戸建て",land:"土地"};
-  var rows=mds.map(function(m){return "<tr><td>"+tn[m.propertyType]+"</td><td>"+esc(m.period)+"</td><td>"+man(m.avgPrice)+"</td><td>"+man(m.medianPrice)+"</td><td>"+(m.pricePerSqm!=null?yen(m.pricePerSqm)+"/㎡":"—")+"</td><td>"+(m.txCount!=null?m.txCount+"件":"—")+"</td></tr>"}).join("");
+  var rows=mds.map(function(m){
+    var med=m.medianPrice!=null?man(m.medianPrice):(m.medianPerSqm!=null?yen(m.medianPerSqm)+"/㎡":"—");
+    return "<tr><td>"+tn[m.propertyType]+(m.label?'<br><span style="font-size:.68rem;color:var(--muted)">'+esc(m.label)+"</span>":"")+"</td><td>"+esc(m.period)+"</td><td>"+man(m.avgPrice)+"</td><td>"+med+"</td><td>"+(m.pricePerSqm!=null?yen(m.pricePerSqm)+"/㎡":"—")+"</td><td>"+(m.txCount!=null?m.txCount+(m.unit||"件"):"—")+"</td></tr>"}).join("");
   var srcs={};mds.forEach(function(m){if(m.sourceName)srcs[m.sourceName]=m});
-  return '<h2 class="ah2">相場情報</h2><div class="tblwrap"><table class="tb"><thead><tr><th>種別</th><th>期間</th><th>平均価格</th><th>中央値</th><th>㎡単価</th><th>取引件数</th></tr></thead><tbody>'+rows+"</tbody></table></div>"
+  return '<h2 class="ah2">相場情報</h2><div class="tblwrap"><table class="tb"><thead><tr><th>種別</th><th>期間</th><th>平均価格</th><th>中央値</th><th>㎡単価</th><th>データ数</th></tr></thead><tbody>'+rows+"</tbody></table></div>"
    +'<p style="font-size:.72rem;color:var(--muted)">出典: '+Object.keys(srcs).map(function(k){var m=srcs[k];return '<a href="'+esc(m.sourceUrl)+'" target="_blank" rel="noopener">'+esc(k)+"</a>（データ時点 "+esc(m.sourceDate)+"・更新 "+esc(m.updatedAt)+"）"}).join(" ／ ")
-   +"<br>※上記は公的データに基づく過去の取引集計であり、個別物件の査定額・売却可能価格を示すものではありません。</p>";
+   +"<br>※上記は公的データに基づく集計値（地価公示は各年1月1日時点の公示価格の平均・中央値）であり、個別物件の査定額・売却可能価格を示すものではありません。</p>";
 }
 function vRankings(){
   return bc([["特集・一覧",null]])

@@ -60,6 +60,28 @@ git add realport && git commit -m "realport: <変更内容>" && git push
 公開URL: `https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/`
 （push が拒否されたら `git pull --rebase` してから再 push）
 
+## ASP登録の手順（ユーザー本人の作業）
+
+アカウント作成・ログインを伴うため、以下はサイト運営者本人が行ってください。
+
+1. ASPに登録する（不動産一括査定案件が多い主要ASP: A8.net / afb / アクセストレード / バリューコマース）。登録時にサイトURL `https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/` を申請
+2. サイト審査を通過したら「不動産 査定」「不動産 買取」「リースバック」「土地活用」等で案件を検索し、提携申請
+3. 提携承認後、**アフィリエイトリンクURL**を取得（ASP管理画面の「広告リンク」からURLのみコピー）
+4. 取得したURLを Claude に渡す → `gen-data.mjs` の該当サービスを実サービス情報へ差し替え（下記「ASP提携が決まったら」参照）
+
+※審査時は「広告掲載ポリシー」「運営者情報」ページの存在が見られることが多いです（実装済み）。
+※デモ表示のままでは収益は発生しません。
+
+## Google Search Console 登録の手順（ユーザー本人の作業）
+
+1. https://search.google.com/search-console にGoogleアカウントでログイン
+2. 「プロパティを追加」→「URLプレフィックス」に `https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/` を入力
+3. 所有権の確認方法で「HTMLタグ」を選び、表示された `<meta name="google-site-verification" content="...">` タグを **Claude に渡す**（index.html への追記とビルド・デプロイは Claude が実施）
+4. 確認完了後、「サイトマップ」メニューで `sitemap.xml` を送信（フルURL: `https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/sitemap.xml`）
+5. 数日〜数週間でインデックス状況・検索クエリが見られるようになります
+
+※GA4を使う場合も同様に、測定ID（`G-XXXXXXX`）を取得して Claude に渡せば接続します（`af_click`・`diagnosis_complete`・`tool_complete` イベントは実装済み）。
+
 ## ASP提携が決まったら（収益化ON）
 
 1. `tools/gen-data.mjs` の該当サービスを実サービス情報に書き換え、`isDemo:true` を外し、名前の「（デモ）」を削除

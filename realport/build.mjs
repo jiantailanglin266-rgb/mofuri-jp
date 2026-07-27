@@ -16,7 +16,7 @@ const nm = o => o.names.ja;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const prefOf = a => DATA.prefectures.find(p => p.id === a.prefId);
 const d155 = s => String(s || "").replace(/\n/g, " ").slice(0, 155);
-const catName = c => ({ sell: "売却の基本", inheritance: "相続", divorce: "離婚", relocation: "住み替え", "vacant-house": "空き家", cost: "費用", tax: "税金", mortgage: "住宅ローン", assessment: "査定サービス", story: "住まいの歴史" })[c] || c;
+const catName = c => ({ sell: "売却の基本", inheritance: "相続", divorce: "離婚", relocation: "住み替え", "vacant-house": "空き家", cost: "費用", tax: "税金", mortgage: "住宅ローン", assessment: "査定サービス", story: "住まいの歴史", buy: "購入" })[c] || c;
 
 /* ---------- 1. ページ列挙 ---------- */
 const pages = [];
@@ -138,7 +138,7 @@ function prerender(p) {
     case "area": {
       const t = tr(p.a), pf = prefOf(p.a);
       return `<h1>${esc(t.name)}の不動産相場・売却情報</h1><p>${esc(t.summary)}</p>
-<ul><li>都道府県: ${esc(nm(pf))}</li><li>人口: 約${p.a.population}万人（国勢調査ベースの概数・出典 Wikipedia）</li><li>相場データ: ${(() => { const mds = DATA.marketData.filter(m => m.areaId === p.a.id); if (!mds.length) return "準備中（公的データ接続後に出典・更新日つきで公開。実データに基づかない推定相場は表示しません）"; const tn = { mansion: "マンション", house: "戸建て", land: "土地" }; return mds.map(m => `${tn[m.propertyType]} ${m.period}: 平均${m.avgPrice != null ? Math.round(m.avgPrice / 10000).toLocaleString() + "万円" : "—"}・㎡単価${m.pricePerSqm != null ? m.pricePerSqm.toLocaleString() + "円" : "—"}（出典 ${esc(m.sourceName)}・${esc(m.sourceDate)}時点）`).join("、"); })()}</li></ul>
+<ul><li>都道府県: ${esc(nm(pf))}</li><li>人口: 約${p.a.population}万人（国勢調査ベースの概数・出典 Wikipedia）</li><li>相場データ: ${(() => { const mds = DATA.marketData.filter(m => m.areaId === p.a.id); if (!mds.length) return "準備中（公的データ接続後に出典・更新日つきで公開。実データに基づかない推定相場は表示しません）"; const tn = { mansion: "マンション", house: "戸建て", land: "土地" }; return mds.map(m => `${tn[m.propertyType]}${m.label ? `（${esc(m.label)}）` : ""} ${m.period}: ${m.avgPrice != null ? `平均${Math.round(m.avgPrice / 10000).toLocaleString()}万円・` : ""}㎡単価${m.pricePerSqm != null ? m.pricePerSqm.toLocaleString() + "円" : "—"}${m.medianPerSqm != null ? `・中央値${m.medianPerSqm.toLocaleString()}円/㎡` : ""}・${m.txCount != null ? m.txCount + (m.unit || "件") : ""}（出典 ${esc(m.sourceName)}・${esc(m.sourceDate)}時点）`).join("、"); })()}</li></ul>
 <h2>売却時のポイント</h2><p>${esc(t.sellNotes)}</p>${p.a.imgCredit ? `<p>写真: ${esc(p.a.imgCredit)}</p>` : ""}${foot}`;
     }
     case "pref": {
