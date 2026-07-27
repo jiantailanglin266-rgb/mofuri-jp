@@ -1,0 +1,50 @@
+# robots.txt for https://mofuri.jp/
+# MOFURI.（株式会社MOFURI.）ペットケアブランド公式サイト
+
+# 一般検索エンジン（全許可）
+User-agent: *
+Allow: /
+Disallow: /assets/video/
+Disallow: /.claude/
+
+# ─── AI検索エンジン・LLMクローラー（ブランド露出のため明示的に許可） ───
+
+# OpenAI (ChatGPT)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Google Generative AI (Gemini / AI Overviews)
+User-agent: Google-Extended
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl（LLM学習データ源）
+User-agent: CCBot
+Allow: /
+
+# Sitemap
+Sitemap: https://mofuri.jp/sitemap.xml
+Sitemap: https://mofuri.jp/image-sitemap.xml

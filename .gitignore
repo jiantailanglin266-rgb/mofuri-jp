@@ -1,0 +1,42 @@
+# ── Claude Code / Agent 環境設定 ──
+.claude/
+.agents/
+
+# ── 別プロジェクトフォルダ（同ディレクトリに同居） ──
+_lp002_preview/
+beauty-all-in/
+terapp/
+terapp-lift-up-patch.html
+
+# ── ドキュメント・素材ソース ──
+docs/
+images-source/
+images/
+videos/
+skills-lock.json
+
+# ── 依存パッケージ ──
+node_modules/
+package-lock.json
+yarn.lock
+
+# ── ビルド出力 ──
+.next/
+out/
+build/
+dist/
+coverage/
+
+# ── 環境変数 ──
+.env
+.env.local
+.env.*.local
+
+# ── OS / エディタ ──
+.DS_Store
+Thumbs.db
+*.swp
+*.log
+
+# ── オリジナルファイル名（index.htmlをcanonicalに） ──
+モフリ最新414.html
