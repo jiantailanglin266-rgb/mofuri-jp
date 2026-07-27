@@ -40,3 +40,7 @@ Thumbs.db
 
 # ── オリジナルファイル名（index.htmlをcanonicalに） ──
 モフリ最新414.html
+
+# REALPORT の画像は配信に必要（Wikimedia Commons引用・クレジット付き）
+!realport/images/
+!realport/images/**
