@@ -845,11 +845,109 @@ body.intro-playing{overflow:hidden}
   50%{transform:translateY(-60px) rotate(calc(var(--rot,0deg) + 25deg)) scale(1.15)}
 }
 
+/* ── 斜め帯 MOFURI. マーキー（アニメ風POPデザイン） ── */
+#textMarquees{
+  position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;
+}
+.text-marquee{
+  position:absolute;left:-30%;width:160%;overflow:hidden;
+  transform:rotate(var(--rot,-12deg));
+  padding:.8rem 0;
+}
+.tm-track{
+  display:flex;white-space:nowrap;
+  animation:tmScroll var(--dur,45s) linear infinite;
+  will-change:transform;
+}
+.tm-track span{
+  display:inline-block;
+  font-family:var(--mont),sans-serif;
+  font-weight:900;
+  font-size:clamp(2.6rem,7vw,5.2rem);
+  letter-spacing:.15em;
+  padding:0 1.6rem;
+  background:linear-gradient(90deg,
+    #ff8fb8 0%,#c084fc 20%,#5ec8e5 40%,
+    #ffd166 60%,#8de3a8 80%,#ff8fb8 100%);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:rainbowShift var(--rainbow,6s) linear infinite;
+  filter:drop-shadow(0 3px 6px rgba(255,143,184,.35))
+         drop-shadow(0 6px 14px rgba(94,200,229,.25));
+  opacity:.22;
+}
+.tm-1{top:16%;--rot:-11deg}
+.tm-1 .tm-track{animation-duration:38s}
+.tm-2{top:44%;--rot:9deg}
+.tm-2 .tm-track{animation-duration:46s;animation-direction:reverse}
+.tm-3{top:72%;--rot:-6deg}
+.tm-3 .tm-track{animation-duration:42s}
+@keyframes tmScroll{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+@keyframes rainbowShift{
+  0%{background-position:0% 50%}
+  100%{background-position:300% 50%}
+}
+
+/* ── 3D POP装飾（犬猫立体グラフィック） ── */
+#popGraphics{
+  position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;
+  perspective:1200px;
+}
+.pop-3d{
+  position:absolute;
+  width:var(--size,90px);height:var(--size,90px);
+  transform-style:preserve-3d;
+  animation:pop3DFloat var(--dur,10s) cubic-bezier(.4,0,.2,1) infinite;
+  animation-delay:var(--delay,0s);
+  will-change:transform;
+}
+.pop-3d svg{
+  width:100%;height:100%;
+  animation:pop3DSpin var(--spin,14s) linear infinite;
+  filter:
+    drop-shadow(0 4px 0 rgba(255,143,184,.35))
+    drop-shadow(0 8px 0 rgba(94,200,229,.25))
+    drop-shadow(0 12px 24px rgba(0,0,0,.15));
+}
+@keyframes pop3DFloat{
+  0%,100%{transform:translateY(0) rotateX(0deg) scale(1)}
+  50%{transform:translateY(-40px) rotateX(20deg) scale(1.08)}
+}
+@keyframes pop3DSpin{
+  0%{transform:rotateY(0deg)}
+  100%{transform:rotateY(360deg)}
+}
+
+/* POPアイコンごとの色バリエーション */
+.pop-paw-pink{color:#ff8fb8}
+.pop-paw-sky{color:#5ec8e5}
+.pop-paw-mint{color:#8de3a8}
+.pop-heart{color:#ff6b9d}
+.pop-star{color:#ffd166}
+.pop-cat{color:#c084fc}
+.pop-dog{color:#7dd3fc}
+.pop-bone{color:#fbbf77}
+
 /* イントロビデオ再生中は装飾非表示 */
 body.intro-playing #siteAurora,
 body.intro-playing #pawDecor,
 body.intro-playing #luxLines,
-body.intro-playing #luxHorizon{display:none}
+body.intro-playing #luxHorizon,
+body.intro-playing #textMarquees,
+body.intro-playing #popGraphics{display:none}
+
+/* モバイル最適化 */
+@media(max-width:900px){
+  .tm-track span{font-size:clamp(2rem,10vw,3.5rem);padding:0 1rem}
+  .pop-3d{transform:scale(.7)}
+  .tm-1{top:10%}
+  .tm-2{top:42%}
+  .tm-3{top:78%}
+}
 
 /* 動きを嫌うユーザー配慮（アクセシビリティ） */
 @media(prefers-reduced-motion:reduce){
@@ -857,6 +955,9 @@ body.intro-playing #luxHorizon{display:none}
   #siteAurora .orb{animation:none}
   #pawDecor .paw{animation:none;opacity:.06}
   #luxLines{animation:none}
+  .tm-track{animation:none}
+  .tm-track span{animation:none;background-position:0 50%}
+  .pop-3d,.pop-3d svg{animation:none}
 }
 
 /* モバイル最適化：装飾を控えめに */
@@ -1000,6 +1101,78 @@ body.intro-playing #luxHorizon{display:none}
   <svg class="paw" style="top:88%;right:14%;--size:36px;--dur:12s;--delay:-18s;--rot:-22deg;--paw-color:#5ec8e5;--max-op:.06"><use href="#paw-icon"/></svg>
   <svg class="paw" style="top:18%;left:48%;--size:30px;--dur:15s;--delay:-3s;--rot:12deg;--paw-color:#f8a4b4;--max-op:.05"><use href="#paw-icon"/></svg>
   <svg class="paw" style="top:78%;left:52%;--size:38px;--dur:16s;--delay:-11s;--rot:-6deg;--paw-color:#2da8cc;--max-op:.07"><use href="#paw-icon"/></svg>
+</div>
+
+<!-- ── 斜め帯 MOFURI. マーキー（アニメ風POPデザイン） ── -->
+<div id="textMarquees" aria-hidden="true">
+  <div class="text-marquee tm-1">
+    <div class="tm-track">
+      <span>MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ </span>
+      <span aria-hidden="true">MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ </span>
+    </div>
+  </div>
+  <div class="text-marquee tm-2">
+    <div class="tm-track">
+      <span>MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ </span>
+      <span aria-hidden="true">MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ </span>
+    </div>
+  </div>
+  <div class="text-marquee tm-3">
+    <div class="tm-track">
+      <span>MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 </span>
+      <span aria-hidden="true">MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 </span>
+    </div>
+  </div>
+</div>
+
+<!-- ── 3D POP装飾（犬猫立体グラフィック） ── -->
+<div id="popGraphics" aria-hidden="true">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- 大きな肉球 -->
+    <symbol id="pop-paw-big" viewBox="0 0 120 120">
+      <path fill="currentColor" d="M60 66c-11 0-22 8-22 20 0 9 8 15 22 15s22-6 22-15c0-12-11-20-22-20zM32 48c6 0 11-6 11-14s-5-14-11-14-11 6-11 14 5 14 11 14zm56 0c6 0 11-6 11-14s-5-14-11-14-11 6-11 14 5 14 11 14zM16 68c5 0 10-5 10-11s-5-11-10-11-10 5-10 11 5 11 10 11zm88 0c5 0 10-5 10-11s-5-11-10-11-10 5-10 11 5 11 10 11z"/>
+    </symbol>
+    <!-- ハート -->
+    <symbol id="pop-heart" viewBox="0 0 100 100">
+      <path fill="currentColor" d="M50 88c-3-3-40-25-40-52 0-14 11-24 24-24 7 0 13 3 16 8 3-5 9-8 16-8 13 0 24 10 24 24 0 27-37 49-40 52z"/>
+    </symbol>
+    <!-- 星 -->
+    <symbol id="pop-star" viewBox="0 0 100 100">
+      <path fill="currentColor" d="M50 8l12 27 30 3-22 20 6 30-26-15-26 15 6-30-22-20 30-3z"/>
+    </symbol>
+    <!-- 犬の顔 -->
+    <symbol id="pop-dog-face" viewBox="0 0 100 100">
+      <ellipse cx="50" cy="60" rx="32" ry="30" fill="currentColor"/>
+      <ellipse cx="20" cy="35" rx="12" ry="18" fill="currentColor" transform="rotate(-15 20 35)"/>
+      <ellipse cx="80" cy="35" rx="12" ry="18" fill="currentColor" transform="rotate(15 80 35)"/>
+      <circle cx="38" cy="55" r="3.5" fill="#0d2d38"/>
+      <circle cx="62" cy="55" r="3.5" fill="#0d2d38"/>
+      <ellipse cx="50" cy="68" rx="5" ry="4" fill="#0d2d38"/>
+    </symbol>
+    <!-- 猫の顔 -->
+    <symbol id="pop-cat-face" viewBox="0 0 100 100">
+      <path d="M50 90c-20 0-32-15-32-32 0-8 2-15 5-22l12 8c4-2 9-3 15-3s11 1 15 3l12-8c3 7 5 14 5 22 0 17-12 32-32 32z" fill="currentColor"/>
+      <path d="M18 28l8 22 12-8z" fill="currentColor"/>
+      <path d="M82 28l-8 22-12-8z" fill="currentColor"/>
+      <circle cx="38" cy="55" r="3" fill="#0d2d38"/>
+      <circle cx="62" cy="55" r="3" fill="#0d2d38"/>
+      <path d="M45 68l5-5 5 5" stroke="#0d2d38" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <!-- 骨 -->
+    <symbol id="pop-bone" viewBox="0 0 120 60">
+      <path fill="currentColor" d="M20 30c0-8-6-14-14-14v-2c0-6 5-11 11-11s11 5 11 11c0 3-1 5-2 7h68c-1-2-2-4-2-7 0-6 5-11 11-11s11 5 11 11v2c-8 0-14 6-14 14s6 14 14 14v2c0 6-5 11-11 11s-11-5-11-11c0-3 1-5 2-7H26c1 2 2 4 2 7 0 6-5 11-11 11S6 52 6 46v-2c8 0 14-6 14-14z"/>
+    </symbol>
+  </svg>
+
+  <!-- 3D POP配置（8個・散らからないコーナー配置） -->
+  <div class="pop-3d pop-paw-pink" style="top:8%;left:3%;--size:100px;--dur:9s;--spin:16s;--delay:0s"><svg><use href="#pop-paw-big"/></svg></div>
+  <div class="pop-3d pop-heart" style="top:22%;right:4%;--size:70px;--dur:7s;--spin:11s;--delay:-2s"><svg><use href="#pop-heart"/></svg></div>
+  <div class="pop-3d pop-star" style="top:38%;left:2%;--size:65px;--dur:8s;--spin:13s;--delay:-4s"><svg><use href="#pop-star"/></svg></div>
+  <div class="pop-3d pop-dog" style="top:52%;right:3%;--size:90px;--dur:10s;--spin:18s;--delay:-1s"><svg><use href="#pop-dog-face"/></svg></div>
+  <div class="pop-3d pop-cat" style="top:68%;left:4%;--size:85px;--dur:9s;--spin:15s;--delay:-3s"><svg><use href="#pop-cat-face"/></svg></div>
+  <div class="pop-3d pop-bone" style="top:80%;right:5%;--size:95px;--dur:8s;--spin:20s;--delay:-5s"><svg><use href="#pop-bone"/></svg></div>
+  <div class="pop-3d pop-paw-sky" style="top:92%;left:8%;--size:60px;--dur:7s;--spin:12s;--delay:-2.5s"><svg><use href="#pop-paw-big"/></svg></div>
+  <div class="pop-3d pop-paw-mint" style="top:5%;right:12%;--size:55px;--dur:8.5s;--spin:14s;--delay:-6s"><svg><use href="#pop-paw-big"/></svg></div>
 </div>
 
 <!-- ── HEADER ──────────────────────── -->
