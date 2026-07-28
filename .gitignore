@@ -45,3 +45,4 @@ Thumbs.db
 !realport/images/
 !realport/images/**
 realport/tools/.cache-l01/
+realport/tools/.reinfolib-key

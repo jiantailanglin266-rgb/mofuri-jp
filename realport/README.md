@@ -72,6 +72,22 @@ git add realport && git commit -m "realport: <変更内容>" && git push
 ※審査時は「広告掲載ポリシー」「運営者情報」ページの存在が見られることが多いです（実装済み）。
 ※デモ表示のままでは収益は発生しません。
 
+## 不動産情報ライブラリ APIキーの取得（ユーザー本人の作業）→ 成約価格データ投入
+
+1. https://www.reinfolib.mlit.go.jp/api/request/ を開く
+2. 利用者情報を入力（利用者種別は「個人」でOK。利用目的は「不動産情報サイトでのエリア別成約価格の統計表示」等）
+3. 利用約款に同意して申請（**承認まで約5営業日**。承認メールが届くまで待つ。迷惑メールフォルダも確認）
+4. 届いたAPIキーを `realport/tools/.reinfolib-key` に保存（git管理外）するか、Claude に渡す
+5. あとは Claude が実行:
+
+```bash
+cd realport && node tools/import-seiyaku.mjs && node tools/gen-data.mjs
+```
+
+（データ検証 → `data.js?v=N` バンプ → build → デプロイまで実施。18エリア×マンション/戸建て/土地の
+成約価格の平均・中央値・㎡単価・件数が、地価公示の下に出典付きで表示されます。
+件数5件未満の集計は統計として不安定なため自動で掲載をスキップします）
+
 ## Google Search Console 登録の手順（ユーザー本人の作業）
 
 1. https://search.google.com/search-console にGoogleアカウントでログイン
