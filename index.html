@@ -847,7 +847,8 @@ body.intro-playing{overflow:hidden}
 
 /* ── 斜め帯 MOFURI. マーキー（アニメ風POPデザイン） ── */
 #textMarquees{
-  position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;
+  position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden;
+  mix-blend-mode:multiply;
 }
 .text-marquee{
   position:absolute;left:-30%;width:160%;overflow:hidden;
@@ -875,7 +876,7 @@ body.intro-playing{overflow:hidden}
   animation:rainbowShift var(--rainbow,6s) linear infinite;
   filter:drop-shadow(0 3px 6px rgba(255,143,184,.35))
          drop-shadow(0 6px 14px rgba(94,200,229,.25));
-  opacity:.22;
+  opacity:.42;
 }
 .tm-1{top:4%;--rot:-11deg}
 .tm-1 .tm-track{animation-duration:38s}
