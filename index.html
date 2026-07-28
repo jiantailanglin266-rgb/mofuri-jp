@@ -845,57 +845,6 @@ body.intro-playing{overflow:hidden}
   50%{transform:translateY(-60px) rotate(calc(var(--rot,0deg) + 25deg)) scale(1.15)}
 }
 
-/* ── 斜め帯 MOFURI. マーキー（FVとフッター周辺のみ配置） ── */
-.text-marquees-section{
-  position:relative;
-  overflow:hidden;
-  padding:2.5rem 0;
-  min-height:280px;
-  pointer-events:none;
-}
-.text-marquee{
-  position:absolute;left:-30%;width:160%;overflow:hidden;
-  transform:rotate(var(--rot,-12deg));
-  padding:.6rem 0;
-}
-.tm-track{
-  display:flex;white-space:nowrap;
-  animation:tmScroll var(--dur,45s) linear infinite;
-  will-change:transform;
-}
-.tm-track span{
-  display:inline-block;
-  font-family:var(--mont),sans-serif;
-  font-weight:900;
-  font-size:clamp(2.2rem,6vw,4.4rem);
-  letter-spacing:.15em;
-  padding:0 1.4rem;
-  background:linear-gradient(90deg,
-    #ff8fb8 0%,#c084fc 20%,#5ec8e5 40%,
-    #ffd166 60%,#8de3a8 80%,#ff8fb8 100%);
-  background-size:300% 100%;
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;color:transparent;
-  animation:rainbowShift var(--rainbow,6s) linear infinite;
-  filter:drop-shadow(0 2px 4px rgba(255,143,184,.25))
-         drop-shadow(0 4px 10px rgba(94,200,229,.18));
-  opacity:.32;
-}
-.tm-1{top:15%;--rot:-10deg}
-.tm-1 .tm-track{animation-duration:38s}
-.tm-2{top:45%;--rot:8deg}
-.tm-2 .tm-track{animation-duration:46s;animation-direction:reverse}
-.tm-3{top:75%;--rot:-6deg}
-.tm-3 .tm-track{animation-duration:42s}
-@keyframes tmScroll{
-  0%{transform:translateX(0)}
-  100%{transform:translateX(-50%)}
-}
-@keyframes rainbowShift{
-  0%{background-position:0% 50%}
-  100%{background-position:300% 50%}
-}
-
 /* ── 3D POP装飾（犬猫立体グラフィック） ── */
 #popGraphics{
   position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden;
@@ -945,8 +894,6 @@ body.intro-playing #popGraphics{display:none}
 
 /* モバイル最適化 */
 @media(max-width:900px){
-  .text-marquees-section{min-height:220px;padding:1.8rem 0}
-  .tm-track span{font-size:clamp(1.6rem,7vw,2.8rem);padding:0 1rem}
   .pop-3d{transform:scale(.7)}
 }
 
@@ -956,8 +903,6 @@ body.intro-playing #popGraphics{display:none}
   #siteAurora .orb{animation:none}
   #pawDecor .paw{animation:none;opacity:.06}
   #luxLines{animation:none}
-  .tm-track{animation:none}
-  .tm-track span{animation:none;background-position:0 50%}
   .pop-3d,.pop-3d svg{animation:none}
 }
 
@@ -1105,7 +1050,6 @@ body.intro-playing #popGraphics{display:none}
 </div>
 
 <!-- ── 斜め帯 MOFURI. マーキー（アニメ風POPデザイン） ── -->
-<!-- 全画面テキストマーキーは削除。FV直後とフッター直前の2箇所のみ配置 -->
 
 <!-- ── 3D POP装飾（犬猫立体グラフィック） ── -->
 <div id="popGraphics" aria-hidden="true">
@@ -1254,28 +1198,6 @@ body.intro-playing #popGraphics{display:none}
     <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
   </svg>
 </section>
-
-<!-- ── 斜めMOFURI.マーキー（FV直後） ── -->
-<div class="text-marquees-section" aria-hidden="true">
-  <div class="text-marquee tm-1">
-    <div class="tm-track">
-      <span>MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ </span>
-      <span aria-hidden="true">MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ </span>
-    </div>
-  </div>
-  <div class="text-marquee tm-2">
-    <div class="tm-track">
-      <span>MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ </span>
-      <span aria-hidden="true">MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ </span>
-    </div>
-  </div>
-  <div class="text-marquee tm-3">
-    <div class="tm-track">
-      <span>MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 </span>
-      <span aria-hidden="true">MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 </span>
-    </div>
-  </div>
-</div>
 
 <!-- ── MARQUEE (2段左右逆方向スクロール) ── -->
 <section id="marquee" aria-label="MOFURI. ブランドギャラリー">
@@ -1583,28 +1505,6 @@ body.intro-playing #popGraphics{display:none}
     </div>
   </div>
 </section>
-
-<!-- ── 斜めMOFURI.マーキー（フッター直前） ── -->
-<div class="text-marquees-section" aria-hidden="true">
-  <div class="text-marquee tm-1">
-    <div class="tm-track">
-      <span>MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ </span>
-      <span aria-hidden="true">MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ MOFURI. ✧ </span>
-    </div>
-  </div>
-  <div class="text-marquee tm-2">
-    <div class="tm-track">
-      <span>MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ </span>
-      <span aria-hidden="true">MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ MOFURI. ♡ </span>
-    </div>
-  </div>
-  <div class="text-marquee tm-3">
-    <div class="tm-track">
-      <span>MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 </span>
-      <span aria-hidden="true">MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 MOFURI. 🐾 </span>
-    </div>
-  </div>
-</div>
 
 <!-- ── FOOTER ─────────────────────── -->
 <footer>
