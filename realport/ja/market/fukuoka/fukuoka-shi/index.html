@@ -67,8 +67,11 @@ nav.gnav a.on{color:var(--ink);box-shadow:inset 0 -2px 0 var(--red)}
 #mnav{display:none}
 /* ── hero: 黒レイヤー ×「金」のアニメーション ── */
 .hero{position:relative;overflow:hidden;color:var(--inkD);isolation:isolate;background:transparent}
+.hero-photo{position:absolute;inset:0;z-index:-3;background-size:cover;background-position:center 30%}
+.hero-photo::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,rgba(11,11,12,.92) 0%,rgba(11,11,12,.6) 46%,rgba(11,11,12,.26) 76%,rgba(11,11,12,.45) 100%)}
 .hero::before{content:"";position:absolute;inset:0 0 -160px 0;z-index:-2;
-  background:linear-gradient(180deg,var(--dark) 0%,var(--dark) calc(100% - 300px),#131315 calc(100% - 160px),rgba(19,19,21,0) 100%)}
+  background:linear-gradient(180deg,rgba(11,11,12,.4) 0%,rgba(11,11,12,.12) 38%,rgba(19,19,21,.9) calc(100% - 300px),#131315 calc(100% - 160px),rgba(19,19,21,0) 100%)}
 .hero-layers{position:absolute;inset:0 0 -160px 0;z-index:-1;pointer-events:none;overflow:hidden}
 .ct{position:absolute;inset:-40px -80px;width:calc(100% + 160px);height:calc(100% + 80px)}
 .ct1{animation:drift 46s var(--ez) infinite alternate}
@@ -411,7 +414,7 @@ function artBody(body){
    ============================================================ */
 function vHome(){
   var out=[];
-  out.push('<div class="hero" style="margin:0 -20px"><div class="hero-layers" aria-hidden="true">'
+  out.push('<div class="hero" style="margin:0 -20px"><div class="hero-photo" style="background-image:url('+B+'/images/hero-tokyo.jpg)" aria-hidden="true"></div><div class="hero-layers" aria-hidden="true">'
    +'<div class="hgrid"></div>'
    +'<div class="beam"></div>'
    +'<svg class="ct ct1" viewBox="0 0 1440 640" preserveAspectRatio="none"><g fill="none" stroke="rgba(197,161,90,.22)" stroke-width="1">'
