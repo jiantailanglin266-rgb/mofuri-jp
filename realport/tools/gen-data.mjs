@@ -482,8 +482,13 @@ const themeImages = existsSync(themePath) ? JSON.parse(readFileSync(themePath, "
 if (imgMap["shinjuku-ku"] && !themeImages.market)
   themeImages.market = { file: imgMap["shinjuku-ku"].file, credit: imgMap["shinjuku-ku"].credit, source: imgMap["shinjuku-ku"].source, article: "新宿区" };
 
+/* ---- マーキー画像（Wikipedia/Commons・横長12枚×3プール） ---- */
+const mqPath = join(ROOT, "tools", "marquee-images.json");
+const marqueeImages = existsSync(mqPath) ? JSON.parse(readFileSync(mqPath, "utf-8")) : {};
+
 const DATA = {
   themeImages,
+  marqueeImages,
   regions: REGIONS.map(([slug, name]) => ({ id: "rg_" + slug.replace(/-/g, "_"), slug, names: { ja: name } })),
   prefectures: PREFS.map(([slug, name, rg]) => ({
     id: "pf_" + slug.replace(/-/g, "_"), slug, regionId: "rg_" + rg, names: { ja: name } })),

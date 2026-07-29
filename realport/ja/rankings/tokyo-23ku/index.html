@@ -120,6 +120,13 @@ h1.hero-t{font-family:var(--serif);font-size:2.55rem;line-height:1.5;font-weight
 .mqtrack span{font-family:var(--disp);font-weight:700;font-size:2.4rem;letter-spacing:.1em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(200,16,46,.4)}
 .mqtrack span.mq-f{color:var(--red);-webkit-text-stroke:0}
 .mqtrack span.mq-s{font-family:var(--mono);font-weight:400;font-size:.8rem;letter-spacing:.5em;color:var(--muted);-webkit-text-stroke:0}
+/* ── 画像マーキー（12枚×2で無限ループ・ホバーで止めない） ── */
+.pmq{overflow:hidden;padding:10px 0 6px}
+.pmqtrack{display:flex;gap:14px;width:max-content;animation:mqL 72s linear infinite;will-change:transform}
+.pmqtrack.rev{animation-direction:reverse}
+.pmqi{width:280px;height:170px;flex:0 0 auto;overflow:hidden;border-radius:var(--r);border:1px solid var(--hair);margin:0;position:relative;background:var(--paper2)}
+.pmqi img{width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.02)}
+.pmqi figcaption{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);font-size:.58rem;color:#fff;background:linear-gradient(transparent,rgba(11,11,12,.7));padding:16px 9px 5px;letter-spacing:.1em}
 /* ── sections ── */
 section.sec{padding:72px 0;background:transparent;position:relative}
 .sec-t{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:8px;letter-spacing:.02em}
@@ -250,7 +257,7 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
 @media(prefers-reduced-motion:reduce){
   .rv{opacity:1;transform:none;filter:none;transition:none}
   .card,.btn,.areahero img,.card img{transition:none}
-  .ct1,.ct2,.sonar i,.mqtrack,.beam,.au,.tagline::before,.ft::before{animation:none}
+  .ct1,.ct2,.sonar i,.mqtrack,.pmqtrack,.beam,.au,.tagline::before,.ft::before{animation:none}
   .btn-g::after,.hcta::after{animation:none;content:none}
   .hero .btn-g,#mcta .btn-g{animation:none}
   html{scroll-behavior:auto}
@@ -323,7 +330,7 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=4",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=5",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
 })();
 (function(){
@@ -383,6 +390,9 @@ function ctaBlock(cat,src){
   return out.join("")}
 function timg(key,alt){var t=DATA.themeImages&&DATA.themeImages[key];if(!t)return"";
   return '<figure class="thumb"><img src="'+B+"/"+t.file+'" alt="'+esc(alt||"")+'" loading="lazy" title="'+esc(t.credit)+'"></figure>'}
+function photoMarquee(pool,rev){var arr=(DATA.marqueeImages||{})[pool];if(!arr||!arr.length)return"";
+  var items=arr.map(function(m){return '<figure class="pmqi"><img src="'+B+"/"+m.file+'" alt="'+esc(m.article)+'" loading="lazy" title="'+esc(m.credit)+'"><figcaption>'+esc(m.article)+"</figcaption></figure>"}).join("");
+  return '<div class="pmq" aria-hidden="true"><div class="pmqtrack'+(rev?" rev":"")+'">'+items+items+"</div></div>"}
 function artCard(a){var t=tr(a);return '<a class="card rv" href="'+h("guide/"+a.slug)+'" data-i="1">'+timg(a.category,catName(a.category)+"のイメージ")+'<span class="tagline">'+esc(catName(a.category))+"</span><h3>"+esc(t.title)+'</h3><p>'+esc(t.metaDesc.slice(0,64))+'…</p><p style="margin-top:8px;font-size:.72rem">'+dt(a.publishedAt)+(a.factCheck==="reviewed"?' <span class="badge b-fact">ファクトチェック済</span>':"")+"</p></a>"}
 function areaCard(a){var t=tr(a);var pf=pref(a.prefId);
   return '<a class="card rv" href="'+h("market/"+pf.slug+"/"+a.slug)+'" data-i="1">'+(a.img?'<img src="'+B+"/"+a.img+'" alt="'+esc(t.name)+'の街並み" loading="lazy" style="border-radius:8px;height:120px;width:100%;object-fit:cover;margin-bottom:12px">':"")+"<h3>"+esc(t.name)+'</h3><p>'+esc(nm(pf))+"／人口 約"+a.population+'万人</p><p style="font-size:.72rem;margin-top:6px">相場データ準備中</p></a>'}
@@ -444,6 +454,8 @@ function vHome(){
    +feat("無料ツール","AI売却診断・費用/税金/ローンのシミュレーターを無料で使えます。")
    +feat("送客型で中立","当サイトは媒介を行わない情報メディアです。広告はPR表記で明確に区別します。")
    +"</div></section>");
+  /* 画像マーキー①: 都市 */
+  out.push(photoMarquee("city"));
   /* エリア */
   out.push('<section class="sec"><h2 class="sec-t">エリアから<b>相場を調べる</b></h2><p class="sec-d">主要都市の掲載エリア。相場データは公的データの接続準備中です。</p><div class="grid g3">'
    +curatedAreas().slice(0,6).map(areaCard).join("")+"</div>"
@@ -457,6 +469,8 @@ function vHome(){
   /* 理由別 */
   out.push('<section class="sec"><h2 class="sec-t">売却理由別<b>ガイド</b></h2><div class="grid g4">'
    +[["inheritance","相続","inherited-home-sale"],["divorce","離婚","divorce-home-loan"],["relocation","住み替え","sell-first-or-buy-first"],["vacant-house","空き家","vacant-house-guide"],["mortgage","ローン残債","sell-with-mortgage"],["tax","税金","capital-gains-basics"],["cost","費用","selling-costs"],["assessment","査定の選び方","how-to-choose-assessment"]].map(function(x){return '<a class="card rv" href="'+h("guide/"+x[2])+'" data-i="1">'+timg(x[0],x[1]+"のイメージ")+'<h3>'+x[1]+'</h3><p style="font-size:.78rem">'+catName(x[0])+"の解説を読む →</p></a>"}).join("")+"</div></section>");
+  /* 画像マーキー②: 住まい・街並み（逆方向） */
+  out.push(photoMarquee("living",true));
   /* 新着記事 */
   var arts=DATA.articles.slice().sort(function(a,b){return b.publishedAt<a.publishedAt?-1:1});
   out.push('<section class="sec"><h2 class="sec-t">新着・人気<b>記事</b></h2><div class="grid g3">'+arts.slice(0,6).map(artCard).join("")+'</div><div style="margin-top:20px">'+A("guide","記事一覧へ →","btn btn-o")+"</div></section>");
@@ -466,6 +480,8 @@ function vHome(){
    +'<div class="prep">利用者数・診断実績<br><b style="color:var(--ink)">計測準備中</b><br><span style="font-size:.7rem">分析連携前のため実績値は表示していません</span></div>'
    +'<div class="prep">提携サービス数<br><b style="color:var(--ink)">掲載準備中</b><br><span style="font-size:.7rem">現在はデモ表示のみです</span></div></div></section>');
   out.push(faqBlock(DATA.faqs));
+  /* 画像マーキー③: 港・ランドマーク */
+  out.push(photoMarquee("port"));
   out.push('<section class="sec" style="border:none;text-align:center"><h2 class="sec-t">まずは、<b>現状把握</b>から。</h2><p class="sec-d">査定サービスの比較と無料診断で、売却の選択肢を整理しましょう。</p><div class="cta-row" style="justify-content:center">'+A("sell/assessment","査定サービスを比較する","btn btn-g")+A("tools/ai-sell-diagnosis","AI売却診断","btn btn-o")+"</div>"+disclaimerBox()+"</section>");
   return out.join("");
   function ent(theme,t,d,path){return '<a class="card rv" href="'+h(path)+'" data-i="1">'+timg(theme,t)+"<h3>"+t+"</h3><p>"+d+"</p></a>"}
@@ -486,6 +502,7 @@ function vSell(){
    +'<a class="card rv" data-i="1" href="'+h("tools/selling-cost")+'">'+timg("cost","売却費用")+'<h3>売却費用シミュレーター</h3><p>仲介手数料・印紙税・手取り額の概算。</p></a>'
    +'<a class="card rv" data-i="1" href="'+h("tools/capital-gains-tax")+'">'+timg("tax","譲渡所得税")+'<h3>譲渡所得税シミュレーター</h3><p>3,000万円控除・長期短期税率に対応。</p></a>'
    +'<a class="card rv" data-i="1" href="'+h("guide/selling-costs")+'">'+timg("sell","費用の解説")+'<h3>費用の解説記事</h3><p>費用一覧と節約のポイント。</p></a></div></section>'
+   +photoMarquee("living")
    +'<section class="sec"><h2 class="sec-t">理由別<b>売却ガイド</b></h2><div class="grid g3">'
    +DATA.articles.filter(function(a){return["inheritance","divorce","vacant-house","relocation","mortgage"].indexOf(a.category)>=0}).map(artCard).join("")+"</div></section>"
    +'<section class="sec"><h2 class="sec-t">査定サービス<b>比較</b></h2>'+prBox()+demoBox()
@@ -825,6 +842,8 @@ var PAGES={
   +h2("画像")+p("エリア写真・カードのテーマ画像はすべてWikipedia / Wikimedia Commonsから引用しています。エリアページの写真は各ページにクレジットを表示し、カードのテーマ画像のクレジットは下記に一覧します（画像のtitle属性でも確認できます）。CC BY-SA等のライセンス条件に基づく帰属表示です。")
   +h2("テーマ画像クレジット一覧")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
   +Object.keys(DATA.themeImages||{}).map(function(k){var t=DATA.themeImages[k];return "<li><b>"+esc(k)+"</b>（出典記事: "+esc(t.article||"")+"） — "+esc(t.credit)+' ／ <a href="'+esc(t.source)+'" target="_blank" rel="noopener">出典ページ</a></li>'}).join("")+"</ul>"
+  +h2("マーキー画像クレジット一覧")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
+  +Object.keys(DATA.marqueeImages||{}).map(function(pl){return DATA.marqueeImages[pl].map(function(m){return "<li><b>"+esc(pl)+"</b> "+esc(m.article)+" — "+esc(m.credit)+(m.source?' ／ <a href="'+esc(m.source)+'" target="_blank" rel="noopener">出典ページ</a>':"")+"</li>"}).join("")}).join("")+"</ul>"
   +h2("税制・制度")+p("税率・制度値には基準日を付し、国税庁等の一次情報へのリンクを添えます。改正時は更新します。")}},
  "advertising-policy":{t:"広告掲載ポリシー",b:function(){return p("REALPORTは、アフィリエイト広告・純広告・タイアップ等により運営費を得る場合があります。")
   +h2("PR表記")+p("広告・アフィリエイトリンクを含むコンテンツには「PR」表記を付し、広告リンクには rel=\"sponsored nofollow\" を設定しています。")
