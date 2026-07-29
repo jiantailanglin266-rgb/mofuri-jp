@@ -17,7 +17,6 @@ const POOLS = {
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const strip = s => String(s || "").replace(/<[^>]*>/g, "").trim();
-const slugify = s => s.normalize("NFKD").replace(/[^\w]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase() || "x";
 async function jget(url) { const r = await fetch(url, { headers: UA }); if (!r.ok) throw new Error(r.status + " " + url); return r.json(); }
 
 async function candidate(title) {
@@ -51,7 +50,7 @@ async function main() {
         if (!img.ok) throw new Error("img " + img.status);
         const buf = Buffer.from(await img.arrayBuffer());
         const ext = (c.thumbUrl.match(/\.(jpe?g|webp|png)/i)?.[1] || "jpg").toLowerCase().replace("jpeg", "jpg");
-        const file = "images/marquee/" + pool + "-" + slugify(title) + "." + ext;
+        const file = "images/marquee/" + pool + "-" + String(got.length + 1).padStart(2, "0") + "." + ext; // 連番（日本語タイトルはslug化できないため）
         writeFileSync(join(ROOT, file), buf);
         got.push({ file, article: title,
           credit: "Photo: " + (strip(md.Artist?.value) || "不明") + " / Wikimedia Commons, " + (strip(md.LicenseShortName?.value) || "see Commons"),
