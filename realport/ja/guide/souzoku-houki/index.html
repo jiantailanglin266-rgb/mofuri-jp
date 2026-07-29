@@ -133,6 +133,9 @@ a.card:hover::before{transform:scaleX(1)}
 .card p{font-size:.84rem;color:var(--muted)}
 .card img{filter:saturate(1.05) contrast(1.02);transition:transform .9s var(--ez)}
 a.card:hover img{transform:scale(1.045)}
+.thumb{margin:-24px -24px 18px;height:150px;overflow:hidden;background:var(--paper2);position:relative}
+.thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,12,.06),transparent 40%)}
+.thumb img{width:100%;height:100%;object-fit:cover}
 .ic{font-size:1.4rem;margin-bottom:12px;display:block}
 .tagline{font-family:var(--mono);font-size:.62rem;color:var(--red);letter-spacing:.3em;font-weight:400;text-transform:uppercase}
 .tagline::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--red);margin-right:8px;vertical-align:2px;animation:pulse 2.4s var(--ez) infinite}
@@ -317,7 +320,7 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=3",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=4",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
 })();
 (function(){
@@ -375,7 +378,9 @@ function ctaBlock(cat,src){
   svcs.forEach(function(s){var t=tr(s);out.push('<div class="rrow"><span>'+esc(t.name)+(s.isDemo?' <span class="badge b-demo">デモ</span>':"")+"</span><span>"+(s.affiliateUrl?'<a href="'+esc(s.affiliateUrl)+'" rel="sponsored nofollow noopener" target="_blank" onclick="afClick(\''+s.id+'\',\''+esc(src)+'\')">公式へ</a>':A("sell/assessment/"+s.slug,"詳細"))+"</span></div>")});
   out.push('<div style="margin-top:14px">'+A("sell/assessment","査定サービスの比較を見る →","btn btn-o")+"</div></aside>");
   return out.join("")}
-function artCard(a){var t=tr(a);return '<a class="card rv" href="'+h("guide/"+a.slug)+'" data-i="1"><span class="tagline">'+esc(catName(a.category))+"</span><h3>"+esc(t.title)+'</h3><p>'+esc(t.metaDesc.slice(0,64))+'…</p><p style="margin-top:8px;font-size:.72rem">'+dt(a.publishedAt)+(a.factCheck==="reviewed"?' <span class="badge b-fact">ファクトチェック済</span>':"")+"</p></a>"}
+function timg(key,alt){var t=DATA.themeImages&&DATA.themeImages[key];if(!t)return"";
+  return '<figure class="thumb"><img src="'+B+"/"+t.file+'" alt="'+esc(alt||"")+'" loading="lazy" title="'+esc(t.credit)+'"></figure>'}
+function artCard(a){var t=tr(a);return '<a class="card rv" href="'+h("guide/"+a.slug)+'" data-i="1">'+timg(a.category,catName(a.category)+"のイメージ")+'<span class="tagline">'+esc(catName(a.category))+"</span><h3>"+esc(t.title)+'</h3><p>'+esc(t.metaDesc.slice(0,64))+'…</p><p style="margin-top:8px;font-size:.72rem">'+dt(a.publishedAt)+(a.factCheck==="reviewed"?' <span class="badge b-fact">ファクトチェック済</span>':"")+"</p></a>"}
 function areaCard(a){var t=tr(a);var pf=pref(a.prefId);
   return '<a class="card rv" href="'+h("market/"+pf.slug+"/"+a.slug)+'" data-i="1">'+(a.img?'<img src="'+B+"/"+a.img+'" alt="'+esc(t.name)+'の街並み" loading="lazy" style="border-radius:8px;height:120px;width:100%;object-fit:cover;margin-bottom:12px">':"")+"<h3>"+esc(t.name)+'</h3><p>'+esc(nm(pf))+"／人口 約"+a.population+'万人</p><p style="font-size:.72rem;margin-top:6px">相場データ準備中</p></a>'}
 /* 記事本文レンダラ（マイクロ記法） */
@@ -422,12 +427,12 @@ function vHome(){
   out.push('<div class="mqband" style="margin:0 -20px" aria-hidden="true"><div class="mqtrack">'+mqRep+mqRep+"</div></div>");
   /* 目的別入口 */
   out.push('<section class="sec"><h2 class="sec-t">目的から<b>探す</b></h2><div class="grid g3">'
-   +ent("🏠","不動産を売りたい","売却の流れ・費用・査定の基本から。","sell")
-   +ent("📊","価格相場を知りたい","エリア別の相場情報データベース。","market")
-   +ent("🔑","不動産を買いたい","購入の流れ・諸費用・ローンの基礎。","buy")
-   +ent("🏚","相続した実家を売りたい","相続登記から空き家特例まで。","guide/inherited-home-sale")
-   +ent("🏦","住宅ローンを調べたい","返済シミュレーターと残債売却の解説。","tools/mortgage")
-   +ent("🤝","査定サービスを比べたい","一括査定・買取・リースバックを比較。","sell/assessment")
+   +ent("sell","不動産を売りたい","売却の流れ・費用・査定の基本から。","sell")
+   +ent("market","価格相場を知りたい","エリア別の相場情報データベース。","market")
+   +ent("buy","不動産を買いたい","購入の流れ・諸費用・ローンの基礎。","buy")
+   +ent("inheritance","相続した実家を売りたい","相続登記から空き家特例まで。","guide/inherited-home-sale")
+   +ent("mortgage","住宅ローンを調べたい","返済シミュレーターと残債売却の解説。","tools/mortgage")
+   +ent("assessment","査定サービスを比べたい","一括査定・買取・リースバックを比較。","sell/assessment")
    +"</div></section>");
   /* 特徴 */
   out.push('<section class="sec"><h2 class="sec-t">REALPORTの<b>特徴</b></h2><div class="grid g4">'
@@ -448,7 +453,7 @@ function vHome(){
   out.push('<section class="sec"><div class="result" style="text-align:center"><h3 style="font-size:1.3rem">AI売却診断（無料・約1分）</h3><p style="color:var(--muted);font-size:.88rem;margin:10px 0 18px">7つの質問に答えると、仲介・買取・リースバックの適合度と売却準備チェックリストを表示します。<br>※結果は一般的な参考情報であり、査定額の提示・保証ではありません。</p>'+A("tools/ai-sell-diagnosis","診断を始める","btn btn-g")+"</div></section>");
   /* 理由別 */
   out.push('<section class="sec"><h2 class="sec-t">売却理由別<b>ガイド</b></h2><div class="grid g4">'
-   +[["inheritance","相続","inherited-home-sale"],["divorce","離婚","divorce-home-loan"],["relocation","住み替え","sell-first-or-buy-first"],["vacant-house","空き家","vacant-house-guide"],["mortgage","ローン残債","sell-with-mortgage"],["tax","税金","capital-gains-basics"],["cost","費用","selling-costs"],["assessment","査定の選び方","how-to-choose-assessment"]].map(function(x){return '<a class="card rv" href="'+h("guide/"+x[2])+'" data-i="1"><h3>'+x[1]+'</h3><p style="font-size:.78rem">'+catName(x[0])+"の解説を読む →</p></a>"}).join("")+"</div></section>");
+   +[["inheritance","相続","inherited-home-sale"],["divorce","離婚","divorce-home-loan"],["relocation","住み替え","sell-first-or-buy-first"],["vacant-house","空き家","vacant-house-guide"],["mortgage","ローン残債","sell-with-mortgage"],["tax","税金","capital-gains-basics"],["cost","費用","selling-costs"],["assessment","査定の選び方","how-to-choose-assessment"]].map(function(x){return '<a class="card rv" href="'+h("guide/"+x[2])+'" data-i="1">'+timg(x[0],x[1]+"のイメージ")+'<h3>'+x[1]+'</h3><p style="font-size:.78rem">'+catName(x[0])+"の解説を読む →</p></a>"}).join("")+"</div></section>");
   /* 新着記事 */
   var arts=DATA.articles.slice().sort(function(a,b){return b.publishedAt<a.publishedAt?-1:1});
   out.push('<section class="sec"><h2 class="sec-t">新着・人気<b>記事</b></h2><div class="grid g3">'+arts.slice(0,6).map(artCard).join("")+'</div><div style="margin-top:20px">'+A("guide","記事一覧へ →","btn btn-o")+"</div></section>");
@@ -460,7 +465,7 @@ function vHome(){
   out.push(faqBlock(DATA.faqs));
   out.push('<section class="sec" style="border:none;text-align:center"><h2 class="sec-t">まずは、<b>現状把握</b>から。</h2><p class="sec-d">査定サービスの比較と無料診断で、売却の選択肢を整理しましょう。</p><div class="cta-row" style="justify-content:center">'+A("sell/assessment","査定サービスを比較する","btn btn-g")+A("tools/ai-sell-diagnosis","AI売却診断","btn btn-o")+"</div>"+disclaimerBox()+"</section>");
   return out.join("");
-  function ent(ic,t,d,path){return '<a class="card rv" href="'+h(path)+'" data-i="1"><span class="ic">'+ic+"</span><h3>"+t+"</h3><p>"+d+"</p></a>"}
+  function ent(theme,t,d,path){return '<a class="card rv" href="'+h(path)+'" data-i="1">'+timg(theme,t)+"<h3>"+t+"</h3><p>"+d+"</p></a>"}
   function feat(t,d){return '<div class="card rv"><h3 style="color:var(--ink)">'+t+"</h3><p>"+d+"</p></div>"}
 }
 
@@ -475,9 +480,9 @@ function vSell(){
    +'<div class="card"><h3>買取</h3><p>数週間で現金化しやすいが価格は低くなる傾向。スピード優先の方向け。</p></div></div>'
    +'<p style="margin-top:14px">'+A("guide/chukai-vs-kaitori","違いを詳しく読む →")+" ／ "+A("sell/purchase","買取サービス比較 →")+" ／ "+A("sell/leaseback","リースバック比較 →")+"</p></section>"
    +'<section class="sec"><h2 class="sec-t">費用と<b>税金</b></h2><div class="grid g3">'
-   +'<a class="card rv" data-i="1" href="'+h("tools/selling-cost")+'"><h3>売却費用シミュレーター</h3><p>仲介手数料・印紙税・手取り額の概算。</p></a>'
-   +'<a class="card rv" data-i="1" href="'+h("tools/capital-gains-tax")+'"><h3>譲渡所得税シミュレーター</h3><p>3,000万円控除・長期短期税率に対応。</p></a>'
-   +'<a class="card rv" data-i="1" href="'+h("guide/selling-costs")+'"><h3>費用の解説記事</h3><p>費用一覧と節約のポイント。</p></a></div></section>'
+   +'<a class="card rv" data-i="1" href="'+h("tools/selling-cost")+'">'+timg("cost","売却費用")+'<h3>売却費用シミュレーター</h3><p>仲介手数料・印紙税・手取り額の概算。</p></a>'
+   +'<a class="card rv" data-i="1" href="'+h("tools/capital-gains-tax")+'">'+timg("tax","譲渡所得税")+'<h3>譲渡所得税シミュレーター</h3><p>3,000万円控除・長期短期税率に対応。</p></a>'
+   +'<a class="card rv" data-i="1" href="'+h("guide/selling-costs")+'">'+timg("sell","費用の解説")+'<h3>費用の解説記事</h3><p>費用一覧と節約のポイント。</p></a></div></section>'
    +'<section class="sec"><h2 class="sec-t">理由別<b>売却ガイド</b></h2><div class="grid g3">'
    +DATA.articles.filter(function(a){return["inheritance","divorce","vacant-house","relocation","mortgage"].indexOf(a.category)>=0}).map(artCard).join("")+"</div></section>"
    +'<section class="sec"><h2 class="sec-t">査定サービス<b>比較</b></h2>'+prBox()+demoBox()
@@ -491,8 +496,8 @@ function vBuy(){
    +'<div class="grid g4">'+[["情報収集","相場・エリアを調べる"],["資金計画","諸費用は物件価格の6〜9%程度かかるといわれます"],["内見・申込","チェックリストで確認"],["契約・ローン","重要事項説明をよく確認"]].map(function(s,i){return '<div class="card rv"><span class="tagline">STEP '+(i+1)+"</span><h3>"+s[0]+"</h3><p>"+s[1]+"</p></div>"}).join("")+"</div></section>"
    +'<section class="sec"><h2 class="sec-t">物件<b>検索</b></h2><div class="prep">物件情報の掲載は準備中です。<br>REALPORTは他社保有の物件情報を無断転載しません。正規のデータ提携が整い次第、検索機能を公開します。<br><br>'+A("market","それまでのあいだ、エリア相場情報をご覧ください →")+"</div></section>"
    +'<section class="sec"><h2 class="sec-t">住宅ローンと<b>諸費用</b></h2><div class="grid g2">'
-   +'<a class="card rv" data-i="1" href="'+h("tools/mortgage")+'"><h3>住宅ローン返済シミュレーター</h3><p>借入額・金利・期間から月々の返済額を概算します。</p></a>'
-   +'<a class="card rv" data-i="1" href="'+h("guide/sell-with-mortgage")+'"><h3>ローン残債と住み替えの解説</h3><p>いまの家のローンが残っている場合の考え方。</p></a></div></section>'
+   +'<a class="card rv" data-i="1" href="'+h("tools/mortgage")+'">'+timg("mortgage","住宅ローン")+'<h3>住宅ローン返済シミュレーター</h3><p>借入額・金利・期間から月々の返済額を概算します。</p></a>'
+   +'<a class="card rv" data-i="1" href="'+h("guide/sell-with-mortgage")+'">'+timg("relocation","住み替え")+'<h3>ローン残債と住み替えの解説</h3><p>いまの家のローンが残っている場合の考え方。</p></a></div></section>'
    +'<section class="sec"><h2 class="sec-t">内見<b>チェックリスト</b></h2><div class="card"><p style="font-size:.88rem">□ 雨漏り・水漏れの跡はないか　□ 傾き・床鳴りはないか　□ 水回りの状態　□ 共用部の管理状態（マンション）　□ 修繕積立金・管理費と長期修繕計画　□ 周辺の騒音・日当たり・治安　□ ハザードマップの確認　□ 境界・越境の状況（戸建て・土地）</p><p style="font-size:.78rem;color:var(--muted);margin-top:10px">※中古住宅では既存住宅状況調査（インスペクション）の利用も検討されます。</p></div></section>'
    +disclaimerBox();
 }
@@ -659,7 +664,7 @@ function vArticle(slug){
 function vTools(){
   return bc([["無料ツール",null]])
    +'<section class="sec"><h1 class="sec-t" style="font-size:1.8rem">無料<b>ツール</b></h1><div class="grid g2">'
-   +[["tools/ai-sell-diagnosis","AI売却診断","仲介・買取・リースバックの適合度と準備チェックリスト"],["tools/selling-cost","売却費用シミュレーター","仲介手数料・印紙税・手取り額の概算"],["tools/capital-gains-tax","譲渡所得税シミュレーター","3,000万円控除・長期短期税率対応の概算"],["tools/mortgage","住宅ローンシミュレーター","元利均等の月額返済の概算"]].map(function(x){return '<a class="card rv" data-i="1" href="'+h(x[0])+'"><h3>'+x[1]+"</h3><p>"+x[2]+"</p></a>"}).join("")+"</div>"+disclaimerBox()+"</section>";
+   +[["tools/ai-sell-diagnosis","AI売却診断","仲介・買取・リースバックの適合度と準備チェックリスト","diagnosis"],["tools/selling-cost","売却費用シミュレーター","仲介手数料・印紙税・手取り額の概算","cost"],["tools/capital-gains-tax","譲渡所得税シミュレーター","3,000万円控除・長期短期税率対応の概算","tax"],["tools/mortgage","住宅ローンシミュレーター","元利均等の月額返済の概算","mortgage"]].map(function(x){return '<a class="card rv" data-i="1" href="'+h(x[0])+'">'+timg(x[3],x[1])+'<h3>'+x[1]+"</h3><p>"+x[2]+"</p></a>"}).join("")+"</div>"+disclaimerBox()+"</section>";
 }
 function toolNote(){return '<div class="warnbox"><b>免責：</b>本ツールの結果は概算の参考情報です。税率・制度（基準日: '+esc(CALC.TAX_CONF.asOf)+'）は改正される場合があります。実際の金額・税額は不動産会社・税理士・税務署・金融機関にご確認ください。</div>'}
 
@@ -814,7 +819,9 @@ var PAGES={
  "data-policy":{t:"データ出典方針",b:function(){return p("REALPORTが扱うデータの出典と取り扱い方針です。")
   +h2("相場・取引データ")+p("価格相場は公的データ（国土交通省 不動産情報ライブラリ／地価公示等）を出典とし、データ時点・出典名・出典URLを各ページに明記します。<b>接続前のエリアには推定値を表示せず「データ準備中」と表示します。</b>")
   +h2("人口・地理データ")+p("人口は国勢調査ベースの概数をWikipediaから引用しています。エリア概要は公開情報をもとに編集部が作成しています。")
-  +h2("画像")+p("エリア写真等はWikipedia / Wikimedia Commonsから引用し、各画像に撮影者・ライセンス（CC BY-SA等）のクレジットと出典リンクを表示しています。CC BY-SAのライセンス条件に基づく帰属表示です。")
+  +h2("画像")+p("エリア写真・カードのテーマ画像はすべてWikipedia / Wikimedia Commonsから引用しています。エリアページの写真は各ページにクレジットを表示し、カードのテーマ画像のクレジットは下記に一覧します（画像のtitle属性でも確認できます）。CC BY-SA等のライセンス条件に基づく帰属表示です。")
+  +h2("テーマ画像クレジット一覧")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
+  +Object.keys(DATA.themeImages||{}).map(function(k){var t=DATA.themeImages[k];return "<li><b>"+esc(k)+"</b>（出典記事: "+esc(t.article||"")+"） — "+esc(t.credit)+' ／ <a href="'+esc(t.source)+'" target="_blank" rel="noopener">出典ページ</a></li>'}).join("")+"</ul>"
   +h2("税制・制度")+p("税率・制度値には基準日を付し、国税庁等の一次情報へのリンクを添えます。改正時は更新します。")}},
  "advertising-policy":{t:"広告掲載ポリシー",b:function(){return p("REALPORTは、アフィリエイト広告・純広告・タイアップ等により運営費を得る場合があります。")
   +h2("PR表記")+p("広告・アフィリエイトリンクを含むコンテンツには「PR」表記を付し、広告リンクには rel=\"sponsored nofollow\" を設定しています。")

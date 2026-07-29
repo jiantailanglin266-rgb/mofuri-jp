@@ -475,7 +475,15 @@ for (const [prefSlug, rows] of Object.entries(wdAreas)) {
   }
 }
 
+/* ---- テーマ画像（Wikipedia/Commons・カードのパネリング用） ---- */
+const themePath = join(ROOT, "tools", "theme-images.json");
+const themeImages = existsSync(themePath) ? JSON.parse(readFileSync(themePath, "utf-8")) : {};
+// market テーマは新宿のエリア写真を再利用
+if (imgMap["shinjuku-ku"] && !themeImages.market)
+  themeImages.market = { file: imgMap["shinjuku-ku"].file, credit: imgMap["shinjuku-ku"].credit, source: imgMap["shinjuku-ku"].source, article: "新宿区" };
+
 const DATA = {
+  themeImages,
   regions: REGIONS.map(([slug, name]) => ({ id: "rg_" + slug.replace(/-/g, "_"), slug, names: { ja: name } })),
   prefectures: PREFS.map(([slug, name, rg]) => ({
     id: "pf_" + slug.replace(/-/g, "_"), slug, regionId: "rg_" + rg, names: { ja: name } })),

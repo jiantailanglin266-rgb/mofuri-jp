@@ -1,0 +1,93 @@
+{
+ "sell": {
+  "file": "images/themes/sell.jpg",
+  "credit": "Photo: Naganonosoujirou / Wikimedia Commons, Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Zenkei1.jpg",
+  "article": "一戸建て",
+  "wikiFile": "File:Zenkei1.jpg"
+ },
+ "inheritance": {
+  "file": "images/themes/inheritance.jpg",
+  "credit": "Photo: S kitahashi / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Hakogike_house01.jpg",
+  "article": "古民家",
+  "wikiFile": "File:Hakogike_house01.jpg"
+ },
+ "relocation": {
+  "file": "images/themes/relocation.jpg",
+  "credit": "Photo: Johann H. Addicks - addicks@gmx.net / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Umzugslift.jpg",
+  "article": "引越し",
+  "wikiFile": "File:Umzugslift.jpg"
+ },
+ "vacant-house": {
+  "file": "images/themes/vacant-house.jpg",
+  "credit": "Photo: Suikotei / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Kato-ke_Jyutaku_Hamazashiki.jpg",
+  "article": "空き家",
+  "wikiFile": "File:Kato-ke_Jyutaku_Hamazashiki.jpg"
+ },
+ "mortgage": {
+  "file": "images/themes/mortgage.jpg",
+  "credit": "Photo: 不明 / Wikimedia Commons, Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Bank_of_Japan_headquarters_in_Tokyo,_Japan.jpg",
+  "article": "日本銀行",
+  "wikiFile": "File:Bank_of_Japan_headquarters_in_Tokyo,_Japan.jpg"
+ },
+ "assessment": {
+  "file": "images/themes/assessment.jpg",
+  "credit": "Photo: Rufino / Wikimedia Commons, CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Hermandad_-_friendship.jpg",
+  "article": "握手",
+  "wikiFile": "File:Hermandad_-_friendship.jpg"
+ },
+ "diagnosis": {
+  "file": "images/themes/diagnosis.jpg",
+  "credit": "Photo: User:Bios~commonswiki / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Kompas_Sofia.JPG",
+  "article": "方位磁針",
+  "wikiFile": "File:Kompas_Sofia.JPG"
+ },
+ "relport_hero": {
+  "file": "images/themes/relport_hero.jpg",
+  "credit": "Photo: Kentaro Iemoto from Tokyo, Japan / Wikimedia Commons, CC BY-SA 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Airborne_imagery_Yokohama_City_(4274354758).jpg",
+  "article": "横浜港",
+  "wikiFile": "File:Airborne_imagery_Yokohama_City_(4274354758).jpg"
+ },
+ "cost": {
+  "file": "images/themes/cost.jpg",
+  "credit": "Photo: RegoParkRen / Wikimedia Commons, CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Series_F_10000_yen_front.jpg",
+  "article": "日本銀行券",
+  "wikiFile": "File:Series_F_10000_yen_front.jpg"
+ },
+ "story": {
+  "file": "images/themes/story.jpg",
+  "credit": "Photo: Ocdp / Wikimedia Commons, CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Omotesando_Hills_004.jpg",
+  "article": "表参道ヒルズ",
+  "wikiFile": "File:Omotesando_Hills_004.jpg"
+ },
+ "tax": {
+  "file": "images/themes/tax.jpg",
+  "credit": "Photo: Miyuki Meinaka / Wikimedia Commons, Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Kasumigaseki_1_and_2_chome,_Chiyoda.jpg",
+  "article": "霞が関",
+  "wikiFile": "File:Kasumigaseki_1_and_2_chome,_Chiyoda.jpg"
+ },
+ "buy": {
+  "file": "images/themes/buy.jpg",
+  "credit": "Photo: Aimaimyi / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Harumi_-01.jpg",
+  "article": "晴海 (東京都中央区)",
+  "wikiFile": "File:Harumi_-01.jpg"
+ },
+ "divorce": {
+  "file": "images/themes/divorce.jpg",
+  "credit": "Photo: いろは団地 / Wikimedia Commons, CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:%E5%A4%9A%E6%91%A9%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%BF%E3%82%A6%E3%83%B3%E3%81%AE%E8%A1%97%E4%B8%A6%E3%81%BF.jpg",
+  "article": "多摩ニュータウン",
+  "wikiFile": "File:多摩ニュータウンの街並み.jpg"
+ }
+}
