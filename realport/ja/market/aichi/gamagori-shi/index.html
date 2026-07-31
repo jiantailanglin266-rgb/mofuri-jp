@@ -310,6 +310,25 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   .hero .btn-g,#mcta .btn-g{animation:none}
   html{scroll-behavior:auto}
 }
+/* ── 右下チャットボット ── */
+#cbBtn{position:fixed;right:22px;bottom:22px;z-index:110;width:58px;height:58px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:var(--disp);font-weight:700;font-size:.9rem;
+  box-shadow:0 12px 32px -8px rgba(11,11,12,.5);transition:transform .4s var(--ez)}
+#cbBtn:hover{transform:translateY(-3px)}
+#cbBtn::after{content:"";position:absolute;inset:-5px;border:1px solid rgba(197,161,90,.55);border-radius:50%;animation:sonar 3.2s var(--ez) infinite}
+#cbPanel{position:fixed;right:22px;bottom:92px;z-index:111;width:380px;max-width:calc(100vw - 32px);
+  background:var(--card);border:1px solid var(--ink);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column}
+#cbPanel[hidden]{display:none}
+#cbPanel .agent-log{max-height:46vh;min-height:120px}
+.cb-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--hair)}
+.cb-head b{font-family:var(--serif);font-size:.95rem;display:block}
+.cb-head small{font-size:.66rem;color:var(--muted);display:block}
+.cb-head .ai-badge{width:34px;height:34px;font-size:.7rem}
+#cbClose{margin-left:auto;background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:4px 8px}
+#cbClose:hover{color:var(--ink)}
+#cbPanel .agent-form input{padding:10px 14px;font-size:.86rem}
+#cbPanel .agent-form .btn{padding:10px 16px;font-size:.8rem}
 /* ── mobile fixed cta ── */
 #mcta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:90;background:var(--dark);border-top:1px solid rgba(197,161,90,.3);padding:10px 14px}
 #mcta a{display:block;text-align:center}
@@ -326,6 +345,9 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   #mcta{display:block}
   footer{padding-bottom:130px}
   .sonar{width:220px;height:220px;right:-40px;top:8%}
+  #cbBtn{bottom:78px;right:14px;width:52px;height:52px}
+  #cbPanel{right:0;left:0;bottom:0;width:100%;max-width:100%;border-radius:14px 14px 0 0;border-left:none;border-right:none;border-bottom:none}
+  #cbPanel .agent-log{max-height:44vh}
 }
 @media(max-width:640px){
   .hd{gap:8px}
@@ -368,6 +390,14 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
 <ul><li>都道府県: 愛知県</li><li>人口: 約null万人（国勢調査ベースの概数・出典 Wikipedia）</li><li>相場データ: 戸建て（成約価格集計（2025年・年間）） 2025年（成約）: 平均1,987万円・㎡単価110,360円・46件（出典 国土交通省 不動産情報ライブラリ（不動産価格情報 XIT001・成約価格・2025年）・2025-12-31時点）、マンション（成約価格集計（2025年・年間）） 2025年（成約）: 平均1,807万円・㎡単価143,636円・15件（出典 国土交通省 不動産情報ライブラリ（不動産価格情報 XIT001・成約価格・2025年）・2025-12-31時点）</li></ul>
 <h2>売却時のポイント</h2><p>相場は物件の条件（駅距離・築年・面積・状態）により幅があります。売却検討時は複数社の査定で実際の価格帯をご確認ください。</p><p>写真: Photo: Bariston / Wikimedia Commons, CC BY-SA 4.0</p><p>本サイトの情報は一般的な参考情報であり、正式な査定ではありません。価格・成約を保証するものではなく、税務・法務の個別判断は専門家にご確認ください。本サイトにはアフィリエイト広告（PR）を含む場合があります。</p><p>最終更新: 2026-07-27</p></div></main>
 <div id="mcta"><a class="btn btn-g" id="mctaBtn" href="#">無料で査定サービスを比較する</a></div>
+<button id="cbBtn" aria-label="AIチャット相談を開く" aria-expanded="false"><span>AI</span></button>
+<div id="cbPanel" role="dialog" aria-label="AIチャット相談" hidden>
+  <div class="cb-head"><span class="ai-badge" aria-hidden="true">AI</span><div><b>AIチャット相談</b><small>相場・費用・売却の疑問に即答（無料）</small></div><button id="cbClose" aria-label="閉じる">✕</button></div>
+  <div class="agent-log" id="cbLog" aria-live="polite"></div>
+  <div class="agent-chips" id="cbChips"></div>
+  <form class="agent-form" id="cbForm"><input id="cbInput" type="text" maxlength="200" placeholder="例: 札幌市の相場は？" autocomplete="off" aria-label="質問を入力"><button class="btn btn-g" type="submit">送信</button></form>
+  <p class="agent-note" style="margin:8px 0 0">参考情報です。査定額・税務・法務の判断は行いません。入力は外部送信されません。</p>
+</div>
 <footer><div class="wrap">
   <div class="ft" id="ftLinks"></div>
   <div class="legalline" id="ftLegal"></div>
@@ -1166,6 +1196,34 @@ window.agentAsk=function(q){
   var typing=agentPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
   setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("agentLog");if(log)log.scrollTop=log.scrollHeight},480);
 };
+/* ---- 右下チャットボット（応答エンジンは agentReply を共有・全ページ常駐） ---- */
+function cbPush(role,html){
+  var log=document.getElementById("cbLog");if(!log)return null;
+  var d=document.createElement("div");d.className="amsg "+role;d.innerHTML=html;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;return d;
+}
+window.cbAsk=function(q){
+  q=String(q||"").trim();if(!q)return;
+  cbPush("user",esc(q));
+  track("agent_message",{q:q.slice(0,60),src:"float"});
+  var typing=cbPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
+  setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("cbLog");if(log)log.scrollTop=log.scrollHeight},480);
+};
+function cbToggle(open){
+  var p=document.getElementById("cbPanel"),b=document.getElementById("cbBtn");
+  if(!p||!b)return;
+  var show=open!=null?open:p.hidden;
+  p.hidden=!show;b.setAttribute("aria-expanded",show);
+  if(show){
+    var log=document.getElementById("cbLog");
+    if(log&&!log.firstChild){
+      cbPush("bot","こんにちは⚓ REALPORTのAIチャット相談です。相場・費用・売却の疑問にお答えします。");
+      document.getElementById("cbChips").innerHTML=AGENT_CHIPS.map(function(c){return '<button type="button" onclick="cbAsk(\''+c+'\')">'+c+"</button>"}).join("");
+    }
+    var inp=document.getElementById("cbInput");if(inp&&window.innerWidth>900)inp.focus();
+    track("chatbot_open",{});
+  }
+}
 /* 背景の蛍光紫テキストマーキー（12ライン・不動産ワード英語・右上→左下） */
 function buildBgWords(){
   var el=document.getElementById("bgWords");if(!el||el.firstChild)return;
@@ -1194,6 +1252,9 @@ function reveal(){
 
 /* ====== 初期化 ====== */
 buildBgWords();
+document.getElementById("cbBtn").addEventListener("click",function(){cbToggle()});
+document.getElementById("cbClose").addEventListener("click",function(){cbToggle(false)});
+document.getElementById("cbForm").addEventListener("submit",function(e){e.preventDefault();var inp=document.getElementById("cbInput");window.cbAsk(inp.value);inp.value=""});
 state.view=parse(location.pathname);
 render();
 window.addEventListener("popstate",function(){state.view=parse(location.pathname);render()});

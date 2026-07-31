@@ -310,6 +310,25 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   .hero .btn-g,#mcta .btn-g{animation:none}
   html{scroll-behavior:auto}
 }
+/* ── 右下チャットボット ── */
+#cbBtn{position:fixed;right:22px;bottom:22px;z-index:110;width:58px;height:58px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:var(--disp);font-weight:700;font-size:.9rem;
+  box-shadow:0 12px 32px -8px rgba(11,11,12,.5);transition:transform .4s var(--ez)}
+#cbBtn:hover{transform:translateY(-3px)}
+#cbBtn::after{content:"";position:absolute;inset:-5px;border:1px solid rgba(197,161,90,.55);border-radius:50%;animation:sonar 3.2s var(--ez) infinite}
+#cbPanel{position:fixed;right:22px;bottom:92px;z-index:111;width:380px;max-width:calc(100vw - 32px);
+  background:var(--card);border:1px solid var(--ink);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column}
+#cbPanel[hidden]{display:none}
+#cbPanel .agent-log{max-height:46vh;min-height:120px}
+.cb-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--hair)}
+.cb-head b{font-family:var(--serif);font-size:.95rem;display:block}
+.cb-head small{font-size:.66rem;color:var(--muted);display:block}
+.cb-head .ai-badge{width:34px;height:34px;font-size:.7rem}
+#cbClose{margin-left:auto;background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:4px 8px}
+#cbClose:hover{color:var(--ink)}
+#cbPanel .agent-form input{padding:10px 14px;font-size:.86rem}
+#cbPanel .agent-form .btn{padding:10px 16px;font-size:.8rem}
 /* ── mobile fixed cta ── */
 #mcta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:90;background:var(--dark);border-top:1px solid rgba(197,161,90,.3);padding:10px 14px}
 #mcta a{display:block;text-align:center}
@@ -326,6 +345,9 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   #mcta{display:block}
   footer{padding-bottom:130px}
   .sonar{width:220px;height:220px;right:-40px;top:8%}
+  #cbBtn{bottom:78px;right:14px;width:52px;height:52px}
+  #cbPanel{right:0;left:0;bottom:0;width:100%;max-width:100%;border-radius:14px 14px 0 0;border-left:none;border-right:none;border-bottom:none}
+  #cbPanel .agent-log{max-height:44vh}
 }
 @media(max-width:640px){
   .hd{gap:8px}
@@ -367,6 +389,14 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
 <main><div class="wrap" id="app"><h1>固定資産税は売却時にどうなる？ — 日割り精算の慣行と注意点</h1><p>固定資産税・都市計画税は1月1日時点の所有者に課税されます。売買での日割り精算の慣行（起算日1/1と4/1）と契約時の注意点を解説します。</p><p>著者: REALPORT編集部 ／ 公開: 2026-07-10 ／ 更新: 2026-07-10</p><p>不動産を年の途中で売却しても、その年の固定資産税・都市計画税の納税義務者は「1月1日時点の所有者」、つまり売主のままです。そこで実務では、引き渡し日を境に日割りで買主と精算する慣行があります。</p><h2>精算の仕組み</h2><p>引き渡し日以降の分を買主が負担する形で、決済時に売買代金と一緒に精算金を受け取るのが一般的です。これは法律上の義務ではなく商慣行であり、精算するかどうか・どう計算するかは契約で定めます。</p><h2>起算日に注意</h2><p>日割り計算の起算日には「1月1日」（関東で多いとされる）と「4月1日」（関西で多いとされる）の2つの流儀があり、どちらを使うかで精算額が変わります。契約書にどちらの起算日で計算するか明記されているか確認しましょう。</p><h2>注意点</h2><p>・精算金は税務上、売買代金の一部として扱われます（譲渡所得の計算に含める必要があります） ・納税通知書が届く前（1〜5月頃）の決済では、前年度の税額で仮精算し、確定後に再精算するか、前年度額で確定とするかを取り決めます ・マンションの管理費・修繕積立金も同様に日割り精算するのが一般的です</p><p>*納税通知書は査定時から必要になる書類です。売却を考え始めたら手元に用意しておきましょう。*</p>
 <p>本サイトの情報は一般的な参考情報であり、正式な査定ではありません。価格・成約を保証するものではなく、税務・法務の個別判断は専門家にご確認ください。本サイトにはアフィリエイト広告（PR）を含む場合があります。</p><p>最終更新: 2026-07-27</p></div></main>
 <div id="mcta"><a class="btn btn-g" id="mctaBtn" href="#">無料で査定サービスを比較する</a></div>
+<button id="cbBtn" aria-label="AIチャット相談を開く" aria-expanded="false"><span>AI</span></button>
+<div id="cbPanel" role="dialog" aria-label="AIチャット相談" hidden>
+  <div class="cb-head"><span class="ai-badge" aria-hidden="true">AI</span><div><b>AIチャット相談</b><small>相場・費用・売却の疑問に即答（無料）</small></div><button id="cbClose" aria-label="閉じる">✕</button></div>
+  <div class="agent-log" id="cbLog" aria-live="polite"></div>
+  <div class="agent-chips" id="cbChips"></div>
+  <form class="agent-form" id="cbForm"><input id="cbInput" type="text" maxlength="200" placeholder="例: 札幌市の相場は？" autocomplete="off" aria-label="質問を入力"><button class="btn btn-g" type="submit">送信</button></form>
+  <p class="agent-note" style="margin:8px 0 0">参考情報です。査定額・税務・法務の判断は行いません。入力は外部送信されません。</p>
+</div>
 <footer><div class="wrap">
   <div class="ft" id="ftLinks"></div>
   <div class="legalline" id="ftLegal"></div>
@@ -1165,6 +1195,34 @@ window.agentAsk=function(q){
   var typing=agentPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
   setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("agentLog");if(log)log.scrollTop=log.scrollHeight},480);
 };
+/* ---- 右下チャットボット（応答エンジンは agentReply を共有・全ページ常駐） ---- */
+function cbPush(role,html){
+  var log=document.getElementById("cbLog");if(!log)return null;
+  var d=document.createElement("div");d.className="amsg "+role;d.innerHTML=html;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;return d;
+}
+window.cbAsk=function(q){
+  q=String(q||"").trim();if(!q)return;
+  cbPush("user",esc(q));
+  track("agent_message",{q:q.slice(0,60),src:"float"});
+  var typing=cbPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
+  setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("cbLog");if(log)log.scrollTop=log.scrollHeight},480);
+};
+function cbToggle(open){
+  var p=document.getElementById("cbPanel"),b=document.getElementById("cbBtn");
+  if(!p||!b)return;
+  var show=open!=null?open:p.hidden;
+  p.hidden=!show;b.setAttribute("aria-expanded",show);
+  if(show){
+    var log=document.getElementById("cbLog");
+    if(log&&!log.firstChild){
+      cbPush("bot","こんにちは⚓ REALPORTのAIチャット相談です。相場・費用・売却の疑問にお答えします。");
+      document.getElementById("cbChips").innerHTML=AGENT_CHIPS.map(function(c){return '<button type="button" onclick="cbAsk(\''+c+'\')">'+c+"</button>"}).join("");
+    }
+    var inp=document.getElementById("cbInput");if(inp&&window.innerWidth>900)inp.focus();
+    track("chatbot_open",{});
+  }
+}
 /* 背景の蛍光紫テキストマーキー（12ライン・不動産ワード英語・右上→左下） */
 function buildBgWords(){
   var el=document.getElementById("bgWords");if(!el||el.firstChild)return;
@@ -1193,6 +1251,9 @@ function reveal(){
 
 /* ====== 初期化 ====== */
 buildBgWords();
+document.getElementById("cbBtn").addEventListener("click",function(){cbToggle()});
+document.getElementById("cbClose").addEventListener("click",function(){cbToggle(false)});
+document.getElementById("cbForm").addEventListener("submit",function(e){e.preventDefault();var inp=document.getElementById("cbInput");window.cbAsk(inp.value);inp.value=""});
 state.view=parse(location.pathname);
 render();
 window.addEventListener("popstate",function(){state.view=parse(location.pathname);render()});

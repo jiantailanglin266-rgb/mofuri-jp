@@ -310,6 +310,25 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   .hero .btn-g,#mcta .btn-g{animation:none}
   html{scroll-behavior:auto}
 }
+/* ── 右下チャットボット ── */
+#cbBtn{position:fixed;right:22px;bottom:22px;z-index:110;width:58px;height:58px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:var(--disp);font-weight:700;font-size:.9rem;
+  box-shadow:0 12px 32px -8px rgba(11,11,12,.5);transition:transform .4s var(--ez)}
+#cbBtn:hover{transform:translateY(-3px)}
+#cbBtn::after{content:"";position:absolute;inset:-5px;border:1px solid rgba(197,161,90,.55);border-radius:50%;animation:sonar 3.2s var(--ez) infinite}
+#cbPanel{position:fixed;right:22px;bottom:92px;z-index:111;width:380px;max-width:calc(100vw - 32px);
+  background:var(--card);border:1px solid var(--ink);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column}
+#cbPanel[hidden]{display:none}
+#cbPanel .agent-log{max-height:46vh;min-height:120px}
+.cb-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--hair)}
+.cb-head b{font-family:var(--serif);font-size:.95rem;display:block}
+.cb-head small{font-size:.66rem;color:var(--muted);display:block}
+.cb-head .ai-badge{width:34px;height:34px;font-size:.7rem}
+#cbClose{margin-left:auto;background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:4px 8px}
+#cbClose:hover{color:var(--ink)}
+#cbPanel .agent-form input{padding:10px 14px;font-size:.86rem}
+#cbPanel .agent-form .btn{padding:10px 16px;font-size:.8rem}
 /* ── mobile fixed cta ── */
 #mcta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:90;background:var(--dark);border-top:1px solid rgba(197,161,90,.3);padding:10px 14px}
 #mcta a{display:block;text-align:center}
@@ -326,6 +345,9 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   #mcta{display:block}
   footer{padding-bottom:130px}
   .sonar{width:220px;height:220px;right:-40px;top:8%}
+  #cbBtn{bottom:78px;right:14px;width:52px;height:52px}
+  #cbPanel{right:0;left:0;bottom:0;width:100%;max-width:100%;border-radius:14px 14px 0 0;border-left:none;border-right:none;border-bottom:none}
+  #cbPanel .agent-log{max-height:44vh}
 }
 @media(max-width:640px){
   .hd{gap:8px}
@@ -367,6 +389,14 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
 <main><div class="wrap" id="app"><h1>不動産売却にかかる費用一覧 — 仲介手数料・税金・その他</h1><p>売却費用の中心は仲介手数料（法定上限：400万円超の部分は3%+消費税ほか速算式）。印紙税・登記費用・税金も含めた全体像を解説します。</p><p>著者: REALPORT編集部 ／ 公開: 2026-07-23 ／ 更新: 2026-07-23</p><p>不動産を売るときにも費用がかかります。手取り額を正しく見積もるため、主な費用を把握しておきましょう。</p><h2>仲介手数料（最大の費用）</h2><p>宅地建物取引業法に基づく報酬上限が定められています。売買価格400万円超の場合の速算式は「価格×3％＋6万円＋消費税」です（これは上限であり、交渉や会社の方針で下回ることもあります）。※800万円以下の物件については、2024年の告示改正で上限の特例が設けられています。詳細は国土交通省の告示をご確認ください。</p><h2>印紙税</h2><p>売買契約書に貼付します。契約金額に応じた税額で、不動産譲渡契約書には軽減措置が設けられている期間があります。最新の税額は国税庁のページで確認してください。</p><h2>登記関連費用</h2><p>・抵当権抹消登記 — ローンが残っていた場合に必要。登録免許税＋司法書士報酬 ・住所変更登記が必要になる場合もあります</p><h2>その他かかり得る費用</h2><p>・測量費（土地の境界が不明確な場合） ・解体費（更地渡しの場合） ・ハウスクリーニング・残置物処分 ・引っ越し費用</p><h2>税金</h2><p>譲渡益が出た場合は譲渡所得税・住民税がかかります。マイホームの3,000万円特別控除など特例があるため、該当しそうな場合は税理士・税務署に確認しましょう。</p><p>*金額は物件・契約により異なります。本記事の計算式は上限の目安であり、実額は各社の見積りでご確認ください。*</p>
 <h2>出典・参考資料</h2><ul><li><a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/inshi/7108.htm" rel="noopener">国税庁タックスアンサー No.7108 不動産の譲渡・消費貸借等に関する契約書（印紙税）</a></li><li><a href="https://www.mlit.go.jp/totikensangyo/const/1_6_bt_000249.html" rel="noopener">国土交通省：宅地建物取引業者が宅地又は建物の売買等に関して受けることができる報酬の額</a></li></ul><p>本サイトの情報は一般的な参考情報であり、正式な査定ではありません。価格・成約を保証するものではなく、税務・法務の個別判断は専門家にご確認ください。本サイトにはアフィリエイト広告（PR）を含む場合があります。</p><p>最終更新: 2026-07-27</p></div></main>
 <div id="mcta"><a class="btn btn-g" id="mctaBtn" href="#">無料で査定サービスを比較する</a></div>
+<button id="cbBtn" aria-label="AIチャット相談を開く" aria-expanded="false"><span>AI</span></button>
+<div id="cbPanel" role="dialog" aria-label="AIチャット相談" hidden>
+  <div class="cb-head"><span class="ai-badge" aria-hidden="true">AI</span><div><b>AIチャット相談</b><small>相場・費用・売却の疑問に即答（無料）</small></div><button id="cbClose" aria-label="閉じる">✕</button></div>
+  <div class="agent-log" id="cbLog" aria-live="polite"></div>
+  <div class="agent-chips" id="cbChips"></div>
+  <form class="agent-form" id="cbForm"><input id="cbInput" type="text" maxlength="200" placeholder="例: 札幌市の相場は？" autocomplete="off" aria-label="質問を入力"><button class="btn btn-g" type="submit">送信</button></form>
+  <p class="agent-note" style="margin:8px 0 0">参考情報です。査定額・税務・法務の判断は行いません。入力は外部送信されません。</p>
+</div>
 <footer><div class="wrap">
   <div class="ft" id="ftLinks"></div>
   <div class="legalline" id="ftLegal"></div>
@@ -1165,6 +1195,34 @@ window.agentAsk=function(q){
   var typing=agentPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
   setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("agentLog");if(log)log.scrollTop=log.scrollHeight},480);
 };
+/* ---- 右下チャットボット（応答エンジンは agentReply を共有・全ページ常駐） ---- */
+function cbPush(role,html){
+  var log=document.getElementById("cbLog");if(!log)return null;
+  var d=document.createElement("div");d.className="amsg "+role;d.innerHTML=html;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;return d;
+}
+window.cbAsk=function(q){
+  q=String(q||"").trim();if(!q)return;
+  cbPush("user",esc(q));
+  track("agent_message",{q:q.slice(0,60),src:"float"});
+  var typing=cbPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
+  setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("cbLog");if(log)log.scrollTop=log.scrollHeight},480);
+};
+function cbToggle(open){
+  var p=document.getElementById("cbPanel"),b=document.getElementById("cbBtn");
+  if(!p||!b)return;
+  var show=open!=null?open:p.hidden;
+  p.hidden=!show;b.setAttribute("aria-expanded",show);
+  if(show){
+    var log=document.getElementById("cbLog");
+    if(log&&!log.firstChild){
+      cbPush("bot","こんにちは⚓ REALPORTのAIチャット相談です。相場・費用・売却の疑問にお答えします。");
+      document.getElementById("cbChips").innerHTML=AGENT_CHIPS.map(function(c){return '<button type="button" onclick="cbAsk(\''+c+'\')">'+c+"</button>"}).join("");
+    }
+    var inp=document.getElementById("cbInput");if(inp&&window.innerWidth>900)inp.focus();
+    track("chatbot_open",{});
+  }
+}
 /* 背景の蛍光紫テキストマーキー（12ライン・不動産ワード英語・右上→左下） */
 function buildBgWords(){
   var el=document.getElementById("bgWords");if(!el||el.firstChild)return;
@@ -1193,6 +1251,9 @@ function reveal(){
 
 /* ====== 初期化 ====== */
 buildBgWords();
+document.getElementById("cbBtn").addEventListener("click",function(){cbToggle()});
+document.getElementById("cbClose").addEventListener("click",function(){cbToggle(false)});
+document.getElementById("cbForm").addEventListener("submit",function(e){e.preventDefault();var inp=document.getElementById("cbInput");window.cbAsk(inp.value);inp.value=""});
 state.view=parse(location.pathname);
 render();
 window.addEventListener("popstate",function(){state.view=parse(location.pathname);render()});

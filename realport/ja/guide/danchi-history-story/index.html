@@ -310,6 +310,25 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   .hero .btn-g,#mcta .btn-g{animation:none}
   html{scroll-behavior:auto}
 }
+/* ── 右下チャットボット ── */
+#cbBtn{position:fixed;right:22px;bottom:22px;z-index:110;width:58px;height:58px;border-radius:50%;
+  background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:var(--disp);font-weight:700;font-size:.9rem;
+  box-shadow:0 12px 32px -8px rgba(11,11,12,.5);transition:transform .4s var(--ez)}
+#cbBtn:hover{transform:translateY(-3px)}
+#cbBtn::after{content:"";position:absolute;inset:-5px;border:1px solid rgba(197,161,90,.55);border-radius:50%;animation:sonar 3.2s var(--ez) infinite}
+#cbPanel{position:fixed;right:22px;bottom:92px;z-index:111;width:380px;max-width:calc(100vw - 32px);
+  background:var(--card);border:1px solid var(--ink);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column}
+#cbPanel[hidden]{display:none}
+#cbPanel .agent-log{max-height:46vh;min-height:120px}
+.cb-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--hair)}
+.cb-head b{font-family:var(--serif);font-size:.95rem;display:block}
+.cb-head small{font-size:.66rem;color:var(--muted);display:block}
+.cb-head .ai-badge{width:34px;height:34px;font-size:.7rem}
+#cbClose{margin-left:auto;background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;padding:4px 8px}
+#cbClose:hover{color:var(--ink)}
+#cbPanel .agent-form input{padding:10px 14px;font-size:.86rem}
+#cbPanel .agent-form .btn{padding:10px 16px;font-size:.8rem}
 /* ── mobile fixed cta ── */
 #mcta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:90;background:var(--dark);border-top:1px solid rgba(197,161,90,.3);padding:10px 14px}
 #mcta a{display:block;text-align:center}
@@ -326,6 +345,9 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   #mcta{display:block}
   footer{padding-bottom:130px}
   .sonar{width:220px;height:220px;right:-40px;top:8%}
+  #cbBtn{bottom:78px;right:14px;width:52px;height:52px}
+  #cbPanel{right:0;left:0;bottom:0;width:100%;max-width:100%;border-radius:14px 14px 0 0;border-left:none;border-right:none;border-bottom:none}
+  #cbPanel .agent-log{max-height:44vh}
 }
 @media(max-width:640px){
   .hd{gap:8px}
@@ -367,6 +389,14 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
 <main><div class="wrap" id="app"><h1>日本住宅公団と団地の時代 — 2DKが変えた戦後の住まい</h1><p>1955年設立の日本住宅公団は、2DK・ダイニングキッチンという間取りとともに戦後日本の住まいを変えました。団地の歴史と現在をたどります。</p><p>著者: REALPORT編集部 ／ 公開: 2026-07-26 ／ 更新: 2026-07-26 ／ ファクトチェック済</p><p>郊外に整然と並ぶ白い中層アパート群——「団地」は、戦後日本の住宅不足を解決するために生まれ、日本人の暮らし方そのものを変えた存在でした。</p><h2>日本住宅公団の設立</h2><p>1955年、深刻な住宅不足を背景に日本住宅公団が設立されました。大都市圏で大量の集合住宅を供給する国策機関で、以後の高度経済成長期を通じて、郊外の大規模団地開発を牽引したとされています。</p><h2>2DKとダイニングキッチン</h2><p>公団住宅の代名詞が「2DK」です。食事の場と寝る場を分ける「食寝分離」の思想のもと、ダイニングキッチン（DK）という言葉と間取りが広まりました。ステンレス流し台や水洗トイレ、風呂付きといった当時としては先進的な設備は、「団地族」という流行語とともに、多くの世帯の憧れの暮らしと伝えられています。</p><h2>ニュータウンの時代へ</h2><p>1960〜70年代には、大阪の千里ニュータウン、東京の多摩ニュータウンに代表される大規模開発が進みました。日本住宅公団はその後、住宅・都市整備公団などへの改組を経て、2004年に独立行政法人都市再生機構（UR都市機構）へと引き継がれています。</p><h2>現在の団地と中古市場</h2><p>初期の団地は築60年を超えるものもあり、建て替え・再生・エレベーター後付けなどの取り組みが続いています。中古市場では、広い敷地と緑、リノベーション素材としての魅力が再評価される一方、旧耐震の建物や借地権・敷地権の形態など、購入時に確認すべき点も多い分野です。団地の歴史は、集合住宅の維持と再生という現代のマンション問題の先行事例でもあります。</p><p>--- ファクトノート：日本住宅公団の設立年（1955年）、UR都市機構への継承（2004年）、千里・多摩ニュータウンの位置づけは下記の公開資料・Wikipediaの記述に基づきます。設備・世相の描写は「伝えられています」として記述しました。本文の一部はWikipediaの記述を参考にしています（CC BY-SA 4.0）。</p>
 <h2>出典・参考資料</h2><ul><li><a href="https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E4%BD%8F%E5%AE%85%E5%85%AC%E5%9B%A3" rel="noopener">Wikipedia: 日本住宅公団</a></li><li><a href="https://ja.wikipedia.org/wiki/%E9%83%BD%E5%B8%82%E5%86%8D%E7%94%9F%E6%A9%9F%E6%A7%8B" rel="noopener">Wikipedia: 都市再生機構</a></li></ul><p>本サイトの情報は一般的な参考情報であり、正式な査定ではありません。価格・成約を保証するものではなく、税務・法務の個別判断は専門家にご確認ください。本サイトにはアフィリエイト広告（PR）を含む場合があります。</p><p>最終更新: 2026-07-27</p></div></main>
 <div id="mcta"><a class="btn btn-g" id="mctaBtn" href="#">無料で査定サービスを比較する</a></div>
+<button id="cbBtn" aria-label="AIチャット相談を開く" aria-expanded="false"><span>AI</span></button>
+<div id="cbPanel" role="dialog" aria-label="AIチャット相談" hidden>
+  <div class="cb-head"><span class="ai-badge" aria-hidden="true">AI</span><div><b>AIチャット相談</b><small>相場・費用・売却の疑問に即答（無料）</small></div><button id="cbClose" aria-label="閉じる">✕</button></div>
+  <div class="agent-log" id="cbLog" aria-live="polite"></div>
+  <div class="agent-chips" id="cbChips"></div>
+  <form class="agent-form" id="cbForm"><input id="cbInput" type="text" maxlength="200" placeholder="例: 札幌市の相場は？" autocomplete="off" aria-label="質問を入力"><button class="btn btn-g" type="submit">送信</button></form>
+  <p class="agent-note" style="margin:8px 0 0">参考情報です。査定額・税務・法務の判断は行いません。入力は外部送信されません。</p>
+</div>
 <footer><div class="wrap">
   <div class="ft" id="ftLinks"></div>
   <div class="legalline" id="ftLegal"></div>
@@ -1165,6 +1195,34 @@ window.agentAsk=function(q){
   var typing=agentPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
   setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("agentLog");if(log)log.scrollTop=log.scrollHeight},480);
 };
+/* ---- 右下チャットボット（応答エンジンは agentReply を共有・全ページ常駐） ---- */
+function cbPush(role,html){
+  var log=document.getElementById("cbLog");if(!log)return null;
+  var d=document.createElement("div");d.className="amsg "+role;d.innerHTML=html;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;return d;
+}
+window.cbAsk=function(q){
+  q=String(q||"").trim();if(!q)return;
+  cbPush("user",esc(q));
+  track("agent_message",{q:q.slice(0,60),src:"float"});
+  var typing=cbPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
+  setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("cbLog");if(log)log.scrollTop=log.scrollHeight},480);
+};
+function cbToggle(open){
+  var p=document.getElementById("cbPanel"),b=document.getElementById("cbBtn");
+  if(!p||!b)return;
+  var show=open!=null?open:p.hidden;
+  p.hidden=!show;b.setAttribute("aria-expanded",show);
+  if(show){
+    var log=document.getElementById("cbLog");
+    if(log&&!log.firstChild){
+      cbPush("bot","こんにちは⚓ REALPORTのAIチャット相談です。相場・費用・売却の疑問にお答えします。");
+      document.getElementById("cbChips").innerHTML=AGENT_CHIPS.map(function(c){return '<button type="button" onclick="cbAsk(\''+c+'\')">'+c+"</button>"}).join("");
+    }
+    var inp=document.getElementById("cbInput");if(inp&&window.innerWidth>900)inp.focus();
+    track("chatbot_open",{});
+  }
+}
 /* 背景の蛍光紫テキストマーキー（12ライン・不動産ワード英語・右上→左下） */
 function buildBgWords(){
   var el=document.getElementById("bgWords");if(!el||el.firstChild)return;
@@ -1193,6 +1251,9 @@ function reveal(){
 
 /* ====== 初期化 ====== */
 buildBgWords();
+document.getElementById("cbBtn").addEventListener("click",function(){cbToggle()});
+document.getElementById("cbClose").addEventListener("click",function(){cbToggle(false)});
+document.getElementById("cbForm").addEventListener("submit",function(e){e.preventDefault();var inp=document.getElementById("cbInput");window.cbAsk(inp.value);inp.value=""});
 state.view=parse(location.pathname);
 render();
 window.addEventListener("popstate",function(){state.view=parse(location.pathname);render()});
