@@ -95,7 +95,7 @@ function jsonLd(p) {
     out.push({ "@context": "https://schema.org", "@type": "Place", name: t.name, description: d155(t.summary),
       url: SITE + p.path, geo: { "@type": "GeoCoordinates", latitude: p.a.lat, longitude: p.a.lng },
       address: { "@type": "PostalAddress", addressRegion: nm(pf), addressCountry: "JP" },
-      ...(p.a.img ? { image: SITE + "/" + p.a.img } : {}) });
+      ...(p.a.img ? { image: SITE + "/" + p.a.img } : p.a.imgUrl ? { image: p.a.imgUrl } : {}) });
   }
   if (p.kind === "article") {
     const t = tr(p.a);

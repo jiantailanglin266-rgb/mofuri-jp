@@ -569,6 +569,19 @@ if (existsSync(allPath)) {
   console.log("個別ページ昇格: " + DATA.areas.filter(a => !a.cat).length + "エリア（うちcurated " + AREAS.length + "）");
 }
 
+/* ---- 全市区町村ページの写真（ja.wikipedia代表画像・Wikimedia公式サムネイル参照） ---- */
+const photoPath = join(ROOT, "tools", "area-photos.json");
+if (existsSync(photoPath)) {
+  const photos = JSON.parse(readFileSync(photoPath, "utf-8"));
+  let attached = 0;
+  for (const a of DATA.areas) {
+    if (a.cat || a.img) continue;
+    const ph = photos[a.slug];
+    if (ph) { a.imgUrl = ph.url; a.imgUrlSmall = ph.urlSmall || ph.url; a.imgCredit = ph.credit; a.imgSource = ph.source; attached++; }
+  }
+  console.log("area-photos: " + attached + "エリアに写真を適用（Wikipedia代表画像）");
+}
+
 /* dataLevel を相場データの有無から客観判定（1=地価公示あり 2=取引相場あり） */
 for (const m of DATA.marketData) {
   const a = DATA.areas.find(x => x.id === m.areaId);
