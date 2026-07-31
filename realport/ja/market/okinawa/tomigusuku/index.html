@@ -416,7 +416,7 @@ This montage image is created by Kugel~commonswiki. / Wikimedia Commons, CC BY-S
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=12",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=13",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
   /* 金利データ: 毎日自動更新されるため日付でキャッシュバスト */
   try{var rr=new XMLHttpRequest();rr.open("GET",b+"/rates.js?d="+new Date().toISOString().slice(0,10),false);rr.send();if(rr.status===200||rr.status===0){(0,eval)(rr.responseText)}}catch(e){}
@@ -470,22 +470,27 @@ window.toggleFav=function(slug){var f=lsGet("rp-fav",[]);var i=f.indexOf(slug);i
 function bc(items){var out=['<nav class="bc" aria-label="パンくず">'+A("","ホーム")];items.forEach(function(it){out.push('<span class="sep">›</span>'+(it[1]!=null?A(it[1],esc(it[0])):esc(it[0])))});return out.join("")+"</nav>"}
 function disclaimerBox(){return '<div class="notice"><b>ご利用にあたって：</b>'+esc(S.disclaimer)+"</div>"}
 function prBox(){return '<div class="notice"><span class="badge b-pr">PR</span> 本ページには広告（アフィリエイトリンク）を含む場合があります。掲載順・内容の方針は'+A("advertising-policy","広告掲載ポリシー")+'をご覧ください。</div>'}
-function demoBox(){return '<div class="warnbox"><span class="badge b-demo">デモ表示</span> 現在表示中のサービスはすべて<b>サンプル（デモ）</b>であり、実在のサービスではありません。提携開始後に実サービスへ差し替えます。</div>'}
+function demoBox(){return '<div class="warnbox"><span class="badge b-demo">デモ表示</span> このカテゴリの掲載枠は現在<b>サンプル（デモ）</b>であり、実在のサービスではありません。提携開始後に実サービスへ差し替えます。</div>'}
+function svcNotice(){return '<div class="notice"><b>掲載について：</b>一括査定の各サービスは<b>実在のサービス</b>で、提携社数などは各公式サイトの公表情報に基づきます（情報基準日を各ページに記載）。現在、当サイトはいずれのサービスとも提携しておらず、<b>リンクから収益を得ていません</b>。掲載順は運営母体・提携網・機能（匿名査定の可否等）を踏まえた編集部の判断であり、広告の有無とは無関係です。詳細は'+A("advertising-policy","広告掲載ポリシー")+"へ。</div>"}
 function faqBlock(faqs,title){var out=['<section class="sec"><h2 class="sec-t">'+(title||"よくある質問")+"</h2>"];faqs.forEach(function(f){out.push('<details class="faq"><summary>'+esc(f.q)+"</summary><div>"+esc(f.a)+"</div></details>")});return out.join("")+"</section>"}
 function svcCard(s,src){var t=tr(s);
   var cta=s.affiliateUrl
     ?'<a class="btn btn-g" href="'+esc(s.affiliateUrl)+'" rel="sponsored nofollow noopener" target="_blank" onclick="afClick(\''+s.id+'\',\''+esc(src)+'\')">公式サイトへ</a>'
+    :s.officialUrl
+    ?'<a class="btn btn-g" href="'+esc(s.officialUrl)+'" rel="nofollow noopener" target="_blank" onclick="afClick(\''+s.id+'\',\''+esc(src)+'\')">公式サイトへ ↗</a>'
     :'<span class="badge b-demo">掲載準備中（デモ）</span>';
   return '<article class="svc rv"><div class="rank">No.'+s.ranking+"</div>"
     +"<h3>"+esc(t.name)+" "+(s.isPR?'<span class="badge b-pr">PR</span>':"")+(s.isDemo?' <span class="badge b-demo">デモ</span>':"")+"</h3>"
     +'<p style="font-size:.87rem;color:var(--muted)">'+esc(t.desc)+"</p>"
-    +"<dl><dt>メリット</dt><dd>"+esc(t.merits)+"</dd><dt>注意点</dt><dd>"+esc(t.demerits)+"</dd><dt>おすすめの方</dt><dd>"+esc(t.target)+"</dd></dl>"
+    +"<dl>"+(s.partnerLabel?"<dt>提携規模</dt><dd>"+esc(s.partnerLabel)+"</dd>":"")
+    +(s.company?"<dt>運営</dt><dd>"+esc(s.company)+"</dd>":"")
+    +"<dt>メリット</dt><dd>"+esc(t.merits)+"</dd><dt>注意点</dt><dd>"+esc(t.demerits)+"</dd><dt>おすすめの方</dt><dd>"+esc(t.target)+"</dd></dl>"
     +'<div style="margin-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">'+cta+A("sell/assessment/"+s.slug,"詳細を見る","")+"</div></article>"}
 function ctaBlock(cat,src){
   var rule=DATA.ctaRules.find(function(r){return r.match.indexOf(cat)>=0})||DATA.ctaRules[1];
   var svcs=DATA.services.filter(function(s){return rule.kinds.indexOf(s.kind)>=0}).sort(function(a,b){return a.ranking-b.ranking}).slice(0,2);
   var out=['<aside class="result" style="margin:30px 0"><h3>'+esc(rule.label)+'</h3><p style="font-size:.83rem;color:var(--muted);margin-bottom:14px">複数サービスの比較から始めるのが失敗しにくいとされています。<span class="badge b-pr">PR</span></p>'];
-  svcs.forEach(function(s){var t=tr(s);out.push('<div class="rrow"><span>'+esc(t.name)+(s.isDemo?' <span class="badge b-demo">デモ</span>':"")+"</span><span>"+(s.affiliateUrl?'<a href="'+esc(s.affiliateUrl)+'" rel="sponsored nofollow noopener" target="_blank" onclick="afClick(\''+s.id+'\',\''+esc(src)+'\')">公式へ</a>':A("sell/assessment/"+s.slug,"詳細"))+"</span></div>")});
+  svcs.forEach(function(s){var t=tr(s);out.push('<div class="rrow"><span>'+esc(t.name)+(s.isDemo?' <span class="badge b-demo">デモ</span>':"")+"</span><span>"+(s.affiliateUrl?'<a href="'+esc(s.affiliateUrl)+'" rel="sponsored nofollow noopener" target="_blank" onclick="afClick(\''+s.id+'\',\''+esc(src)+'\')">公式へ</a>':s.officialUrl?'<a href="'+esc(s.officialUrl)+'" rel="nofollow noopener" target="_blank" onclick="afClick(\''+s.id+'\',\''+esc(src)+'\')">公式へ ↗</a>':A("sell/assessment/"+s.slug,"詳細"))+"</span></div>")});
   out.push('<div style="margin-top:14px">'+A("sell/assessment","査定サービスの比較を見る →","btn btn-o")+"</div></aside>");
   return out.join("")}
 function timg(key,alt){var t=DATA.themeImages&&DATA.themeImages[key];if(!t)return"";
@@ -582,7 +587,7 @@ function vHome(){
    +mainAreas().slice(0,6).map(areaCard).join("")+"</div>"
    +'<div style="margin-top:20px">'+A("market","47都道府県すべてを見る →","btn btn-o")+"</div></section>");
   /* 査定比較 */
-  out.push('<section class="sec"><h2 class="sec-t">不動産査定サービス<b>比較</b></h2>'+prBox()+demoBox()
+  out.push('<section class="sec"><h2 class="sec-t">不動産査定サービス<b>比較</b></h2>'+svcNotice()
    +DATA.services.filter(function(s){return s.kind==="assessment"}).sort(function(a,b){return a.ranking-b.ranking}).map(function(s){return svcCard(s,"home")}).join("")
    +'<div style="margin-top:8px">'+A("sell/assessment","比較・ランキングをすべて見る →","btn btn-o")+"</div></section>");
   /* AI診断 */
@@ -635,7 +640,7 @@ function vSell(){
    +photoMarquee("living")
    +'<section class="sec"><h2 class="sec-t">理由別<b>売却ガイド</b></h2><div class="grid g3">'
    +DATA.articles.filter(function(a){return["inheritance","divorce","vacant-house","relocation","mortgage"].indexOf(a.category)>=0}).map(artCard).join("")+"</div></section>"
-   +'<section class="sec"><h2 class="sec-t">査定サービス<b>比較</b></h2>'+prBox()+demoBox()
+   +'<section class="sec"><h2 class="sec-t">査定サービス<b>比較</b></h2>'+svcNotice()
    +DATA.services.filter(function(s){return s.kind==="assessment"}).map(function(s){return svcCard(s,"sell")}).join("")
    +ctaBlock("sell","sell")+"</section>"+disclaimerBox();
 }
@@ -654,11 +659,11 @@ function vBuy(){
 
 function vAssessment(){
   var svcs=DATA.services.slice().sort(function(a,b){return a.ranking-b.ranking});
-  var rows=svcs.map(function(s){var t=tr(s);return "<tr><td><b>"+esc(t.name)+"</b><br><span class='badge b-demo'>デモ</span></td><td class='mu'>"+({assessment:"一括査定",purchase:"買取",leaseback:"リースバック",landuse:"土地活用"})[s.kind]+"</td><td class='mu'>"+s.gate.propertyTypes.map(function(x){return({mansion:"マンション",house:"戸建て",land:"土地"})[x]}).join("・")+"</td><td class='mu'>"+(s.partnerCount==null?"—":s.partnerCount)+"</td><td>"+A("sell/assessment/"+s.slug,"詳細")+"</td></tr>"}).join("");
+  var rows=svcs.map(function(s){var t=tr(s);return "<tr><td><b>"+esc(t.name)+"</b>"+(s.isDemo?"<br><span class='badge b-demo'>デモ</span>":"")+"</td><td class='mu'>"+({assessment:"一括査定",purchase:"買取",leaseback:"リースバック",landuse:"土地活用"})[s.kind]+"</td><td class='mu'>"+s.gate.propertyTypes.map(function(x){return({mansion:"マンション",house:"戸建て",land:"土地"})[x]}).join("・")+"</td><td class='mu'>"+(s.partnerLabel?esc(s.partnerLabel):"—")+"</td><td>"+A("sell/assessment/"+s.slug,"詳細")+"</td></tr>"}).join("");
   return bc([["不動産を売る","sell"],["査定サービス比較",null]])
    +'<section class="sec"><h1 class="sec-t" style="font-size:1.8rem">不動産査定サービス<b>比較・ランキング</b></h1><p class="sec-d">一括査定・買取・リースバック・土地活用の各サービスを比較できます。最終更新: '+esc(S.updatedAt)+"</p>"
-   +prBox()+demoBox()
-   +'<div class="tblwrap"><table class="tb"><caption style="text-align:left;font-size:.78rem;color:var(--muted);padding-bottom:8px">比較表（提携会社数は提携開始後に掲載します）</caption><thead><tr><th>サービス</th><th>種別</th><th>対応物件</th><th>提携会社数</th><th></th></tr></thead><tbody>'+rows+"</tbody></table></div>"
+   +svcNotice()
+   +'<div class="tblwrap"><table class="tb"><caption style="text-align:left;font-size:.78rem;color:var(--muted);padding-bottom:8px">比較表（提携規模は各公式サイトの公表値・時点併記）</caption><thead><tr><th>サービス</th><th>種別</th><th>対応物件</th><th>提携規模（公式公表）</th><th></th></tr></thead><tbody>'+rows+"</tbody></table></div>"
    +svcs.map(function(s){return svcCard(s,"assessment")}).join("")
    +"</section>"
    +faqBlock([
@@ -673,13 +678,15 @@ function vService(slug){
   var s=findBy(DATA.services,slug); if(!s)return vNotFound();
   var t=tr(s);
   return bc([["不動産を売る","sell"],["査定サービス比較","sell/assessment"],[t.name,null]])
-   +'<section class="sec"><h1 class="sec-t" style="font-size:1.6rem">'+esc(t.name)+' <span class="badge b-pr">PR</span>'+(s.isDemo?' <span class="badge b-demo">デモ</span>':"")+"</h1>"
-   +demoBox()+svcCard(s,"service-detail")
+   +'<section class="sec"><h1 class="sec-t" style="font-size:1.6rem">'+esc(t.name)+(s.isPR?' <span class="badge b-pr">PR</span>':"")+(s.isDemo?' <span class="badge b-demo">デモ</span>':"")+"</h1>"
+   +(s.isDemo?demoBox():svcNotice())+svcCard(s,"service-detail")
    +'<div class="card" style="margin-top:16px"><h3>基本情報</h3><div class="tblwrap"><table class="tb"><tbody>'
    +"<tr><th>サービス種別</th><td>"+({assessment:"一括査定",purchase:"買取",leaseback:"リースバック",landuse:"土地活用"})[s.kind]+"</td></tr>"
    +"<tr><th>対応物件</th><td>"+s.gate.propertyTypes.map(function(x){return({mansion:"マンション",house:"戸建て",land:"土地"})[x]}).join("・")+"</td></tr>"
-   +"<tr><th>提携会社数</th><td>提携開始後に掲載</td></tr>"
-   +"<tr><th>運営会社</th><td>デモ表示のため未掲載</td></tr>"
+   +"<tr><th>提携規模（公式公表）</th><td>"+(s.partnerLabel?esc(s.partnerLabel):"提携開始後に掲載")+"</td></tr>"
+   +"<tr><th>運営会社</th><td>"+(s.company?esc(s.company):"デモ表示のため未掲載")+"</td></tr>"
+   +(s.factsAsOf?"<tr><th>情報基準日</th><td>"+esc(s.factsAsOf)+"（各公式サイトの公表情報に基づく）</td></tr>":"")
+   +(s.officialUrl?'<tr><th>公式サイト</th><td><a href="'+esc(s.officialUrl)+'" rel="nofollow noopener" target="_blank">'+esc(s.officialUrl)+" ↗</a></td></tr>":"")
    +"</tbody></table></div></div>"+ctaBlock("assessment","service-"+slug)+"</section>"+disclaimerBox();
 }
 
@@ -1000,7 +1007,7 @@ var PAGES={
  "advertising-policy":{t:"広告掲載ポリシー",b:function(){return p("REALPORTは、アフィリエイト広告・純広告・タイアップ等により運営費を得る場合があります。")
   +h2("PR表記")+p("広告・アフィリエイトリンクを含むコンテンツには「PR」表記を付し、広告リンクには rel=\"sponsored nofollow\" を設定しています。")
   +h2("編集の独立")+p("広告の有無は、記事の評価・ランキングの掲載順の決定と分離して運用します。掲載順の根拠は各比較ページに記載します。")
-  +h2("現在の状態")+p("現在掲載中のサービスはすべて<b>デモ（サンプル）</b>であり、広告契約は発生していません。提携開始後、本ページを更新します。")}},
+  +h2("現在の状態")+p("一括査定の比較ページには実在のサービスを掲載していますが、現時点で当サイトはいずれのサービスとも<b>提携しておらず、リンクから収益を得ていません</b>。掲載順は運営母体・提携網・機能を踏まえた編集部の判断です。買取・リースバック・土地活用の一部枠はデモ（サンプル）表示です。アフィリエイト提携を開始した際は、該当リンクにPR表記とsponsored属性を付与し、本ページを更新します。")}},
  "privacy":{t:"プライバシーポリシー",b:function(){return p("REALPORT（以下「当サイト」）における個人情報等の取り扱い方針です。")
   +h2("1. 取得する情報")+p("当サイトは会員登録機能を持たず、氏名・住所等の個人情報をサーバーで取得・保存しません。診断結果・お気に入りはお使いの端末（ブラウザのlocalStorage）にのみ保存され、外部へ送信されません。")
   +h2("2. アクセス解析・広告")+p("当サイトはアクセス解析（Google Analytics等）を導入する場合があります。解析ツールはCookie等を利用しますが、個人を特定する情報は含まれません。導入時は本ページを更新します。")

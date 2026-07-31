@@ -141,7 +141,8 @@ function artText(body) {
 }
 function svcText(s) {
   const t = tr(s);
-  return `<h3>${esc(t.name)}【PR${s.isDemo ? "・デモ" : ""}】</h3><p>${esc(t.desc)}</p><p>メリット: ${esc(t.merits)}</p><p>注意点: ${esc(t.demerits)}</p><p>おすすめ: ${esc(t.target)}</p>`;
+  const tag = s.isPR ? "【PR】" : s.isDemo ? "【デモ】" : "";
+  return `<h3>${esc(t.name)}${tag}</h3><p>${esc(t.desc)}</p>${s.company ? `<p>運営: ${esc(s.company)}</p>` : ""}${s.partnerLabel ? `<p>提携規模: ${esc(s.partnerLabel)}</p>` : ""}<p>メリット: ${esc(t.merits)}</p><p>注意点: ${esc(t.demerits)}</p><p>おすすめ: ${esc(t.target)}</p>${s.officialUrl ? `<p><a href="${esc(s.officialUrl)}" rel="nofollow noopener">公式サイト</a></p>` : ""}`;
 }
 function faqText(fs) { return "<h2>よくある質問</h2>" + fs.map(f => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join(""); }
 function prerender(p) {
@@ -177,7 +178,7 @@ ${p.a.sources?.length ? `<h2>出典・参考資料</h2><ul>${p.a.sources.map(s =
     case "guideCat":
       return `<h1>${catName(p.c)}の記事一覧</h1><ul>${DATA.articles.filter(a => a.category === p.c).map(a => `<li><a href="${SITE}/ja/guide/${a.slug}/">${esc(tr(a).title)}</a></li>`).join("")}</ul>${foot}`;
     case "assessment":
-      return `<h1>不動産査定サービス比較・ランキング</h1><p>本ページには広告（PR）を含む場合があります。現在の掲載はすべてデモ（サンプル）であり、実在のサービスではありません。</p>${DATA.services.sort((a, b) => a.ranking - b.ranking).map(svcText).join("")}${foot}`;
+      return `<h1>不動産査定サービス比較・ランキング</h1><p>一括査定の各サービスは実在のサービスで、提携社数などは各公式サイトの公表情報に基づきます（情報基準日併記）。現在、当サイトはいずれのサービスとも提携しておらず、リンクから収益を得ていません。掲載順は運営母体・提携網・機能を踏まえた編集部の判断です。買取・リースバック・土地活用の一部枠はデモ表示です。</p>${DATA.services.sort((a, b) => a.ranking - b.ranking).map(svcText).join("")}${foot}`;
     case "purchase":
       return `<h1>不動産買取サービス比較</h1><p>不動産会社が直接買い取る方式。スピード重視の売却に向くとされますが、仲介より価格が低くなる傾向があるとされます。</p>${DATA.services.filter(s => s.kind === "purchase").map(svcText).join("")}${foot}`;
     case "leaseback":

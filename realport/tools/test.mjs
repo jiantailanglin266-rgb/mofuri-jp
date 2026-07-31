@@ -93,7 +93,16 @@ ok("data.js: 1行・パース可能・デモ識別子", () => {
   const src = readFileSync(join(ROOT, "data.js"), "utf-8");
   const D = JSON.parse(src.match(/^var DATA=(.*);$/m)[1]);
   assert.strictEqual(D.prefectures.length, 47);
-  for (const s of D.services) { assert.strictEqual(s.isDemo, true); assert.ok(s.translations.ja.name.includes("デモ")); }
+  // デモ枠は「デモ」明記、実在サービスは出典情報(運営会社・公式URL・基準日)必須
+  const real = D.services.filter(s => !s.isDemo);
+  assert.ok(real.length >= 6, "real services: " + real.length);
+  for (const s of D.services) {
+    if (s.isDemo) { assert.ok(s.translations.ja.name.includes("デモ"), "demo without label: " + s.slug); }
+    else {
+      assert.ok(s.officialUrl && s.company && s.partnerLabel && s.factsAsOf, "real service missing facts: " + s.slug);
+      if (!s.affiliateUrl) assert.strictEqual(s.isPR, false, "PR without affiliate: " + s.slug); // 未提携でPR表記は不可
+    }
+  }
   for (const a of D.areas) assert.ok(D.prefectures.find(p => p.id === a.prefId));
   // 架空相場の混入チェック: marketData に非null価格がある場合は出典必須
   for (const m of D.marketData) if (m.avgPrice != null || m.pricePerSqm != null) assert.ok(m.sourceName && m.sourceUrl && m.sourceDate, "market data without source");
