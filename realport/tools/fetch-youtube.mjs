@@ -24,7 +24,9 @@ const ORGS = [
   { key: "rehouse", name: "三井のリハウス",             type: "企業公式", must: ["リハウス"], search: "三井のリハウス 公式" },
   { key: "livable", name: "東急リバブル",               type: "企業公式", must: ["リバブル"], search: "東急リバブル 公式" },
   { key: "nomu",    name: "ノムコム（野村不動産ソリューションズ）", type: "企業公式", must: ["ノムコム", "野村不動産"], search: "ノムコム 野村不動産" },
-  { key: "zentaku", name: "全宅連（ハトマーク）",        type: "業界団体", must: ["宅地建物", "全宅連", "ハトマーク"], search: "全国宅地建物取引業協会" }
+  { key: "zentaku", name: "全宅連（ハトマーク）",        type: "業界団体", must: ["宅地建物", "全宅連", "ハトマーク"], search: "全国宅地建物取引業協会" },
+  { key: "fudosandaigaku", name: "棚田行政書士の不動産大学", type: "メディア", must: ["不動産大学"], search: "棚田行政書士の不動産大学" },
+  { key: "rakumachi", name: "楽待",                    type: "メディア", must: ["楽待"], search: "楽待 不動産投資チャンネル" }
 ];
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -65,11 +67,15 @@ async function fetchRss(channelId) {
 const channels = [];
 for (const org of ORGS) {
   let hit = null;
-  try {
-    const results = await searchChannels(org.search);
-    hit = results.find(c => org.must.some(m => c.title.includes(m)));
-    if (!hit && results.length) console.log("  候補:", org.name, "→", results.slice(0, 3).map(c => c.title).join(" / "));
-  } catch (e) {}
+  // 連続リクエストで検索結果が空になることがあるため、間隔を空けて最大3回試行
+  for (let attempt = 1; attempt <= 3 && !hit; attempt++) {
+    try {
+      const results = await searchChannels(org.search);
+      hit = results.find(c => org.must.some(m => c.title.includes(m)));
+      if (!hit && results.length) { console.log("  候補:", org.name, "→", results.slice(0, 3).map(c => c.title).join(" / ")); break; }
+      if (!hit) await sleep(4000 * attempt);
+    } catch (e) { await sleep(4000 * attempt); }
+  }
   if (!hit) { console.log("NG:", org.name, "(公式チャンネルを解決できず)"); continue; }
   try {
     const videos = await fetchRss(hit.channelId);
@@ -79,7 +85,7 @@ for (const org of ORGS) {
       fetchedAt: new Date().toISOString().slice(0, 10) });
     console.log("OK:", org.name, "→", hit.title, "(" + videos.length + "本)");
   } catch (e) { console.log("RSS FAIL:", org.name, String(e.message || e)); }
-  await sleep(600);
+  await sleep(2500);
 }
 writeFileSync(join(ROOT, "tools", "youtube-channels.json"), JSON.stringify(channels, null, 1));
 console.log("\ndone:", channels.length, "チャンネル /", channels.reduce((s, c) => s + c.videos.length, 0), "動画");

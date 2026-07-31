@@ -349,7 +349,7 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=8",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=9",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
 })();
 (function(){
@@ -864,7 +864,7 @@ function vVideos(){
    +'<div class="notice"><b>このページについて：</b>掲載動画はすべて各機関・企業の公式YouTubeチャンネルの公開コンテンツであり、権利は各チャンネルに帰属します。表示にはYouTubeの公式埋め込み機能（youtube-nocookie.com）を使用しています。当サイトは掲載チャンネルの運営者と提携・協賛関係にはありません。'+(chs.length?"　最終取得: "+esc(chs[0].fetchedAt):"")+"</div>";
   if(!chs.length)return head+'<div class="prep">動画データの取得準備中です。</div></section>';
   var out=[head];
-  [["行政・公的機関",["行政","公的機関"]],["企業公式・業界団体",["企業公式","業界団体"]]].forEach(function(g){
+  [["行政・公的機関",["行政","公的機関"]],["企業公式・業界団体",["企業公式","業界団体"]],["不動産メディア・教育",["メディア"]]].forEach(function(g){
     var list=chs.filter(function(c){return g[1].indexOf(c.type)>=0});
     if(!list.length)return;
     out.push('<h2 class="sec-t" style="font-size:1.25rem;margin-top:40px">'+g[0]+"</h2>");

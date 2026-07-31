@@ -488,7 +488,8 @@ const marqueeImages = existsSync(mqPath) ? JSON.parse(readFileSync(mqPath, "utf-
 
 /* ---- 公式YouTubeチャンネル（tools/fetch-youtube.mjs が生成。定期再実行で最新化） ---- */
 const ytPath = join(ROOT, "tools", "youtube-channels.json");
-const videoChannels = existsSync(ytPath) ? JSON.parse(readFileSync(ytPath, "utf-8")) : [];
+const videoChannels = (existsSync(ytPath) ? JSON.parse(readFileSync(ytPath, "utf-8")) : [])
+  .filter(c => c.videos && c.videos.length); // 動画0本のチャンネルは表示しない
 
 const DATA = {
   themeImages,
