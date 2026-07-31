@@ -535,6 +535,40 @@ const DATA = {
   }
 };
 
+/* ---- 全国市区町村の成約集計（market-all.json）→ データのある自治体を個別ページへ昇格 ---- */
+const allPath = join(ROOT, "tools", "market-all.json");
+DATA.mkt = {};
+if (existsSync(allPath)) {
+  const all = JSON.parse(readFileSync(allPath, "utf-8"));
+  DATA.siteSettings.mktSource = {
+    name: all.sourceName, url: all.sourceUrl, date: all.sourceDate,
+    year: all.year, minCount: all.minCount, fetchedAt: all.fetchedAt
+  };
+  const curatedNameSet = new Set(AREAS.map(a => a[1] + "|" + a[2])); // curatedは既存marketDataを使う
+  const prefSlugByCode = Object.fromEntries(PREFS.map(([slug], i) => [String(i + 1).padStart(2, "0"), slug]));
+  // (prefSlug|名前) → area の索引
+  const areaByName = new Map();
+  for (const a of DATA.areas) {
+    const pfSlug = a.prefId.replace("pf_", "").replace(/_/g, "-");
+    areaByName.set(pfSlug + "|" + a.translations.ja.name, a);
+  }
+  let matched = 0, unmatched = 0; const unmatchedSample = [];
+  for (const r of all.rows) {
+    const pfSlug = prefSlugByCode[r.pref]; if (!pfSlug) continue;
+    if (curatedNameSet.has(r.name + "|" + pfSlug)) continue; // curated 18はスキップ（重複防止）
+    const a = areaByName.get(pfSlug + "|" + r.name);
+    if (!a) { unmatched++; if (unmatchedSample.length < 8) unmatchedSample.push(r.name); continue; }
+    matched++;
+    (DATA.mkt[a.slug] = DATA.mkt[a.slug] || []).push([r.type, r.avg, r.med, r.ppsm, r.n]);
+    if (a.cat) { delete a.cat; a.dataLevel = 2; // カタログ層から昇格
+      a.translations.ja.summary = a.translations.ja.name + "（" + prefNameBySlug[pfSlug] + "）のエリアページです。国土交通省の公的データに基づく" + all.year + "年の成約価格集計を掲載しています。";
+      a.translations.ja.sellNotes = "相場は物件の条件（駅距離・築年・面積・状態）により幅があります。売却検討時は複数社の査定で実際の価格帯をご確認ください。";
+    }
+  }
+  console.log("market-all: 集計" + all.rows.length + "行 → 反映" + matched + "行 / 非対応" + unmatched + "行（政令市の区など: " + unmatchedSample.join("・") + "…）");
+  console.log("個別ページ昇格: " + DATA.areas.filter(a => !a.cat).length + "エリア（うちcurated " + AREAS.length + "）");
+}
+
 /* dataLevel を相場データの有無から客観判定（1=地価公示あり 2=取引相場あり） */
 for (const m of DATA.marketData) {
   const a = DATA.areas.find(x => x.id === m.areaId);

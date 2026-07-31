@@ -12,6 +12,15 @@ const LOCALES = ["ja"]; // en 追加時はここに足し、data.js の translat
 const S = DATA.siteSettings;
 
 const tr = o => o.translations.ja;
+// 全国成約集計（DATA.mkt・コンパクト形式）→ marketData互換の行に展開
+const mktOf = a => {
+  const src = DATA.siteSettings.mktSource, arr = (DATA.mkt || {})[a.slug];
+  if (!src || !arr) return [];
+  return arr.map(r => ({ areaId: a.id, propertyType: r[0], period: src.year + "年（成約）",
+    avgPrice: r[1], medianPrice: r[2], pricePerSqm: r[3], txCount: r[4],
+    label: "成約価格集計（" + src.year + "年・年間）", unit: "件",
+    sourceName: src.name, sourceUrl: src.url, sourceDate: src.date, updatedAt: src.fetchedAt }));
+};
 const nm = o => o.names.ja;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const prefOf = a => DATA.prefectures.find(p => p.id === a.prefId);
@@ -115,7 +124,7 @@ function jsonLd(p) {
   return out;
 }
 function rankMembers(r) {
-  let list = DATA.areas.filter(a => !a.cat);
+  let list = DATA.areas.filter(a => !a.cat && a.population != null);
   if (r.slugs) return r.slugs.map(s => DATA.areas.find(a => a.slug === s)).filter(Boolean);
   if (r.filter?.prefSlug) { const pf = DATA.prefectures.find(x => x.slug === r.filter.prefSlug); list = list.filter(a => a.prefId === pf.id); }
   if (r.sort === "population") list.sort((a, b) => b.population - a.population);
@@ -139,11 +148,11 @@ function prerender(p) {
     case "home":
       return `<h1>${esc(S.name)} — ${esc(S.tagline)}</h1><p>${esc(S.desc)}</p>
 <h2>主要コンテンツ</h2><ul>${["sell/|不動産売却ガイド", "buy/|不動産購入ガイド", "market/|エリア別相場データベース", "sell/assessment/|査定サービス比較", "guide/|お役立ち情報", "tools/|無料ツール"].map(x => { const [u, l] = x.split("|"); return `<li><a href="${SITE}/ja/${u}">${l}</a></li>`; }).join("")}</ul>
-<h2>掲載エリア</h2><ul>${DATA.areas.filter(a => !a.cat).map(a => `<li><a href="${SITE}/ja/market/${prefOf(a).slug}/${a.slug}/">${esc(tr(a).name)}の不動産相場・売却情報</a></li>`).join("")}</ul><p>ほか全国${DATA.areas.filter(a => a.cat).length}市区町村を収録（個別ページは順次公開）。</p>${faqText(DATA.faqs)}${foot}`;
+<h2>掲載エリア</h2><ul>${DATA.areas.filter(a => !a.cat && a.population != null).map(a => `<li><a href="${SITE}/ja/market/${prefOf(a).slug}/${a.slug}/">${esc(tr(a).name)}の不動産相場・売却情報</a></li>`).join("")}</ul><p>ほか全国${DATA.areas.length}市区町村を収録し、うち${DATA.areas.filter(a => !a.cat).length}自治体は成約価格つきの個別ページを公開（各都道府県ページ参照）。</p>${faqText(DATA.faqs)}${foot}`;
     case "area": {
       const t = tr(p.a), pf = prefOf(p.a);
       return `<h1>${esc(t.name)}の不動産相場・売却情報</h1><p>${esc(t.summary)}</p>
-<ul><li>都道府県: ${esc(nm(pf))}</li><li>人口: 約${p.a.population}万人（国勢調査ベースの概数・出典 Wikipedia）</li><li>相場データ: ${(() => { const mds = DATA.marketData.filter(m => m.areaId === p.a.id); if (!mds.length) return "準備中（公的データ接続後に出典・更新日つきで公開。実データに基づかない推定相場は表示しません）"; const tn = { mansion: "マンション", house: "戸建て", land: "土地" }; return mds.map(m => `${tn[m.propertyType]}${m.label ? `（${esc(m.label)}）` : ""} ${m.period}: ${m.avgPrice != null ? `平均${Math.round(m.avgPrice / 10000).toLocaleString()}万円・` : ""}㎡単価${m.pricePerSqm != null ? m.pricePerSqm.toLocaleString() + "円" : "—"}${m.medianPerSqm != null ? `・中央値${m.medianPerSqm.toLocaleString()}円/㎡` : ""}・${m.txCount != null ? m.txCount + (m.unit || "件") : ""}（出典 ${esc(m.sourceName)}・${esc(m.sourceDate)}時点）`).join("、"); })()}</li></ul>
+<ul><li>都道府県: ${esc(nm(pf))}</li><li>人口: 約${p.a.population}万人（国勢調査ベースの概数・出典 Wikipedia）</li><li>相場データ: ${(() => { const mds = DATA.marketData.filter(m => m.areaId === p.a.id).concat(mktOf(p.a)); if (!mds.length) return "準備中（公的データ接続後に出典・更新日つきで公開。実データに基づかない推定相場は表示しません）"; const tn = { mansion: "マンション", house: "戸建て", land: "土地" }; return mds.map(m => `${tn[m.propertyType]}${m.label ? `（${esc(m.label)}）` : ""} ${m.period}: ${m.avgPrice != null ? `平均${Math.round(m.avgPrice / 10000).toLocaleString()}万円・` : ""}㎡単価${m.pricePerSqm != null ? m.pricePerSqm.toLocaleString() + "円" : "—"}${m.medianPerSqm != null ? `・中央値${m.medianPerSqm.toLocaleString()}円/㎡` : ""}・${m.txCount != null ? m.txCount + (m.unit || "件") : ""}（出典 ${esc(m.sourceName)}・${esc(m.sourceDate)}時点）`).join("、"); })()}</li></ul>
 <h2>売却時のポイント</h2><p>${esc(t.sellNotes)}</p>${p.a.imgCredit ? `<p>写真: ${esc(p.a.imgCredit)}</p>` : ""}${foot}`;
     }
     case "pref": {

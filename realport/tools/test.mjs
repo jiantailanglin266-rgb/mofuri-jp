@@ -98,18 +98,25 @@ ok("data.js: 1行・パース可能・デモ識別子", () => {
   // 架空相場の混入チェック: marketData に非null価格がある場合は出典必須
   for (const m of D.marketData) if (m.avgPrice != null || m.pricePerSqm != null) assert.ok(m.sourceName && m.sourceUrl && m.sourceDate, "market data without source");
 });
-ok("data.js: カタログ層の整合性（cat:1・slug一意・参照整合・捏造なし）", () => {
+ok("data.js: カタログ層/昇格エリアの整合性（slug一意・参照整合・捏造なし）", () => {
   const src = readFileSync(join(ROOT, "data.js"), "utf-8");
   const D = JSON.parse(src.match(/^var DATA=(.*);$/m)[1]);
-  const cat = D.areas.filter(a => a.cat);
-  assert.ok(cat.length > 1500, "catalog too small: " + cat.length);
+  assert.ok(D.areas.length > 1700, "areas too small: " + D.areas.length);
+  const promoted = D.areas.filter(a => !a.cat && a.population == null);
+  assert.ok(promoted.length > 400, "promoted too small: " + promoted.length);
   const slugs = new Set();
   for (const a of D.areas) { assert.ok(!slugs.has(a.slug), "dup slug " + a.slug); slugs.add(a.slug); }
-  for (const a of cat) {
+  for (const a of D.areas.filter(x => x.cat)) {
     assert.ok(D.prefectures.find(p => p.id === a.prefId), "dangling pref " + a.slug);
     assert.strictEqual(a.dataLevel, 0);          // 未整備は0のまま（評価を捏造しない）
-    assert.strictEqual(a.population, null);       // curated用の万人表示欄は使わない
     assert.ok(a.translations.ja.name);
+  }
+  // 昇格エリアは全て成約集計を持ち、最低件数を満たす
+  assert.ok(D.siteSettings.mktSource && D.siteSettings.mktSource.name, "mktSource missing");
+  for (const a of promoted) {
+    const rows = D.mkt[a.slug];
+    assert.ok(rows && rows.length, "promoted without mkt: " + a.slug);
+    for (const r of rows) assert.ok(r[4] >= D.siteSettings.mktSource.minCount, "count below min: " + a.slug);
   }
 });
 

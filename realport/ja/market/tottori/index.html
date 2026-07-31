@@ -2,10 +2,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>鳥取県の不動産相場情報 | 市区町村一覧 | REALPORT</title>
-<meta name="description" content="鳥取県の不動産相場・売却情報。収録19市区町村（詳細ページは準備中）。">
+<meta name="description" content="鳥取県の不動産相場・売却情報。収録19市区町村、詳細ページ3エリア公開中。">
 <meta name="theme-color" content="#0b0b0c">
 <meta property="og:title" content="鳥取県の不動産相場情報 | 市区町村一覧 | REALPORT">
-<meta property="og:description" content="鳥取県の不動産相場・売却情報。収録19市区町村（詳細ページは準備中）。">
+<meta property="og:description" content="鳥取県の不動産相場・売却情報。収録19市区町村、詳細ページ3エリア公開中。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="REALPORT">
 <meta property="og:locale" content="ja_JP">
@@ -363,7 +363,7 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   <a class="hcta" id="hcta" href="#">無料で査定比較</a>
   <button class="mbtn" id="mbtn" aria-label="メニュー" aria-expanded="false">☰</button>
 </div><div id="mnav"></div></header>
-<main><div class="wrap" id="app"><h1>鳥取県の不動産相場情報</h1><p>鳥取県の市区町村別詳細ページは準備中です。相場データの整備が完了したエリアから順次公開します。</p><h2>鳥取県の市区町村一覧（個別ページ準備中・出典 Wikidata）</h2><p>鳥取市、岩美町、米子市、境港市、倉吉市、若桜町、日野町、八頭町、湯梨浜町、南部町、江府町、三朝町、智頭町、日吉津村、伯耆町、琴浦町、日南町、大山町、北栄町</p><p>本サイトの情報は一般的な参考情報であり、正式な査定ではありません。価格・成約を保証するものではなく、税務・法務の個別判断は専門家にご確認ください。本サイトにはアフィリエイト広告（PR）を含む場合があります。</p><p>最終更新: 2026-07-27</p></div></main>
+<main><div class="wrap" id="app"><h1>鳥取県の不動産相場情報</h1><h2>詳細ページ公開中のエリア</h2><ul><li><a href="https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/market/tottori/tottori/">鳥取市の不動産相場・売却情報</a></li><li><a href="https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/market/tottori/yonago/">米子市の不動産相場・売却情報</a></li><li><a href="https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/market/tottori/sakaiminato/">境港市の不動産相場・売却情報</a></li></ul><h2>鳥取県の市区町村一覧（個別ページ準備中・出典 Wikidata）</h2><p>岩美町、倉吉市、若桜町、日野町、八頭町、湯梨浜町、南部町、江府町、三朝町、智頭町、日吉津村、伯耆町、琴浦町、日南町、大山町、北栄町</p><p>本サイトの情報は一般的な参考情報であり、正式な査定ではありません。価格・成約を保証するものではなく、税務・法務の個別判断は専門家にご確認ください。本サイトにはアフィリエイト広告（PR）を含む場合があります。</p><p>最終更新: 2026-07-27</p></div></main>
 <div id="mcta"><a class="btn btn-g" id="mctaBtn" href="#">無料で査定サービスを比較する</a></div>
 <footer><div class="wrap">
   <div class="ft" id="ftLinks"></div>
@@ -378,7 +378,7 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=9",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=10",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
 })();
 (function(){
@@ -402,6 +402,15 @@ function region(id){return DATA.regions.find(function(r){return r.id===id})}
 function areasOfPref(pid){return DATA.areas.filter(function(a){return a.prefId===pid&&!a.cat})}
 function catAreasOfPref(pid){return DATA.areas.filter(function(a){return a.prefId===pid&&a.cat})}
 function curatedAreas(){return DATA.areas.filter(function(a){return !a.cat})}
+function mainAreas(){return DATA.areas.filter(function(a){return !a.cat&&a.population!=null})}
+function popTxt(a){if(a.population!=null)return "人口 約"+a.population+"万人";
+  if(a.popRaw)return "人口 約"+(a.popRaw>=10000?(a.popRaw/10000).toFixed(1)+"万人":a.popRaw.toLocaleString("ja-JP")+"人");return ""}
+/* 全国成約集計（DATA.mkt・コンパクト形式）→ marketData互換の行に展開 */
+function mktRows(a){var src=DATA.siteSettings.mktSource,arr=(DATA.mkt||{})[a.slug];if(!src||!arr)return[];
+  return arr.map(function(r){return{areaId:a.id,propertyType:r[0],period:src.year+"年（成約）",
+    avgPrice:r[1],medianPrice:r[2],pricePerSqm:r[3],txCount:r[4],
+    label:"成約価格集計（"+src.year+"年・年間）",unit:"件",
+    sourceName:src.name,sourceUrl:src.url,sourceDate:src.date,updatedAt:src.fetchedAt}})}
 function findBy(arr,slug){return arr.find(function(o){return o.slug===slug})}
 function catName(c){return({sell:"売却の基本",inheritance:"相続",divorce:"離婚",relocation:"住み替え","vacant-house":"空き家",cost:"費用",tax:"税金",mortgage:"住宅ローン",assessment:"査定サービス",story:"住まいの歴史",buy:"購入"})[c]||c}
 /* GA4/計測スタブ: gtag導入後に自動で送信される */
@@ -450,7 +459,8 @@ function photoMarquee(pool,rev){var arr=(DATA.marqueeImages||{})[pool];if(!arr||
   return '<div class="pmq" aria-hidden="true"><div class="pmqtrack'+(rev?" rev":"")+'">'+items+items+"</div></div>"}
 function artCard(a){var t=tr(a);return '<a class="card rv" href="'+h("guide/"+a.slug)+'" data-i="1">'+timg(a.category,catName(a.category)+"のイメージ")+'<span class="tagline">'+esc(catName(a.category))+"</span><h3>"+esc(t.title)+'</h3><p>'+esc(t.metaDesc.slice(0,64))+'…</p><p style="margin-top:8px;font-size:.72rem">'+dt(a.publishedAt)+(a.factCheck==="reviewed"?' <span class="badge b-fact">ファクトチェック済</span>':"")+"</p></a>"}
 function areaCard(a){var t=tr(a);var pf=pref(a.prefId);
-  return '<a class="card rv" href="'+h("market/"+pf.slug+"/"+a.slug)+'" data-i="1">'+(a.img?'<img src="'+B+"/"+a.img+'" alt="'+esc(t.name)+'の街並み" loading="lazy" style="border-radius:8px;height:120px;width:100%;object-fit:cover;margin-bottom:12px">':"")+"<h3>"+esc(t.name)+'</h3><p>'+esc(nm(pf))+"／人口 約"+a.population+'万人</p><p style="font-size:.72rem;margin-top:6px">相場データ準備中</p></a>'}
+  var pop=popTxt(a);
+  return '<a class="card rv" href="'+h("market/"+pf.slug+"/"+a.slug)+'" data-i="1">'+(a.img?'<img src="'+B+"/"+a.img+'" alt="'+esc(t.name)+'の街並み" loading="lazy" style="border-radius:8px;height:120px;width:100%;object-fit:cover;margin-bottom:12px">':"")+"<h3>"+esc(t.name)+'</h3><p>'+esc(nm(pf))+(pop?"／"+pop:"")+'</p><p style="font-size:.72rem;margin-top:6px">'+(a.dataLevel>=2?"成約価格データ掲載中":"相場データ準備中")+"</p></a>"}
 /* 記事本文レンダラ（マイクロ記法） */
 function artBody(body){
   var out=[],lines=body.split(/\n/),buf=[];
@@ -515,7 +525,7 @@ function vHome(){
   out.push(photoMarquee("city"));
   /* エリア */
   out.push('<section class="sec"><h2 class="sec-t">エリアから<b>相場を調べる</b></h2><p class="sec-d">主要都市の掲載エリア。相場データは公的データの接続準備中です。</p><div class="grid g3">'
-   +curatedAreas().slice(0,6).map(areaCard).join("")+"</div>"
+   +mainAreas().slice(0,6).map(areaCard).join("")+"</div>"
    +'<div style="margin-top:20px">'+A("market","47都道府県すべてを見る →","btn btn-o")+"</div></section>");
   /* 査定比較 */
   out.push('<section class="sec"><h2 class="sec-t">不動産査定サービス<b>比較</b></h2>'+prBox()+demoBox()
@@ -639,8 +649,8 @@ function vLeaseback(){
 function vMarket(){
   var out=[bc([["エリア相場",null]])
    +'<section class="sec"><h1 class="sec-t" style="font-size:1.8rem">エリア別<b>相場データベース</b></h1><p class="sec-d">'+esc(S.dataNote)+" 出典と更新日は各ページに明記します。</p>"];
-  out.push('<p style="font-size:.82rem;color:var(--muted);margin-bottom:20px">全国'+DATA.areas.filter(function(a){return a.cat}).length+'市区町村を収録（Wikidata由来の基本情報）。市区町村別の相場ページは主要エリアから順次公開しています。</p>');
-  out.push('<h2 class="sec-t" style="font-size:1.2rem">主要掲載エリア</h2><div class="grid g3">'+curatedAreas().map(areaCard).join("")+"</div>");
+  out.push('<p style="font-size:.82rem;color:var(--muted);margin-bottom:20px">全国'+DATA.areas.length+'市区町村を収録。うち<b>'+curatedAreas().length+'自治体</b>は公的データ（2025年成約価格・地価公示）に基づく個別相場ページを公開しています。都道府県ページから全エリアにアクセスできます。</p>');
+  out.push('<h2 class="sec-t" style="font-size:1.2rem">主要掲載エリア</h2><div class="grid g3">'+mainAreas().map(areaCard).join("")+"</div>");
   DATA.regions.forEach(function(rg){
     var pfs=DATA.prefectures.filter(function(p){return p.regionId===rg.id});
     out.push('<h2 class="sec-t" style="font-size:1.1rem;margin-top:34px">'+esc(nm(rg))+'</h2><div style="display:flex;gap:8px;flex-wrap:wrap">'+pfs.map(function(p){return A("market/"+p.slug,esc(nm(p)),"btn btn-o")}).join("")+"</div>")});
@@ -670,9 +680,9 @@ function vArea(prefSlug,slug){
    +'<section class="sec"><h1 class="sec-t" style="font-size:1.8rem">'+esc(t.name)+'の<b>不動産相場・売却情報</b></h1>'
    +'<p class="sec-d">'+esc(t.name)+'（'+esc(nm(pf))+'）の不動産売却・購入を検討する方向けのエリア情報ページです。</p>'
    +(a.img?'<div class="areahero"><img src="'+B+"/"+a.img+'" alt="'+esc(t.name)+'の街並み"></div><p class="credit">'+esc(a.imgCredit||"")+(a.imgSource?' ／ <a href="'+esc(a.imgSource)+'" target="_blank" rel="noopener">出典（Wikimedia Commons）</a>':"")+"</p>":"")
-   +'<div class="stat"><div class="st">人口<b>約'+a.population+'万人</b><span style="font-size:.68rem">国勢調査ベースの概数（出典: Wikipedia）</span></div>'
+   +'<div class="stat">'+(popTxt(a)?'<div class="st">人口<b>'+popTxt(a).replace("人口 ","")+'</b><span style="font-size:.68rem">概数（出典: Wikipedia/Wikidata）</span></div>':"")
    +'<div class="st">都道府県<b>'+esc(nm(pf))+'</b></div>'
-   +'<div class="st">相場データ<b>準備中</b><span style="font-size:.68rem">公的データ接続後に公開</span></div></div>'
+   +'<div class="st">相場データ<b>'+(a.dataLevel>=2?"掲載中":a.dataLevel===1?"地価公示":"準備中")+'</b><span style="font-size:.68rem">'+(a.dataLevel>=1?"公的データに基づく集計":"公的データ接続後に公開")+"</span></div></div>"
    +'<button class="favbtn'+(isFav?" on":"")+'" onclick="toggleFav(\''+slug+'\')" aria-pressed="'+isFav+'">'+(isFav?"★ お気に入り登録済み":"☆ お気に入りに追加")+"</button>"
    +'<h2 class="ah2" style="margin-top:30px">エリア概要</h2><p>'+esc(t.summary)+"</p>"
    +marketSection(a,t)
@@ -684,7 +694,7 @@ function vArea(prefSlug,slug){
 }
 
 function marketSection(a,t){
-  var mds=DATA.marketData.filter(function(m){return m.areaId===a.id});
+  var mds=DATA.marketData.filter(function(m){return m.areaId===a.id}).concat(mktRows(a));
   if(!mds.length)return '<h2 class="ah2">相場情報（準備中）</h2><div class="prep">'+esc(t.name)+'の価格相場データは、公的データ（国土交通省 不動産取引価格情報等）の接続準備中です。<br>REALPORTでは、実データに基づかない推定相場は表示しません。<br><span style="font-size:.72rem">公開時には出典・データ時点・更新日を明記します。</span></div>';
   var tn={mansion:"マンション",house:"戸建て",land:"土地"};
   var rows=mds.map(function(m){
@@ -709,7 +719,7 @@ function vRanking(slug){
    +"</ol>"+ctaBlock("sell","ranking-"+slug)+"</section>"+disclaimerBox();
 }
 function rankMembers(r){
-  var list=curatedAreas();
+  var list=mainAreas();
   if(r.slugs)return r.slugs.map(function(s){return findBy(DATA.areas,s)}).filter(Boolean);
   if(r.filter&&r.filter.prefSlug){var pf=findBy(DATA.prefectures,r.filter.prefSlug);list=list.filter(function(a){return a.prefId===pf.id})}
   if(r.sort==="population")list.sort(function(a,b){return b.population-a.population});
@@ -955,7 +965,7 @@ function h2(s){return '<h2 class="ah2">'+s+"</h2>"}
 function vPage(key){var pg=PAGES[key];if(!pg)return vNotFound();
   return bc([[pg.t,null]])+'<section class="sec art"><h1 class="sec-t" style="font-size:1.7rem">'+esc(pg.t)+"</h1>"+pg.b()+'<p style="font-size:.72rem;color:var(--muted);margin-top:26px">最終更新: '+esc(S.updatedAt)+"</p></section>"}
 function vSitemapPage(){
-  var groups=[["売る",["sell","sell/assessment","sell/purchase","sell/leaseback"]],["買う",["buy"]],["相場",["market"].concat(curatedAreas().map(function(a){return "market/"+pref(a.prefId).slug+"/"+a.slug}))],["記事",["guide"].concat(DATA.articles.map(function(a){return "guide/"+a.slug}))],["ツール",["tools","tools/ai-sell-diagnosis","tools/selling-cost","tools/capital-gains-tax","tools/mortgage"]],["その他",["companies","professionals","rankings","faq","mypage","about","editorial-policy","data-policy","advertising-policy","privacy","terms","disclaimer","contact"]]];
+  var groups=[["売る",["sell","sell/assessment","sell/purchase","sell/leaseback"]],["買う",["buy"]],["相場",["market"].concat(mainAreas().map(function(a){return "market/"+pref(a.prefId).slug+"/"+a.slug}))],["記事",["guide"].concat(DATA.articles.map(function(a){return "guide/"+a.slug}))],["ツール",["tools","tools/ai-sell-diagnosis","tools/selling-cost","tools/capital-gains-tax","tools/mortgage"]],["その他",["companies","professionals","rankings","faq","mypage","about","editorial-policy","data-policy","advertising-policy","privacy","terms","disclaimer","contact"]]];
   return bc([["サイトマップ",null]])+'<section class="sec"><h1 class="sec-t" style="font-size:1.7rem">サイト<b>マップ</b></h1>'+groups.map(function(g){return '<h2 class="ah2">'+g[0]+'</h2><ul style="margin-left:22px">'+g[1].map(function(u){return "<li>"+A(u,u)+"</li>"}).join("")+"</ul>"}).join("")+"</section>";
 }
 function vNotFound(){return '<section class="sec" style="text-align:center;padding:90px 0"><h1 class="sec-t">ページが見つかりません</h1><p class="sec-d">URLをご確認いただくか、トップページからお探しください。</p>'+A("","トップへ戻る","btn btn-g")+"</section>"}
@@ -1083,7 +1093,7 @@ function agentParseYen(t){
 function agentAreaAnswer(a){
   var t=tr(a),pf=pref(a.prefId);
   if(a.cat)return esc(t.name)+"（"+esc(nm(pf))+"）は収録済みですが、個別の相場ページは準備中です。まずは"+A("market/"+pf.slug,esc(nm(pf))+"の相場ページ")+"をご覧ください。";
-  var mds=DATA.marketData.filter(function(m){return m.areaId===a.id});
+  var mds=DATA.marketData.filter(function(m){return m.areaId===a.id}).concat(mktRows(a));
   var s="<b>"+esc(t.name)+"</b>（"+esc(nm(pf))+"）の公的データに基づく集計です:<ul>";
   var tn={mansion:"マンション",house:"戸建て",land:"土地"};
   var got=false;
