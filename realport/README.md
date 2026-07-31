@@ -45,6 +45,17 @@ node tools/serve.mjs     # 3. http://localhost:3210 で確認
 2. `node tools/gen-data.mjs`
 3. `data.js?v=N` をバンプ → `node build.mjs` → 確認 → デプロイ
 
+### 動画ライブラリを最新化する（/ja/videos/）
+
+```bash
+cd realport
+node tools/fetch-youtube.mjs
+node tools/gen-data.mjs
+```
+
+→ `data.js?v=N` をバンプ → `node build.mjs` → デプロイ。
+公式チャンネル（国交省・国税庁・法務省・政府広報・UR・住宅金融支援機構・SUUMO・LIFULL HOME'S・三井のリハウス・東急リバブル）の最新12本ずつをRSSから再取得します。チャンネルの追加は `tools/fetch-youtube.mjs` の ORGS に1行足すだけ（検索クエリ＋名称照合で公式を自動解決）。
+
 ### 税率・制度の改正時
 
 1. `calc.js` の `TAX_CONF` を更新（`asOf` の基準日も更新）

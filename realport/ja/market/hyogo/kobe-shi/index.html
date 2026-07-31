@@ -134,6 +134,22 @@ h1.hero-t{font-family:var(--serif);font-size:2.55rem;line-height:1.5;font-weight
 .pmqi{width:280px;height:170px;flex:0 0 auto;overflow:hidden;border-radius:var(--r);border:1px solid var(--hair);margin:0;position:relative;background:var(--paper2)}
 .pmqi img{width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.02)}
 .pmqi figcaption{position:absolute;left:0;right:0;bottom:0;font-family:var(--mono);font-size:.58rem;color:#fff;background:linear-gradient(transparent,rgba(11,11,12,.7));padding:16px 9px 5px;letter-spacing:.1em}
+/* ── 動画ライブラリ（公式YouTube埋め込み・クリックで再生） ── */
+.vcard{background:var(--card);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .6s var(--ez),box-shadow .6s var(--ez),border-color .6s var(--ez)}
+.vcard:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--line)}
+.vthumb{position:relative;aspect-ratio:16/9;background:#000}
+.vthumb img{width:100%;height:100%;object-fit:cover}
+.vthumb::after{content:"▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;background:rgba(11,11,12,.22);transition:background .4s var(--ez)}
+.vcard:hover .vthumb::after{background:rgba(11,11,12,.45)}
+.vthumb.playing::after{content:none}
+.vthumb iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vmeta{padding:12px 14px 14px}
+.vmeta h3{font-size:.8rem;line-height:1.6;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+.vmeta .vd{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:7px}
+.vchhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:36px 0 14px;border-left:2px solid var(--red);padding-left:14px}
+.vchhead h3{font-family:var(--serif);font-size:1.08rem;font-weight:600}
+.vchhead a{font-size:.76rem;color:var(--muted)}
+.vchhead a:hover{color:var(--red)}
 /* ── sections ── */
 section.sec{padding:72px 0;background:transparent;position:relative}
 .sec-t{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:8px;letter-spacing:.02em}
@@ -344,7 +360,7 @@ Composition by User:Kyoww / Wikimedia Commons, CC BY-SA 3.0</p><p>本サイト�
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=7",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=8",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
 })();
 (function(){
@@ -404,6 +420,13 @@ function ctaBlock(cat,src){
   return out.join("")}
 function timg(key,alt){var t=DATA.themeImages&&DATA.themeImages[key];if(!t)return"";
   return '<figure class="thumb"><img src="'+B+"/"+t.file+'" alt="'+esc(alt||"")+'" loading="lazy" title="'+esc(t.credit)+'"></figure>'}
+function vidCard(v,chName){return '<div class="vcard rv" role="button" tabindex="0" onclick="playVid(this,\''+v.id+'\')" onkeydown="if(event.key===\'Enter\')playVid(this,\''+v.id+'\')">'
+  +'<div class="vthumb"><img src="https://i.ytimg.com/vi/'+v.id+'/hqdefault.jpg" alt="'+esc(v.title)+'" loading="lazy"></div>'
+  +'<div class="vmeta"><h3>'+esc(v.title)+'</h3><div class="vd">'+esc(v.published)+(chName?"　"+esc(chName):"")+"</div></div></div>"}
+window.playVid=function(el,id){var t=el.querySelector(".vthumb");if(!t||t.classList.contains("playing"))return;
+  t.classList.add("playing");
+  t.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+  track("video_play",{video_id:id})};
 function photoMarquee(pool,rev){var arr=(DATA.marqueeImages||{})[pool];if(!arr||!arr.length)return"";
   var items=arr.map(function(m){return '<figure class="pmqi"><img src="'+B+"/"+m.file+'" alt="'+esc(m.article)+'" loading="lazy" title="'+esc(m.credit)+'"><figcaption>'+esc(m.article)+"</figcaption></figure>"}).join("");
   return '<div class="pmq" aria-hidden="true"><div class="pmqtrack'+(rev?" rev":"")+'">'+items+items+"</div></div>"}
@@ -488,6 +511,14 @@ function vHome(){
   /* 新着記事 */
   var arts=DATA.articles.slice().sort(function(a,b){return b.publishedAt<a.publishedAt?-1:1});
   out.push('<section class="sec"><h2 class="sec-t">新着・人気<b>記事</b></h2><div class="grid g3">'+arts.slice(0,6).map(artCard).join("")+'</div><div style="margin-top:20px">'+A("guide","記事一覧へ →","btn btn-o")+"</div></section>");
+  /* 公式チャンネルの最新動画 */
+  if((DATA.videoChannels||[]).length){
+    var vids=[];DATA.videoChannels.forEach(function(ch){ch.videos.forEach(function(v){vids.push({id:v.id,title:v.title,published:v.published,ch:ch.name})})});
+    vids.sort(function(a,b){return b.published<a.published?-1:1});
+    out.push('<section class="sec"><h2 class="sec-t">公式チャンネルの<b>最新動画</b></h2><p class="sec-d">国交省・国税庁・大手不動産会社などの公式YouTubeから。<span class="badge b-demo" style="letter-spacing:0">公式埋め込み</span></p><div class="grid g3">'
+     +vids.slice(0,6).map(function(v){return vidCard(v,v.ch)}).join("")
+     +'</div><div style="margin-top:20px">'+A("videos","動画ライブラリをすべて見る →","btn btn-o")+"</div></section>");
+  }
   /* 数字（準備中） */
   out.push('<section class="sec"><h2 class="sec-t">数字で見る<b>REALPORT</b></h2><div class="grid g3">'
    +'<div class="prep">掲載エリア<br><b style="font-size:1.4rem;color:var(--ink)">'+DATA.areas.length+"エリア / 47都道府県</b></div>"
@@ -836,6 +867,26 @@ function vMypage(){
    +'<p style="margin-top:20px"><button class="favbtn" onclick="if(confirm(\'この端末の保存データ（お気に入り・診断履歴）を削除します。よろしいですか？\')){localStorage.removeItem(\'rp-fav\');localStorage.removeItem(\'rp-diag\');render()}">保存データをすべて削除</button></p></section>';
 }
 
+function vVideos(){
+  var chs=DATA.videoChannels||[];
+  var head=bc([["動画ライブラリ",null]])
+   +'<section class="sec"><h1 class="sec-t" style="font-size:1.8rem">不動産の<b>公式動画ライブラリ</b></h1>'
+   +'<p class="sec-d">国土交通省・国税庁などの行政機関、公的機関、大手不動産会社の公式YouTubeチャンネルの最新動画をまとめて視聴できます。</p>'
+   +'<div class="notice"><b>このページについて：</b>掲載動画はすべて各機関・企業の公式YouTubeチャンネルの公開コンテンツであり、権利は各チャンネルに帰属します。表示にはYouTubeの公式埋め込み機能（youtube-nocookie.com）を使用しています。当サイトは掲載チャンネルの運営者と提携・協賛関係にはありません。'+(chs.length?"　最終取得: "+esc(chs[0].fetchedAt):"")+"</div>";
+  if(!chs.length)return head+'<div class="prep">動画データの取得準備中です。</div></section>';
+  var out=[head];
+  [["行政・公的機関",["行政","公的機関"]],["企業公式・業界団体",["企業公式","業界団体"]]].forEach(function(g){
+    var list=chs.filter(function(c){return g[1].indexOf(c.type)>=0});
+    if(!list.length)return;
+    out.push('<h2 class="sec-t" style="font-size:1.25rem;margin-top:40px">'+g[0]+"</h2>");
+    list.forEach(function(ch){
+      out.push('<div class="vchhead"><h3>'+esc(ch.name)+'</h3><span class="tagline">'+esc(ch.officialTitle)+'</span><a href="'+esc(ch.url)+'" target="_blank" rel="noopener">チャンネルを見る ↗</a></div>');
+      out.push('<div class="grid g3">'+ch.videos.map(function(v){return vidCard(v,null)}).join("")+"</div>");
+    });
+  });
+  out.push(disclaimerBox()+"</section>");
+  return out.join("");
+}
 function vFaqPage(){return bc([["よくある質問",null]])+'<section class="sec"><h1 class="sec-t" style="font-size:1.8rem">よくある<b>質問</b></h1></section>'+faqBlock(DATA.faqs,"")}
 
 /* ---------- fixed pages ---------- */
@@ -896,7 +947,7 @@ function parse(path){
   if(!s.length)return{name:"home"};
   var m={
     "sell":["sellRoot"],"buy":["buy"],"market":["market"],"guide":["guide"],"tools":["tools"],
-    "companies":["companies"],"professionals":["pros"],"faq":["faqPage"],"mypage":["mypage"],"rankings":["rankings"],"sitemap":["sitemapPage"]};
+    "companies":["companies"],"professionals":["pros"],"faq":["faqPage"],"mypage":["mypage"],"rankings":["rankings"],"sitemap":["sitemapPage"],"videos":["videos"]};
   if(s[0]==="sell"){
     if(!s[1])return{name:"sell"};
     if(s[1]==="assessment")return s[2]?{name:"service",slug:s[2]}:{name:"assessment"};
@@ -937,6 +988,7 @@ function render(){
     case"pros":html=vPros();break;
     case"faqPage":html=vFaqPage();break;
     case"mypage":html=vMypage();break;
+    case"videos":html=vVideos();break;
     case"page":html=vPage(v.key);break;
     case"sitemapPage":html=vSitemapPage();break;
     default:html=vNotFound();
@@ -951,7 +1003,7 @@ function go(path){history.pushState(null,"",h(path));state.view=parse(location.p
 window.go=go;
 
 /* ---------- chrome (nav/footer) ---------- */
-var NAV=[["sell","不動産を売る"],["buy","不動産を買う"],["market","相場を調べる"],["sell/assessment","査定サービス比較"],["guide","お役立ち情報"],["tools/ai-sell-diagnosis","AI売却診断"],["mypage","マイページ"]];
+var NAV=[["sell","不動産を売る"],["buy","不動産を買う"],["market","相場を調べる"],["sell/assessment","査定サービス比較"],["guide","お役立ち情報"],["videos","動画"],["tools/ai-sell-diagnosis","AI売却診断"],["mypage","マイページ"]];
 function buildNav(){
   var cur=location.pathname;
   document.getElementById("gnav").innerHTML=NAV.map(function(n){var on=cur.indexOf("/"+n[0])>=0&&(n[0]!=="sell"||cur.indexOf("assessment")<0||n[0]==="sell/assessment");return '<a href="'+h(n[0])+'" data-i="1"'+(cur.replace(/\/$/,"")===h(n[0]).replace(/\/$/,"")?' class="on" aria-current="page"':"")+">"+n[1]+"</a>"}).join("");
@@ -960,7 +1012,7 @@ function buildNav(){
   document.getElementById("mctaBtn").href=h("sell/assessment");
   document.getElementById("logoLink").href=h("");
   var ft=[["サービス",[["sell","不動産を売る"],["buy","不動産を買う"],["market","エリア相場"],["sell/assessment","査定サービス比較"],["sell/purchase","買取比較"],["sell/leaseback","リースバック比較"]]],
-    ["コンテンツ",[["guide","お役立ち情報"],["rankings","特集・一覧"],["tools","無料ツール"],["companies","不動産会社検索"],["professionals","士業検索"],["faq","よくある質問"]]],
+    ["コンテンツ",[["guide","お役立ち情報"],["videos","動画ライブラリ"],["rankings","特集・一覧"],["tools","無料ツール"],["companies","不動産会社検索"],["professionals","士業検索"],["faq","よくある質問"]]],
     ["サイト情報",[["about","運営者情報"],["editorial-policy","編集方針"],["data-policy","データ出典方針"],["advertising-policy","広告掲載ポリシー"],["contact","お問い合わせ"],["sitemap","サイトマップ"]]],
     ["規約",[["privacy","プライバシーポリシー"],["terms","利用規約"],["disclaimer","免責事項"]]]];
   document.getElementById("ftLinks").innerHTML='<div><div class="logo" style="font-size:1.1rem">REAL<b>PORT</b></div><p class="fdesc">'+esc(S.tagline)+"</p></div>"+ft.map(function(g){return "<div><h4>"+g[0]+"</h4>"+g[1].map(function(l){return '<a href="'+h(l[0])+'" data-i="1">'+l[1]+"</a>"}).join("")+"</div>"}).join("");

@@ -486,9 +486,14 @@ if (imgMap["shinjuku-ku"] && !themeImages.market)
 const mqPath = join(ROOT, "tools", "marquee-images.json");
 const marqueeImages = existsSync(mqPath) ? JSON.parse(readFileSync(mqPath, "utf-8")) : {};
 
+/* ---- 公式YouTubeチャンネル（tools/fetch-youtube.mjs が生成。定期再実行で最新化） ---- */
+const ytPath = join(ROOT, "tools", "youtube-channels.json");
+const videoChannels = existsSync(ytPath) ? JSON.parse(readFileSync(ytPath, "utf-8")) : [];
+
 const DATA = {
   themeImages,
   marqueeImages,
+  videoChannels,
   regions: REGIONS.map(([slug, name]) => ({ id: "rg_" + slug.replace(/-/g, "_"), slug, names: { ja: name } })),
   prefectures: PREFS.map(([slug, name, rg]) => ({
     id: "pf_" + slug.replace(/-/g, "_"), slug, regionId: "rg_" + rg, names: { ja: name } })),

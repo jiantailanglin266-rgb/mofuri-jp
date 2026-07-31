@@ -37,6 +37,7 @@ const STATIC = {
   "tools/selling-cost/": ["不動産売却費用シミュレーター（無料）| REALPORT", "仲介手数料（法定上限の速算式）・印紙税・手取り額の概算を計算できる無料シミュレーターです。", "tool"],
   "tools/capital-gains-tax/": ["譲渡所得税シミュレーター（無料）| 3,000万円控除対応 | REALPORT", "不動産売却の譲渡所得税を概算。3,000万円特別控除・長期短期税率に対応。出典は国税庁タックスアンサー。", "tool"],
   "tools/mortgage/": ["住宅ローン返済シミュレーター（無料）| REALPORT", "借入額・金利・期間から元利均等返済の月額を概算する無料シミュレーターです。", "tool"],
+  "videos/": ["不動産の公式動画ライブラリ | 国交省・国税庁・大手不動産の公式YouTube | REALPORT", "国土交通省・国税庁・法務省・UR都市機構・住宅金融支援機構・SUUMO・三井のリハウスなどの公式YouTubeチャンネルの最新動画をまとめて視聴できます。", "videos"],
   "companies/": ["不動産会社検索（準備中）| REALPORT", "掲載許可を得た不動産会社を免許番号つきで掲載する検索機能を準備中です。", "prep"],
   "professionals/": ["士業・関連事業者検索（準備中）| REALPORT", "税理士・司法書士・弁護士など不動産関連の専門家検索を準備中です。", "prep"],
   "faq/": ["よくある質問 | REALPORT", "REALPORTのサービス内容・査定サービス比較・データ出典に関するよくある質問と回答です。", "faq"],
@@ -101,6 +102,10 @@ function jsonLd(p) {
   if (p.kind === "ranking") {
     out.push({ "@context": "https://schema.org", "@type": "ItemList", name: nm(p.r),
       itemListElement: rankMembers(p.r).map((a, i) => ({ "@type": "ListItem", position: i + 1, name: tr(a).name, url: SITE + "/ja/market/" + prefOf(a).slug + "/" + a.slug + "/" })) });
+  }
+  if (p.kind === "videos" && DATA.videoChannels?.length) {
+    out.push({ "@context": "https://schema.org", "@type": "ItemList", name: "不動産関連の公式YouTubeチャンネル",
+      itemListElement: DATA.videoChannels.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.officialTitle, url: c.url })) });
   }
   if (p.kind === "faq" || p.kind === "home") {
     out.push({ "@context": "https://schema.org", "@type": "FAQPage",
@@ -171,6 +176,8 @@ ${p.a.sources?.length ? `<h2>出典・参考資料</h2><ul>${p.a.sources.map(s =
       return `<h1>特集・エリア一覧</h1><ul>${DATA.rankings.map(r => `<li><a href="${SITE}/ja/rankings/${r.slug}/">${esc(nm(r))}</a></li>`).join("")}</ul>${foot}`;
     case "market":
       return `<h1>エリア別 不動産相場データベース</h1><p>${esc(S.dataNote)}</p><ul>${DATA.prefectures.map(pf => `<li><a href="${SITE}/ja/market/${pf.slug}/">${esc(nm(pf))}の不動産相場情報</a></li>`).join("")}</ul>${foot}`;
+    case "videos":
+      return `<h1>不動産の公式動画ライブラリ</h1><p>${esc(p.desc)}</p><p>掲載動画はすべて各機関・企業の公式YouTubeチャンネルの公開コンテンツであり、権利は各チャンネルに帰属します。当サイトは掲載チャンネルの運営者と提携関係にはありません。</p>${(DATA.videoChannels || []).map(c => `<h2>${esc(c.name)}（${esc(c.officialTitle)}）</h2><p><a href="${esc(c.url)}" rel="noopener">公式チャンネル</a></p><ul>${c.videos.map(v => `<li><a href="https://www.youtube.com/watch?v=${esc(v.id)}" rel="noopener">${esc(v.title)}</a>（${esc(v.published)}）</li>`).join("")}</ul>`).join("")}${foot}`;
     case "faq": return `<h1>よくある質問</h1>${faqText(DATA.faqs)}${foot}`;
     case "sell":
       return `<h1>不動産売却ガイド</h1><p>売却の流れ（相場把握→査定→媒介契約→売却活動→売買契約→決済・引き渡し→確定申告）、仲介と買取の違い、費用と税金、査定サービス比較の入口です。</p><ul>${DATA.articles.filter(a => ["sell", "cost", "tax", "assessment"].includes(a.category)).map(a => `<li><a href="${SITE}/ja/guide/${a.slug}/">${esc(tr(a).title)}</a></li>`).join("")}</ul>${foot}`;
