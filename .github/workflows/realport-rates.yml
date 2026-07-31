@@ -1,0 +1,32 @@
+# REALPORT 金利モニター自動更新
+# 毎日 06:10 JST に日銀・フラット35の公式公表値を取得し、変化があれば realport/rates.js を更新する。
+# ページ側は rates.js?d=日付 で読み込むため、コミットのみで反映される（再ビルド不要）。
+name: realport-rates
+on:
+  schedule:
+    - cron: "10 21 * * *"   # 21:10 UTC = 06:10 JST
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update-rates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Fetch official rates
+        run: node realport/tools/fetch-rates.mjs
+      - name: Commit if changed
+        run: |
+          if git diff --quiet realport/rates.js; then
+            echo "No rate changes."
+          else
+            git config user.name "realport-rates-bot"
+            git config user.email "actions@github.com"
+            git add realport/rates.js
+            git commit -m "realport: 金利モニター自動更新 ($(date -u +%Y-%m-%d))"
+            git pull --rebase origin main
+            git push
+          fi

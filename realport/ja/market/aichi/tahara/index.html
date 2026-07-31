@@ -419,6 +419,8 @@ Composition by Yanajin33 / Wikimedia Commons, CC BY-SA 4.0</p><p>本サイトの
   window.__BASE=b;
   try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=12",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
+  /* 金利データ: 毎日自動更新されるため日付でキャッシュバスト */
+  try{var rr=new XMLHttpRequest();rr.open("GET",b+"/rates.js?d="+new Date().toISOString().slice(0,10),false);rr.send();if(rr.status===200||rr.status===0){(0,eval)(rr.responseText)}}catch(e){}
 })();
 (function(){
 "use strict";
@@ -547,6 +549,17 @@ function vHome(){
   /* マーキー帯（ホバーで止めない） */
   var mqRep='<span>REALPORT</span><span class="mq-s">REAL ESTATE PORT</span><span class="mq-f">売る</span><span>REALPORT</span><span class="mq-s">DATA & GUIDE</span><span class="mq-f">買う</span><span>REALPORT</span><span class="mq-s">MARKET INDEX</span><span class="mq-f">住み替える</span>';
   out.push('<div class="mqband" style="margin:0 -20px" aria-hidden="true"><div class="mqtrack">'+mqRep+mqRep+"</div></div>");
+  /* 金利ダッシュボード（公式一次ソース・毎日自動取得） */
+  if(typeof RATES!=="undefined"&&RATES.boj){
+    var rUp=(RATES.updated||"").replace("T"," ").replace("Z"," UTC");
+    out.push('<section class="sec" style="padding-bottom:40px"><h2 class="sec-t">住宅ローン<b>金利モニター</b></h2>'
+     +'<p class="sec-d">公式公表値を毎日自動取得して表示しています（最終取得: <span style="font-family:var(--mono)">'+esc(rUp)+'</span>）。</p>'
+     +'<div class="grid g3">'
+     +'<div class="card rv"><span class="tagline">BANK OF JAPAN</span><h3 style="margin-top:8px">日本銀行</h3><p style="font-size:.78rem">'+esc(RATES.boj.label)+'</p><p style="font-family:var(--disp);font-size:2.2rem;font-weight:700;color:var(--ink);margin:8px 0 2px">年 '+RATES.boj.rate.toFixed(2)+'<span style="font-size:1rem">%</span></p><p style="font-size:.72rem;color:var(--muted)">'+esc(RATES.boj.since)+' 適用開始 ／ <a href="'+esc(RATES.boj.url)+'" target="_blank" rel="noopener">日本銀行 ↗</a></p></div>'
+     +(RATES.flat35?'<div class="card rv"><span class="tagline">FLAT 35</span><h3 style="margin-top:8px">フラット35 最頻金利</h3><p style="font-size:.78rem">'+esc(RATES.flat35.month)+'（融資率9割以下・新機構団信付）</p><p style="font-family:var(--disp);font-size:2.2rem;font-weight:700;margin:8px 0 2px">年 '+RATES.flat35.mode.toFixed(2)+'<span style="font-size:1rem">%</span></p><p style="font-size:.72rem;color:var(--muted)">ポイント最大引下げ適用例: 当初5年 年'+RATES.flat35.first5.toFixed(2)+'% ／ <a href="'+esc(RATES.flat35.url)+'" target="_blank" rel="noopener">住宅金融支援機構 ↗</a></p></div>':"")
+     +'<div class="card rv"><span class="tagline">MAJOR BANKS</span><h3 style="margin-top:8px">主要銀行の住宅ローン金利</h3><p style="font-size:.76rem;color:var(--muted)">各行の変動・固定金利は改定が頻繁で適用条件も異なるため、公式ページの最新値をご確認ください。</p><p style="line-height:2.3;margin-top:8px">'+(RATES.banks||[]).map(function(bk){return '<a href="'+esc(bk.url)+'" target="_blank" rel="noopener" style="display:inline-block;border:1px solid var(--line);border-radius:99px;padding:3px 12px;margin:2px;font-size:.74rem" onclick="track(\'rate_bank_click\',{bank:\''+esc(bk.name)+'\'})">'+esc(bk.name)+(bk.rate!=null?" 年"+bk.rate.toFixed(3)+"%〜":"")+" ↗</a>"}).join("")+"</p></div>"
+     +'</div><p style="font-size:.7rem;color:var(--muted);margin-top:12px">※本表示は各機関の公式公表値の転載（出典リンク付き）であり、金利・融資を保証するものではありません。適用金利は審査・優遇条件により異なります。返済額の試算は'+A("tools/mortgage","住宅ローンシミュレーター")+'をご利用ください。</p></section>');
+  }
   /* 目的別入口 */
   out.push('<section class="sec"><h2 class="sec-t">目的から<b>探す</b></h2><div class="grid g3">'
    +ent("sell","不動産を売りたい","売却の流れ・費用・査定の基本から。","sell")

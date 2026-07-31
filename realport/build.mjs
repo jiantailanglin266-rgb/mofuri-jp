@@ -7,6 +7,8 @@ import { fileURLToPath } from "url";
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const SITE = "https://jiantailanglin266-rgb.github.io/mofuri-jp/realport"; // 独自ドメイン移行時はここを変更
 const src = readFileSync(join(ROOT, "index.html"), "utf-8");
+let RATES = null;
+try { RATES = JSON.parse(readFileSync(join(ROOT, "rates.js"), "utf-8").match(/^var RATES=(.*);$/m)[1]); } catch (e) {}
 const DATA = JSON.parse(readFileSync(join(ROOT, "data.js"), "utf-8").match(/^var DATA=(.*);$/m)[1]);
 const LOCALES = ["ja"]; // en 追加時はここに足し、data.js の translations に en を投入する
 const S = DATA.siteSettings;
@@ -147,6 +149,7 @@ function prerender(p) {
   switch (p.kind) {
     case "home":
       return `<h1>${esc(S.name)} — ${esc(S.tagline)}</h1><p>${esc(S.desc)}</p>
+${RATES && RATES.boj ? `<h2>住宅ローン金利モニター（自動取得: ${esc(RATES.updated)}）</h2><ul><li>日本銀行 ${esc(RATES.boj.label)}: 年${RATES.boj.rate}%（${esc(RATES.boj.since)}適用開始・出典 <a href="${esc(RATES.boj.url)}" rel="noopener">日本銀行</a>）</li>${RATES.flat35 ? `<li>フラット35 最頻金利（${esc(RATES.flat35.month)}）: 年${RATES.flat35.mode}%（出典 <a href="${esc(RATES.flat35.url)}" rel="noopener">住宅金融支援機構</a>）</li>` : ""}</ul><p>適用金利は審査・優遇条件により異なります。各行の最新金利は公式サイトでご確認ください。</p>` : ""}
 <h2>主要コンテンツ</h2><ul>${["sell/|不動産売却ガイド", "buy/|不動産購入ガイド", "market/|エリア別相場データベース", "sell/assessment/|査定サービス比較", "guide/|お役立ち情報", "tools/|無料ツール"].map(x => { const [u, l] = x.split("|"); return `<li><a href="${SITE}/ja/${u}">${l}</a></li>`; }).join("")}</ul>
 <h2>掲載エリア</h2><ul>${DATA.areas.filter(a => !a.cat && a.population != null).map(a => `<li><a href="${SITE}/ja/market/${prefOf(a).slug}/${a.slug}/">${esc(tr(a).name)}の不動産相場・売却情報</a></li>`).join("")}</ul><p>ほか全国${DATA.areas.length}市区町村を収録し、うち${DATA.areas.filter(a => !a.cat).length}自治体は成約価格つきの個別ページを公開（各都道府県ページ参照）。</p>
 <h2>国内の大手デベロッパー</h2><ul>${(DATA.developers || []).map(d => `<li><a href="${esc(d.wikiUrl)}" rel="noopener">${esc(d.name)}</a> — ${esc(d.desc)}</li>`).join("")}</ul>${faqText(DATA.faqs)}${foot}`;
