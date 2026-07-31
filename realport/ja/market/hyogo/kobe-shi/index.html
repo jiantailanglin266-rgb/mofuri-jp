@@ -120,6 +120,31 @@ h1.hero-t{font-family:var(--serif);font-size:2.55rem;line-height:1.5;font-weight
 .qsearch label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;color:var(--muted);display:block;margin-bottom:5px;text-transform:uppercase}
 .qsearch select{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:.9rem;min-width:130px;font-family:var(--sans)}
 .qsearch .btn{border-radius:6px}
+/* ── AIコンシェルジュ（FV直下・クライアント完結のルールベース） ── */
+.agent{background:var(--card);border:1px solid var(--ink);border-radius:var(--r);padding:26px;position:relative;box-shadow:var(--shadow)}
+.agent::before{content:"REALPORT AI AGENT";position:absolute;top:-9px;left:22px;background:var(--ink);color:#fff;font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;padding:2px 10px}
+.agent-h{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px}
+.ai-badge{flex:0 0 auto;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:700;font-size:.8rem;position:relative}
+.ai-badge::after{content:"";position:absolute;inset:-4px;border:1px solid rgba(200,16,46,.5);border-radius:50%;animation:sonar 3.2s var(--ez) infinite}
+.agent-h h2{font-family:var(--serif);font-size:1.15rem;font-weight:600}
+.agent-h p{font-size:.76rem;color:var(--muted)}
+.agent-log{max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:14px;scroll-behavior:smooth}
+.amsg{max-width:88%;padding:11px 15px;border-radius:12px;font-size:.85rem;line-height:1.8}
+.amsg.bot{align-self:flex-start;background:var(--paper2);border:1px solid var(--hair);border-bottom-left-radius:3px}
+.amsg.user{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:3px}
+.amsg a{color:var(--red);font-weight:600}
+.amsg .rrow{font-size:.8rem}
+.amsg ul{margin:6px 0 0 18px}
+.adots i{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--muted);margin-right:4px;animation:pulse 1s var(--ez) infinite}
+.adots i:nth-child(2){animation-delay:.2s}.adots i:nth-child(3){animation-delay:.4s}
+.agent-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.agent-chips button{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.76rem;cursor:pointer;font-family:var(--sans);color:var(--ink);transition:border-color .4s var(--ez),color .4s var(--ez)}
+.agent-chips button:hover{border-color:var(--red);color:var(--red)}
+.agent-form{display:flex;gap:10px}
+.agent-form input{flex:1;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:12px 18px;font-size:.9rem;font-family:var(--sans)}
+.agent-form input:focus{outline:2px solid var(--red);outline-offset:1px}
+.agent-form .btn{padding:12px 22px}
+.agent-note{font-size:.68rem;color:var(--muted);margin-top:10px;font-family:var(--mono);letter-spacing:.02em}
 /* ── marquee: 白地 ×「赤」（ホバーで止めない） ── */
 .mqband{overflow:hidden;padding:26px 0;border-bottom:1px solid var(--hair)}
 .mqtrack{display:flex;gap:72px;width:max-content;align-items:baseline;animation:mqL 42s linear infinite;will-change:transform}
@@ -472,6 +497,8 @@ function vHome(){
    +'<div><label for="qsMode">目的</label><select id="qsMode"><option value="sell">売却</option><option value="buy">購入</option></select></div>'
    +'<button class="btn btn-g" type="submit">検索</button></form>'
    +"</div></div>");
+  /* AIコンシェルジュ（FV直下） */
+  out.push(agentSection());
   /* マーキー帯（ホバーで止めない） */
   var mqRep='<span>REALPORT</span><span class="mq-s">REAL ESTATE PORT</span><span class="mq-f">売る</span><span>REALPORT</span><span class="mq-s">DATA & GUIDE</span><span class="mq-f">買う</span><span>REALPORT</span><span class="mq-s">MARKET INDEX</span><span class="mq-f">住み替える</span>';
   out.push('<div class="mqband" style="margin:0 -20px" aria-hidden="true"><div class="mqtrack">'+mqRep+mqRep+"</div></div>");
@@ -1025,7 +1052,108 @@ function wireForms(){
   var cf=document.getElementById("costForm");if(cf)cf.onsubmit=function(e){e.preventDefault();window.runCost()};
   var tf=document.getElementById("taxForm");if(tf)tf.onsubmit=function(e){e.preventDefault();window.runTax()};
   var lf=document.getElementById("loanForm");if(lf)lf.onsubmit=function(e){e.preventDefault();window.runLoan()};
+  var af=document.getElementById("agentForm");
+  if(af){af.onsubmit=function(e){e.preventDefault();var inp=document.getElementById("agentInput");window.agentAsk(inp.value);inp.value=""};agentGreet()}
 }
+/* ============================================================
+   AIコンシェルジュ（ルールベース・クライアント完結。価格/税/法律を断定しない）
+   ============================================================ */
+function agentSection(){
+  return '<section class="sec" style="padding:46px 0 10px"><div class="agent">'
+   +'<div class="agent-h"><span class="ai-badge" aria-hidden="true">AI</span><div><h2>AIコンシェルジュに聞く</h2><p>売却・購入・相場・税金・ローンの疑問に、当サイトの情報から即答します（無料・登録不要）</p></div></div>'
+   +'<div class="agent-log" id="agentLog" aria-live="polite"></div>'
+   +'<div class="agent-chips" id="agentChips"></div>'
+   +'<form class="agent-form" id="agentForm"><input id="agentInput" type="text" maxlength="200" placeholder="例: 世田谷区の相場は？ ／ 相続した実家を売りたい" autocomplete="off" aria-label="AIコンシェルジュへの質問"><button class="btn btn-g" type="submit">送信</button></form>'
+   +'<p class="agent-note">※回答は当サイト掲載の一般的情報に基づく参考情報です。査定額の提示・税務/法務の判断は行いません。入力内容は外部に送信されず、この端末内で処理されます。</p>'
+   +"</div></section>";
+}
+var AGENT_CHIPS=["世田谷区の相場は？","相続した実家を売りたい","3000万円で売ったら費用は？","ローンが残っていても売れる？","AI売却診断をしたい"];
+function agentPush(role,html){
+  var log=document.getElementById("agentLog");if(!log)return null;
+  var d=document.createElement("div");d.className="amsg "+role;d.innerHTML=html;
+  log.appendChild(d);log.scrollTop=log.scrollHeight;return d;
+}
+function agentGreet(){
+  var log=document.getElementById("agentLog");
+  if(!log||log.firstChild)return;
+  agentPush("bot","こんにちは、REALPORTのAIコンシェルジュです⚓ 不動産の売却・購入・相場について、なんでも聞いてください。下のボタンからでもOKです。");
+  var chips=document.getElementById("agentChips");
+  chips.innerHTML=AGENT_CHIPS.map(function(c){return '<button type="button" onclick="agentAsk(\''+c+'\')">'+c+"</button>"}).join("");
+}
+function agentParseYen(t){
+  var m=t.match(/(\d+(?:[,，]\d{3})*(?:\.\d+)?)\s*(億|万)?\s*円?/);
+  if(!m||(!m[2]&&!/円/.test(t)))return null;
+  var n=parseFloat(m[1].replace(/[,，]/g,""));
+  if(m[2]==="億")n*=100000000;else if(m[2]==="万")n*=10000;
+  return n>=1000000?n:null; // 100万円未満は金額質問とみなさない
+}
+function agentAreaAnswer(a){
+  var t=tr(a),pf=pref(a.prefId);
+  if(a.cat)return esc(t.name)+"（"+esc(nm(pf))+"）は収録済みですが、個別の相場ページは準備中です。まずは"+A("market/"+pf.slug,esc(nm(pf))+"の相場ページ")+"をご覧ください。";
+  var mds=DATA.marketData.filter(function(m){return m.areaId===a.id});
+  var s="<b>"+esc(t.name)+"</b>（"+esc(nm(pf))+"）の公的データに基づく集計です:<ul>";
+  var tn={mansion:"マンション",house:"戸建て",land:"土地"};
+  var got=false;
+  mds.forEach(function(m){
+    if(m.medianPrice!=null){s+="<li>"+tn[m.propertyType]+" 成約価格 中央値 <b>"+man(m.medianPrice)+"</b>（"+m.txCount+"件・"+esc(m.period)+"）</li>";got=true}
+    else if(m.pricePerSqm!=null){s+="<li>"+tn[m.propertyType]+"（"+esc(m.label||"")+"）㎡単価 <b>"+yen(m.pricePerSqm)+"</b></li>";got=true}
+  });
+  s+="</ul>";
+  if(!got)s="<b>"+esc(t.name)+"</b>の相場データは準備中です。";
+  return s+"詳細・出典は"+A("market/"+pf.slug+"/"+a.slug,t.name+"の相場ページ")+"へ。個別物件の価格は"+A("sell/assessment","査定サービスの比較")+"でご確認ください。";
+}
+function agentCatAnswer(cat,intro){
+  var arts=DATA.articles.filter(function(x){return x.category===cat}).slice(0,3);
+  var s=intro+"<ul>"+arts.map(function(x){return "<li>"+A("guide/"+x.slug,esc(tr(x).title))+"</li>"}).join("")+"</ul>";
+  if(cat==="cost"||cat==="tax")s+="概算は"+A(cat==="cost"?"tools/selling-cost":"tools/capital-gains-tax",cat==="cost"?"売却費用シミュレーター":"譲渡所得税シミュレーター")+"で計算できます。";
+  if(cat==="inheritance"||cat==="vacant-house")s+="売却方法の適性は"+A("tools/ai-sell-diagnosis","AI売却診断（1分）")+"でも確認できます。";
+  return s;
+}
+function agentReply(q){
+  var t=q.replace(/\s+/g,"");
+  /* 1. エリア名（curated優先→カタログ→都道府県） */
+  var hit=null;
+  DATA.areas.forEach(function(a){if(!a.cat&&!hit&&t.indexOf(tr(a).name)>=0)hit=a});
+  if(!hit)DATA.areas.forEach(function(a){if(a.cat&&!hit&&tr(a).name.length>=3&&t.indexOf(tr(a).name)>=0)hit=a});
+  if(hit)return agentAreaAnswer(hit);
+  var pf=null;DATA.prefectures.forEach(function(p){if(!pf&&t.indexOf(nm(p).replace(/[都府県]$/,""))>=0&&/相場|価格|売|買|不動産/.test(t))pf=p});
+  if(pf)return esc(nm(pf))+"の掲載エリアは"+A("market/"+pf.slug,nm(pf)+"の相場ページ")+"にまとめています。市区町村名（例: 新宿区、横浜市）で聞いていただければ、データがあれば即答します。";
+  /* 2. 金額つきの費用質問 → その場で概算 */
+  var yenV=agentParseYen(q);
+  if(yenV&&/売|費用|手数料|手取|かか/.test(t)){
+    var r=CALC.sellingCost({price:yenV,loanBalance:0,otherCosts:0});
+    return man(yenV)+"で売却した場合の概算（法定上限ベース）です:"
+      +'<div class="rrow"><span>仲介手数料（上限・税込）</span><b>'+yen(r.fee)+"</b></div>"
+      +'<div class="rrow"><span>印紙税（軽減税率）</span><b>'+yen(r.stamp)+"</b></div>"
+      +'<div class="rrow"><span>概算手取り</span><b>'+yen(r.net)+"</b></div>"
+      +"ローン残債や税金も含めた計算は"+A("tools/selling-cost","売却費用シミュレーター")+"と"+A("tools/capital-gains-tax","譲渡所得税シミュレーター")+"でどうぞ。";
+  }
+  /* 3. 意図別 */
+  if(/診断/.test(t))return "7つの質問で仲介・買取・リースバックの適合度と準備リストを表示します。→ "+A("tools/ai-sell-diagnosis","AI売却診断を始める（無料・1分）");
+  if(/相続|実家|親の家/.test(t))return agentCatAnswer("inheritance","相続した不動産は、①相続登記（義務化済み）→②売り方の選択→③空き家特例の確認、の順で進めるのが基本です。詳しくは:");
+  if(/離婚|財産分与/.test(t))return agentCatAnswer("divorce","離婚時の家は「売却して清算」か「どちらかが住み続ける」の2択が基本で、まずローン残高と名義の確認からです。詳しくは:");
+  if(/空き家|空家/.test(t))return agentCatAnswer("vacant-house","空き家は放置すると税負担増・特定空家指定のリスクがあります。売却・活用の選択肢はこちら:");
+  if(/住み替え|買い替え|買い先|売り先/.test(t))return agentCatAnswer("relocation","住み替えは資金余力で「売り先行/買い先行」を選ぶのが基本です。詳しくは:");
+  if(/ローン|残債|抵当|任意売却/.test(t))return agentCatAnswer("mortgage","ローンが残っていても、引き渡しまでに完済して抵当権を抹消できれば売却可能です。詳しくは:");
+  if(/税|控除|確定申告|3000万/.test(t))return agentCatAnswer("tax","売却益には譲渡所得税がかかりますが、マイホームなら3,000万円特別控除などの特例があります（適用は要件確認を）。詳しくは:");
+  if(/費用|手数料|手取り|いくらかか/.test(t))return agentCatAnswer("cost","売却費用の中心は仲介手数料（上限: 価格×3%＋6万円＋税）です。「3000万円で売ったら」のように金額つきで聞くと概算します。詳しくは:");
+  if(/査定|一括|比較/.test(t))return agentCatAnswer("assessment","査定は複数社の比較が基本です。査定額そのものより根拠の説明を見比べてください。")+A("sell/assessment","→ 査定サービス比較（PR）");
+  if(/買いたい|購入|マンションを買|家を買/.test(t))return agentCatAnswer("buy","購入は「相場把握→資金計画→内見→契約」の流れです。詳しくは:")+" ／ "+A("tools/mortgage","ローン返済シミュレーター");
+  if(/売りたい|売却したい|売る/.test(t))return agentCatAnswer("sell","売却は「相場把握→複数社査定→媒介契約→売却活動」の流れです。詳しくは:")+" ／ まず"+A("tools/ai-sell-diagnosis","AI売却診断")+"もおすすめです。";
+  if(/動画|youtube|ユーチューブ/i.test(q))return "国交省・国税庁・大手不動産会社の公式動画を集めています。→ "+A("videos","公式動画ライブラリ（154本）");
+  if(/こんにちは|こんばんは|はじめまして|ありがとう/.test(t))return "ありがとうございます⚓ 「〇〇区の相場」「相続」「費用」「ローン」など、気になるキーワードでお気軽にどうぞ。";
+  /* 4. 記事キーワード検索 */
+  var found=DATA.articles.filter(function(x){var s=tr(x);return q.length>=2&&(s.title.indexOf(q)>=0||s.metaDesc.indexOf(q)>=0)}).slice(0,3);
+  if(found.length)return "関連する解説記事が見つかりました:<ul>"+found.map(function(x){return "<li>"+A("guide/"+x.slug,esc(tr(x).title))+"</li>"}).join("")+"</ul>";
+  return "うまく読み取れませんでした🙏 次のような聞き方だとお答えしやすいです:<ul><li>「<b>新宿区の相場</b>は？」（エリア名で相場即答）</li><li>「<b>3000万円で売ったら費用</b>は？」（概算計算）</li><li>「<b>相続</b>／<b>離婚</b>／<b>空き家</b>／<b>ローン</b>」（悩み別ガイド）</li></ul>または"+A("guide","記事一覧")+"・"+A("faq","よくある質問")+"もご覧ください。";
+}
+window.agentAsk=function(q){
+  q=String(q||"").trim();if(!q)return;
+  agentPush("user",esc(q));
+  track("agent_message",{q:q.slice(0,60)});
+  var typing=agentPush("bot",'<span class="adots"><i></i><i></i><i></i></span>');
+  setTimeout(function(){if(typing)typing.innerHTML=agentReply(q);var log=document.getElementById("agentLog");if(log)log.scrollTop=log.scrollHeight},480);
+};
 /* 背景の蛍光紫テキストマーキー（12ライン・不動産ワード英語・右上→左下） */
 function buildBgWords(){
   var el=document.getElementById("bgWords");if(!el||el.firstChild)return;
