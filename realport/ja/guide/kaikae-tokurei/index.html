@@ -339,7 +339,7 @@ footer::before{content:"";position:absolute;inset:-180px 0 0 0;z-index:-1;
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=6",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=7",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
 })();
 (function(){
