@@ -148,7 +148,8 @@ function prerender(p) {
     case "home":
       return `<h1>${esc(S.name)} — ${esc(S.tagline)}</h1><p>${esc(S.desc)}</p>
 <h2>主要コンテンツ</h2><ul>${["sell/|不動産売却ガイド", "buy/|不動産購入ガイド", "market/|エリア別相場データベース", "sell/assessment/|査定サービス比較", "guide/|お役立ち情報", "tools/|無料ツール"].map(x => { const [u, l] = x.split("|"); return `<li><a href="${SITE}/ja/${u}">${l}</a></li>`; }).join("")}</ul>
-<h2>掲載エリア</h2><ul>${DATA.areas.filter(a => !a.cat && a.population != null).map(a => `<li><a href="${SITE}/ja/market/${prefOf(a).slug}/${a.slug}/">${esc(tr(a).name)}の不動産相場・売却情報</a></li>`).join("")}</ul><p>ほか全国${DATA.areas.length}市区町村を収録し、うち${DATA.areas.filter(a => !a.cat).length}自治体は成約価格つきの個別ページを公開（各都道府県ページ参照）。</p>${faqText(DATA.faqs)}${foot}`;
+<h2>掲載エリア</h2><ul>${DATA.areas.filter(a => !a.cat && a.population != null).map(a => `<li><a href="${SITE}/ja/market/${prefOf(a).slug}/${a.slug}/">${esc(tr(a).name)}の不動産相場・売却情報</a></li>`).join("")}</ul><p>ほか全国${DATA.areas.length}市区町村を収録し、うち${DATA.areas.filter(a => !a.cat).length}自治体は成約価格つきの個別ページを公開（各都道府県ページ参照）。</p>
+<h2>国内の大手デベロッパー</h2><ul>${(DATA.developers || []).map(d => `<li><a href="${esc(d.wikiUrl)}" rel="noopener">${esc(d.name)}</a> — ${esc(d.desc)}</li>`).join("")}</ul>${faqText(DATA.faqs)}${foot}`;
     case "area": {
       const t = tr(p.a), pf = prefOf(p.a);
       return `<h1>${esc(t.name)}の不動産相場・売却情報</h1><p>${esc(t.summary)}</p>

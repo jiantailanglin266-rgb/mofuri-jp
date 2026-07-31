@@ -1,0 +1,122 @@
+[
+ {
+  "key": "mitsui",
+  "name": "三井不動産",
+  "desc": "日本橋の再開発や東京ミッドタウン、ららぽーと等を手がける総合デベロッパー。",
+  "file": "images/developers/mitsui.jpg",
+  "credit": "Photo: Kakidai / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Mitsui_Main_Building.jpg",
+  "article": "三井不動産",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E4%B8%89%E4%BA%95%E4%B8%8D%E5%8B%95%E7%94%A3"
+ },
+ {
+  "key": "mec",
+  "name": "三菱地所",
+  "desc": "丸の内エリアの開発で知られる総合デベロッパー。「ザ・パークハウス」を展開。",
+  "file": "images/developers/mec.jpg",
+  "credit": "Photo: Wara070 / Wikimedia Commons, CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:%E4%B8%89%E8%8F%B1%E5%9C%B0%E6%89%80%E6%9C%AC%E7%A4%BE%E3%83%93%E3%83%AB%EF%BC%88%E5%A4%A7%E6%89%8B%E7%94%BA%E3%83%91%E3%83%BC%E3%82%AF%E3%83%93%E3%83%AB%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%EF%BC%89.jpg",
+  "article": "三菱地所",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E4%B8%89%E8%8F%B1%E5%9C%B0%E6%89%80"
+ },
+ {
+  "key": "sumitomo",
+  "name": "住友不動産",
+  "desc": "都心の超高層オフィス・タワーマンションを多数手がける総合デベロッパー。",
+  "file": "images/developers/sumitomo.jpg",
+  "credit": "Photo: 鋸香具師 / Wikimedia Commons, CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Ns_bldg_29f_north_(cropped)_-_Shinjuku_Sumitomo_Building_with_new_glass_atrium_roof.jpg",
+  "article": "新宿住友ビルディング",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E6%96%B0%E5%AE%BF%E4%BD%8F%E5%8F%8B%E3%83%93%E3%83%AB%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0"
+ },
+ {
+  "key": "tokyu",
+  "name": "東急不動産",
+  "desc": "渋谷の再開発や「ブランズ」シリーズで知られる東急グループのデベロッパー。",
+  "file": "images/developers/tokyu.jpg",
+  "credit": "Photo: 北のまん所 / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:%E6%B8%8B%E8%B0%B7%E3%82%BD%E3%83%A9%E3%82%B9%E3%82%BF.jpg",
+  "article": "東急不動産",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E6%9D%B1%E6%80%A5%E4%B8%8D%E5%8B%95%E7%94%A3"
+ },
+ {
+  "key": "nomura",
+  "name": "野村不動産",
+  "desc": "分譲マンション「プラウド」シリーズで知られるデベロッパー。",
+  "file": "images/developers/nomura.jpg",
+  "credit": "Photo: 番記者 / Wikimedia Commons, CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:BLUE_FRONT_SHIBAURA_TOWER_S_01.jpg",
+  "article": "野村不動産",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E9%87%8E%E6%9D%91%E4%B8%8D%E5%8B%95%E7%94%A3"
+ },
+ {
+  "key": "mori",
+  "name": "森ビル",
+  "desc": "六本木ヒルズ・麻布台ヒルズなど大規模複合開発を手がける都市デベロッパー。",
+  "file": "images/developers/mori.jpg",
+  "credit": "Photo: Shampoorobot at Japanese Wikipedia aka ja:User:A16504601 / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Roppongi_Hills_2013-12-01.jpg",
+  "article": "六本木ヒルズ",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E5%85%AD%E6%9C%AC%E6%9C%A8%E3%83%92%E3%83%AB%E3%82%BA"
+ },
+ {
+  "key": "tatemono",
+  "name": "東京建物",
+  "desc": "「Brillia」シリーズや八重洲の再開発で知られる老舗デベロッパー。",
+  "file": "images/developers/tatemono.jpg",
+  "credit": "Photo: Wpcpey / Wikimedia Commons, CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tokyo_Square_Garden_2019.jpg",
+  "article": "東京スクエアガーデン",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E6%9D%B1%E4%BA%AC%E3%82%B9%E3%82%AF%E3%82%A8%E3%82%A2%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3"
+ },
+ {
+  "key": "sekisui",
+  "name": "積水ハウス",
+  "desc": "戸建て住宅大手。分譲マンション「グランドメゾン」も展開。",
+  "file": "images/developers/sekisui.jpg",
+  "credit": "Photo: Kakidai / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:2018_Umeda_Sky_Building.jpg",
+  "article": "積水ハウス",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E7%A9%8D%E6%B0%B4%E3%83%8F%E3%82%A6%E3%82%B9"
+ },
+ {
+  "key": "openhouse",
+  "name": "オープンハウスグループ",
+  "desc": "都心部の戸建て・マンションを軸に成長した総合不動産グループ。",
+  "file": "images/developers/openhouse.jpg",
+  "credit": "Photo: Rs1421 / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:JP-Tower-01.jpg",
+  "article": "オープンハウスグループ",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97"
+ },
+ {
+  "key": "hulic",
+  "name": "ヒューリック",
+  "desc": "都心部の不動産保有・開発を軸とするデベロッパー。",
+  "file": "images/developers/hulic.jpg",
+  "credit": "Photo: 不明 / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Ginza_area_at_dusk_from_Tokyo_Tower.jpg",
+  "article": "銀座",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E9%8A%80%E5%BA%A7"
+ },
+ {
+  "key": "daiwa",
+  "name": "大和ハウス工業",
+  "desc": "戸建てから商業・物流施設まで手がける住宅・建設大手。",
+  "file": "images/developers/daiwa.jpg",
+  "credit": "Photo: J o / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Umeda-Dia-Bldg-01.jpg",
+  "article": "大阪マルビル",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/%E5%A4%A7%E9%98%AA%E3%83%9E%E3%83%AB%E3%83%93%E3%83%AB"
+ },
+ {
+  "key": "nttud",
+  "name": "NTT都市開発",
+  "desc": "アーバンネットシリーズのオフィスや「ウエリス」を手がけるNTTグループのデベロッパー。",
+  "file": "images/developers/nttud.jpg",
+  "credit": "Photo: SRIA / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:AkihabaraUDX_201311.JPG",
+  "article": "NTT都市開発",
+  "wikiUrl": "https://ja.wikipedia.org/wiki/NTT%E9%83%BD%E5%B8%82%E9%96%8B%E7%99%BA"
+ }
+]

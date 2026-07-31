@@ -486,6 +486,12 @@ if (imgMap["shinjuku-ku"] && !themeImages.market)
 const mqPath = join(ROOT, "tools", "marquee-images.json");
 const marqueeImages = existsSync(mqPath) ? JSON.parse(readFileSync(mqPath, "utf-8")) : {};
 
+/* ---- 国内大手デベロッパー一覧（tools/fetch-developer-images.mjs が生成） ---- */
+const devPath = join(ROOT, "tools", "developer-images.json");
+const DEV_ORDER = ["mitsui", "mec", "sumitomo", "tokyu", "nomura", "mori", "tatemono", "hulic", "daiwa", "sekisui", "nttud", "openhouse"];
+const developers = (existsSync(devPath) ? JSON.parse(readFileSync(devPath, "utf-8")) : [])
+  .sort((a, b) => DEV_ORDER.indexOf(a.key) - DEV_ORDER.indexOf(b.key));
+
 /* ---- 公式YouTubeチャンネル（tools/fetch-youtube.mjs が生成。定期再実行で最新化） ---- */
 const ytPath = join(ROOT, "tools", "youtube-channels.json");
 const videoChannels = (existsSync(ytPath) ? JSON.parse(readFileSync(ytPath, "utf-8")) : [])
@@ -495,6 +501,7 @@ const DATA = {
   themeImages,
   marqueeImages,
   videoChannels,
+  developers,
   regions: REGIONS.map(([slug, name]) => ({ id: "rg_" + slug.replace(/-/g, "_"), slug, names: { ja: name } })),
   prefectures: PREFS.map(([slug, name, rg]) => ({
     id: "pf_" + slug.replace(/-/g, "_"), slug, regionId: "rg_" + rg, names: { ja: name } })),

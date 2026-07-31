@@ -386,7 +386,7 @@ This montage image is created by Kugel. / Wikimedia Commons, CC BY-SA 3.0</p><p>
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=11",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=12",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
 })();
 (function(){
@@ -560,11 +560,12 @@ function vHome(){
      +vids.slice(0,6).map(function(v){return vidCard(v,v.ch)}).join("")
      +'</div><div style="margin-top:20px">'+A("videos","動画ライブラリをすべて見る →","btn btn-o")+"</div></section>");
   }
-  /* 数字（準備中） */
-  out.push('<section class="sec"><h2 class="sec-t">数字で見る<b>REALPORT</b></h2><div class="grid g3">'
-   +'<div class="prep">掲載エリア<br><b style="font-size:1.4rem;color:var(--ink)">'+DATA.areas.length+"エリア / 47都道府県</b></div>"
-   +'<div class="prep">利用者数・診断実績<br><b style="color:var(--ink)">計測準備中</b><br><span style="font-size:.7rem">分析連携前のため実績値は表示していません</span></div>'
-   +'<div class="prep">提携サービス数<br><b style="color:var(--ink)">掲載準備中</b><br><span style="font-size:.7rem">現在はデモ表示のみです</span></div></div></section>');
+  /* 国内大手デベロッパー一覧（Wikipedia引用写真） */
+  if((DATA.developers||[]).length){
+    out.push('<section class="sec"><h2 class="sec-t">国内の<b>大手デベロッパー</b></h2><p class="sec-d">マンション・住宅の売買で名前を目にする主要デベロッパーの一覧です。写真は各社の代表的な開発エリア・建築物（Wikipedia引用）。掲載は情報提供目的であり、各社との提携・広告関係はありません。</p><div class="grid g4">'
+     +DATA.developers.map(function(d){return '<div class="card rv"><figure class="thumb"><img src="'+B+"/"+d.file+'" alt="'+esc(d.name)+'に関連する建築物（'+esc(d.article)+'）" loading="lazy" title="'+esc(d.credit)+'"></figure><h3 style="font-size:.95rem">'+esc(d.name)+'</h3><p style="font-size:.78rem">'+esc(d.desc)+'</p><p style="font-size:.66rem;margin-top:8px;font-family:var(--mono);color:var(--muted)">写真: '+esc(d.article)+' ／ <a href="'+esc(d.wikiUrl)+'" target="_blank" rel="noopener">Wikipedia ↗</a></p></div>'}).join("")
+     +"</div></section>");
+  }
   out.push(faqBlock(DATA.faqs));
   /* 画像マーキー③: 港・ランドマーク */
   out.push(photoMarquee("port"));
@@ -948,6 +949,8 @@ var PAGES={
   +h2("画像")+p("エリア写真・カードのテーマ画像はすべてWikipedia / Wikimedia Commonsから引用しています。エリアページの写真は各ページにクレジットを表示し、カードのテーマ画像のクレジットは下記に一覧します（画像のtitle属性でも確認できます）。CC BY-SA等のライセンス条件に基づく帰属表示です。")
   +h2("テーマ画像クレジット一覧")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
   +Object.keys(DATA.themeImages||{}).map(function(k){var t=DATA.themeImages[k];return "<li><b>"+esc(k)+"</b>（出典記事: "+esc(t.article||"")+"） — "+esc(t.credit)+' ／ <a href="'+esc(t.source)+'" target="_blank" rel="noopener">出典ページ</a></li>'}).join("")+"</ul>"
+  +h2("デベロッパー一覧の画像クレジット")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
+  +(DATA.developers||[]).map(function(d){return "<li><b>"+esc(d.name)+"</b>（写真: "+esc(d.article)+"） — "+esc(d.credit)+(d.source?' ／ <a href="'+esc(d.source)+'" target="_blank" rel="noopener">出典ページ</a>':"")+"</li>"}).join("")+"</ul>"
   +h2("マーキー画像クレジット一覧")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
   +Object.keys(DATA.marqueeImages||{}).map(function(pl){return DATA.marqueeImages[pl].map(function(m){return "<li><b>"+esc(pl)+"</b> "+esc(m.article)+" — "+esc(m.credit)+(m.source?' ／ <a href="'+esc(m.source)+'" target="_blank" rel="noopener">出典ページ</a>':"")+"</li>"}).join("")}).join("")+"</ul>"
   +h2("税制・制度")+p("税率・制度値には基準日を付し、国税庁等の一次情報へのリンクを添えます。改正時は更新します。")}},
