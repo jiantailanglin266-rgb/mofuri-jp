@@ -46,3 +46,5 @@ Thumbs.db
 !realport/images/**
 realport/tools/.cache-l01/
 realport/tools/.reinfolib-key
+!realport/ja/videos/
+!realport/ja/videos/**
