@@ -564,6 +564,7 @@ const DATA = {
     isPR: false,                                  // 未提携のためPRなし。提携後に true + affiliateUrl 設定
     status: "published", gate: { propertyTypes: s.types, reasons: s.reasons },
     translations: { ja: { name: s.name, desc: s.desc, merits: s.merits, demerits: s.demerits, target: s.target } } })),
+  // ↑services に背景画像（運営企業ゆかりのWikipedia写真）を後付けする — 下の svcBg 適用を参照
   rankings: RANKINGS.map(r => ({
     id: "rk_" + r.slug.replace(/-/g, "_"), slug: r.slug, names: { ja: r.name }, descriptions: { ja: r.desc },
     sort: r.sort || null, filter: r.filter || null, slugs: r.slugs || null })),
@@ -640,6 +641,17 @@ for (const m of DATA.marketData) {
   if (!a.cat) a.dataLevel = Math.max(a.dataLevel, /地価公示/.test(m.label || "") ? 1 : 2);
   if ((m.avgPrice != null || m.pricePerSqm != null) && !(m.sourceName && m.sourceUrl && m.sourceDate))
     throw new Error("marketData: 出典のない価格 " + m.areaSlug);
+}
+
+/* ---- 査定サービスカードの背景画像（運営企業ゆかりのWikipedia写真・うっすら表示用） ---- */
+const svcImgPath = join(ROOT, "tools", "service-images.json");
+const svcImgs = existsSync(svcImgPath) ? JSON.parse(readFileSync(svcImgPath, "utf-8")) : {};
+// すまいValue は大手6社運営のため、既存デベロッパー画像（三井不動産）を流用
+const mitsuiDev = developers.find(d => d.key === "mitsui");
+if (mitsuiDev && !svcImgs["sumai-value"]) svcImgs["sumai-value"] = { file: mitsuiDev.file, article: mitsuiDev.article, credit: mitsuiDev.credit, source: mitsuiDev.source };
+for (const s of DATA.services) {
+  const bg = svcImgs[s.slug];
+  if (bg) { s.bgImg = bg.file; s.bgArticle = bg.article; s.bgCredit = bg.credit; s.bgSource = bg.source; }
 }
 
 /* 検証: 参照整合性 */

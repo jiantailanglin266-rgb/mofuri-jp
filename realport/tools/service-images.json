@@ -1,0 +1,32 @@
+{
+ "lifull-satei": {
+  "file": "images/services/lifull-satei.jpg",
+  "article": "LIFULL",
+  "credit": "Photo: Ykkrsw / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:LIFULL_Office.JPG"
+ },
+ "ieul": {
+  "file": "images/services/ieul.jpg",
+  "article": "六本木グランドタワー",
+  "credit": "Photo: 稲妻ノ歯鯨 / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Sumitomo_Fudosan_Roppongi_Grand_Tower.jpg"
+ },
+ "suumo-baikyaku": {
+  "file": "images/services/suumo-baikyaku.jpg",
+  "article": "グラントウキョウ",
+  "credit": "Photo: Kakidai / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:GranTokyo_North_Tower.JPG"
+ },
+ "home4u": {
+  "file": "images/services/home4u.jpg",
+  "article": "NTTデータグループ",
+  "credit": "Photo: Tennen-Gas / Wikimedia Commons, CC BY-SA 3.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Toyosu_Center_Building_001.JPG"
+ },
+ "lvnmatch": {
+  "file": "images/services/lvnmatch.jpg",
+  "article": "東京証券取引所",
+  "credit": "Photo: Kakidai / Wikimedia Commons, CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Tokyo_Stock_Exchange_Main_Building_(1988).jpg"
+ }
+}

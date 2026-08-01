@@ -257,6 +257,12 @@ table.tb{width:100%;border-collapse:collapse;font-size:.84rem;min-width:560px}
 .meter i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--red2));border-radius:999px}
 /* ── service cards ── */
 .svc{background:var(--card);border:1px solid var(--hair);border-radius:var(--r);padding:26px;margin-bottom:16px;transition:border-color .6s var(--ez);position:relative;overflow:hidden}
+.svc-bg{position:absolute;top:0;right:0;bottom:0;width:52%;object-fit:cover;opacity:.10;pointer-events:none;z-index:0;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 55%);mask-image:linear-gradient(90deg,transparent 0%,#000 55%);
+  filter:saturate(.9);transition:opacity .8s var(--ez)}
+.svc:hover .svc-bg{opacity:.16}
+.svc>*:not(.svc-bg){position:relative;z-index:1}
+.svc::before{z-index:2}
 .svc::before{content:"";position:absolute;top:0;left:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--red),var(--red2));transform:scaleY(0);transform-origin:top;transition:transform .7s var(--ez)}
 .svc:hover{border-color:var(--line)}
 .svc:hover::before{transform:scaleY(1)}
@@ -416,7 +422,7 @@ Composition by User:Fjkelfeimvvn / Wikimedia Commons, CC BY-SA 3.0</p><p>本サ�
   var p=location.pathname, mm=p.match(/^(.*?)\/(ja|en)(\/|$)/);
   var b=mm?mm[1]:p.replace(/\/index\.html$/,"").replace(/\/$/,"");
   window.__BASE=b;
-  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=13",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
+  try{var x=new XMLHttpRequest();x.open("GET",b+"/data.js?v=14",false);x.send();if(x.status===200||x.status===0){(0,eval)(x.responseText)}}catch(e){}
   try{var c=new XMLHttpRequest();c.open("GET",b+"/calc.js?v=1",false);c.send();if(c.status===200||c.status===0){(0,eval)(c.responseText)}}catch(e){}
   /* 金利データ: 毎日自動更新されるため日付でキャッシュバスト */
   try{var rr=new XMLHttpRequest();rr.open("GET",b+"/rates.js?d="+new Date().toISOString().slice(0,10),false);rr.send();if(rr.status===200||rr.status===0){(0,eval)(rr.responseText)}}catch(e){}
@@ -479,7 +485,9 @@ function svcCard(s,src){var t=tr(s);
     :s.officialUrl
     ?'<a class="btn btn-g" href="'+esc(s.officialUrl)+'" rel="nofollow noopener" target="_blank" onclick="afClick(\''+s.id+'\',\''+esc(src)+'\')">公式サイトへ ↗</a>'
     :'<span class="badge b-demo">掲載準備中（デモ）</span>';
-  return '<article class="svc rv"><div class="rank">No.'+s.ranking+"</div>"
+  return '<article class="svc rv">'
+    +(s.bgImg?'<img class="svc-bg" src="'+B+"/"+s.bgImg+'" alt="" aria-hidden="true" loading="lazy" title="'+esc((s.bgArticle?s.bgArticle+"：":"")+(s.bgCredit||""))+'">':"")
+    +'<div class="rank">No.'+s.ranking+"</div>"
     +"<h3>"+esc(t.name)+" "+(s.isPR?'<span class="badge b-pr">PR</span>':"")+(s.isDemo?' <span class="badge b-demo">デモ</span>':"")+"</h3>"
     +'<p style="font-size:.87rem;color:var(--muted)">'+esc(t.desc)+"</p>"
     +"<dl>"+(s.partnerLabel?"<dt>提携規模</dt><dd>"+esc(s.partnerLabel)+"</dd>":"")
@@ -1001,6 +1009,8 @@ var PAGES={
   +Object.keys(DATA.themeImages||{}).map(function(k){var t=DATA.themeImages[k];return "<li><b>"+esc(k)+"</b>（出典記事: "+esc(t.article||"")+"） — "+esc(t.credit)+' ／ <a href="'+esc(t.source)+'" target="_blank" rel="noopener">出典ページ</a></li>'}).join("")+"</ul>"
   +h2("デベロッパー一覧の画像クレジット")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
   +(DATA.developers||[]).map(function(d){return "<li><b>"+esc(d.name)+"</b>（写真: "+esc(d.article)+"） — "+esc(d.credit)+(d.source?' ／ <a href="'+esc(d.source)+'" target="_blank" rel="noopener">出典ページ</a>':"")+"</li>"}).join("")+"</ul>"
+  +h2("査定サービスカード背景の画像クレジット")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
+  +DATA.services.filter(function(s){return s.bgImg}).map(function(s){return "<li><b>"+esc(tr(s).name)+"</b>（写真: "+esc(s.bgArticle||"")+"） — "+esc(s.bgCredit||"")+(s.bgSource?' ／ <a href="'+esc(s.bgSource)+'" target="_blank" rel="noopener">出典ページ</a>':"")+"</li>"}).join("")+"</ul>"
   +h2("マーキー画像クレジット一覧")+'<ul style="margin-left:22px;font-size:.78rem;line-height:2">'
   +Object.keys(DATA.marqueeImages||{}).map(function(pl){return DATA.marqueeImages[pl].map(function(m){return "<li><b>"+esc(pl)+"</b> "+esc(m.article)+" — "+esc(m.credit)+(m.source?' ／ <a href="'+esc(m.source)+'" target="_blank" rel="noopener">出典ページ</a>':"")+"</li>"}).join("")}).join("")+"</ul>"
   +h2("税制・制度")+p("税率・制度値には基準日を付し、国税庁等の一次情報へのリンクを添えます。改正時は更新します。")}},
