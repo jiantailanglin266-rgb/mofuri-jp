@@ -257,10 +257,10 @@ table.tb{width:100%;border-collapse:collapse;font-size:.84rem;min-width:560px}
 .meter i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--red2));border-radius:999px}
 /* ── service cards ── */
 .svc{background:var(--card);border:1px solid var(--hair);border-radius:var(--r);padding:26px;margin-bottom:16px;transition:border-color .6s var(--ez);position:relative;overflow:hidden}
-.svc-bg{position:absolute;top:0;right:0;bottom:0;width:52%;object-fit:cover;opacity:.10;pointer-events:none;z-index:0;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 55%);mask-image:linear-gradient(90deg,transparent 0%,#000 55%);
-  filter:saturate(.9);transition:opacity .8s var(--ez)}
-.svc:hover .svc-bg{opacity:.16}
+.svc-bg{position:absolute;top:0;right:0;bottom:0;width:58%;object-fit:cover;opacity:.18;pointer-events:none;z-index:0;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 45%);mask-image:linear-gradient(90deg,transparent 0%,#000 45%);
+  filter:saturate(.95);transition:opacity .8s var(--ez)}
+.svc:hover .svc-bg{opacity:.28}
 .svc>*:not(.svc-bg){position:relative;z-index:1}
 .svc::before{z-index:2}
 .svc::before{content:"";position:absolute;top:0;left:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--red),var(--red2));transform:scaleY(0);transform-origin:top;transition:transform .7s var(--ez)}
