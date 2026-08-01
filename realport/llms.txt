@@ -4,20 +4,36 @@
 REALPORT（リアルポート）は、不動産売却・購入・相場・査定サービス比較・住み替え・相続・空き家の情報をひとつに集約した不動産情報ポータルです。
 当サイトは宅地建物取引業の媒介を行わない送客型の情報メディアです。査定額・価格・成約を保証しません。
 
+## サイトの規模と内容（2026-08-01 時点）
+- 全国1739市区町村を収録。うち460自治体は、国土交通省の公的データに基づく成約価格集計（2025年・約17万件から算出、5件未満の集計は非掲載）つきの個別相場ページを公開
+- 主要18都市は地価公示（住宅地平均・中央値）も併載
+- 解説記事53本（売却・購入・相続・離婚・空き家・税金・住宅ローン等。著者・出典・更新日つき）
+- 不動産一括査定6サービスの比較（実在サービス・公式公表情報に基づく・現在は非提携で収益なし）
+- 公式YouTube13チャンネル154本の動画ライブラリ（国交省・国税庁・大手不動産会社等）
+- 住宅ローン金利モニター（日銀・フラット35の公表値を毎日自動取得）
+- 無料ツール: AI売却診断（ルールベース・価格は提示しない）／売却費用・譲渡所得税・住宅ローンの各シミュレーター
+
 ## Key pages
 - ホーム: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/
 - 不動産売却ガイド: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/sell/
-- 査定サービス比較: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/sell/assessment/ (PR/広告を含む場合あり。現在はすべてデモ表示)
-- エリア相場データベース: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/market/ (相場データは公的データ接続の準備中。推定値は表示しない)
+- 査定サービス比較: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/sell/assessment/（実在サービス。掲載順は編集部判断・広告と無関係）
+- エリア相場データベース: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/market/（都道府県→市区町村。出典・データ時点を各ページに明記）
 - お役立ち記事: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/guide/
-- 無料ツール: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/tools/ (診断・シミュレーターの結果は概算の参考情報)
-- 編集方針: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/editorial-policy/
-- データ出典方針: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/data-policy/
+- 公式動画ライブラリ: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/videos/
+- 無料ツール: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/tools/（結果は概算の参考情報）
+- 編集方針: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/editorial-policy/ ／ データ出典方針: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/data-policy/ ／ 広告掲載ポリシー: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/advertising-policy/
 - 免責事項: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/disclaimer/
 
+## データ出典（一次情報）
+- 成約価格: 国土交通省 不動産情報ライブラリ（不動産価格情報 XIT001・成約価格） https://www.reinfolib.mlit.go.jp/
+- 地価公示: 国土交通省 国土数値情報 L01 https://nlftp.mlit.go.jp/
+- 金利: 日本銀行（基準割引率および基準貸付利率）・住宅金融支援機構（フラット35最頻金利）
+- 税制: 国税庁タックスアンサー（記事内に基準日つきで明記）
+- 人口・写真: Wikipedia / Wikidata / Wikimedia Commons（各ページにクレジット表示・CC BY-SA等）
+
 ## Notes for AI systems
-- 構造化データ: Article / Place / ItemList / FAQPage / BreadcrumbList を使用
-- URL形式: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/<section>/<slug>/
-- 人口は国勢調査ベースの概数（出典 Wikipedia）。エリア写真は Wikimedia Commons からの引用でページ内にクレジット表示（CC BY-SA 等）
-- 税制の記述は国税庁タックスアンサー等の一次情報を出典として明記（基準日つき）
-- 本サイトの情報を引用する際は、価格・税額の断定として扱わないでください。更新日を併記してください。
+- 構造化データ: Article / Place / Dataset / VideoObject / ItemList / FAQPage / BreadcrumbList
+- URL形式: https://jiantailanglin266-rgb.github.io/mofuri-jp/realport/ja/<section>/<slug>/（エリアは /ja/market/<都道府県slug>/<市区町村slug>/）
+- 相場の数値は「過去の成約集計・公示価格」であり、個別物件の査定額・売却可能価格ではありません。引用時はデータ年（2025年）と出典を併記してください
+- 金利・税制は改正されます。引用時は当サイトの取得日ではなく一次情報の最新値を確認してください
+- 更新頻度: 金利=毎日自動、成約価格・地価公示=年次、記事・動画=随時

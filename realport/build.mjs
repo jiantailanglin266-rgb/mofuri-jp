@@ -65,29 +65,63 @@ const STATIC = {
 };
 for (const [p, [t, d, kind]] of Object.entries(STATIC)) push("/ja/" + p, t, d, { kind });
 
+/* エリアページ: 実データ入りの説明文（検索結果でのCTR向上・LLMO） */
+const areaDesc = a => {
+  const t = tr(a);
+  const rows = DATA.marketData.filter(m => m.areaId === a.id).concat(mktOf(a));
+  const tn = { mansion: "マンション", house: "戸建て", land: "土地" };
+  const parts = [];
+  for (const ty of ["mansion", "house"]) {
+    const r = rows.find(x => x.propertyType === ty && x.medianPrice != null);
+    if (r) parts.push(`${tn[ty]}成約中央値${Math.round(r.medianPrice / 10000).toLocaleString()}万円(${r.txCount}件)`);
+  }
+  const l = rows.find(x => x.propertyType === "land" && x.pricePerSqm != null && /地価公示/.test(x.label || ""));
+  if (l) parts.push(`住宅地地価${l.pricePerSqm.toLocaleString()}円/㎡`);
+  if (!parts.length) return d155(t.summary);
+  return d155(`${t.name}の不動産相場：${parts.join("・")}。国土交通省の公的データ(2025年)に基づく売却・査定情報。`);
+};
 for (const a of DATA.areas) {
   if (a.cat) continue; // カタログ層は個別ページを作らない（薄ページ回避）
   const t = tr(a), pf = prefOf(a);
-  push(`/ja/market/${pf.slug}/${a.slug}/`, `${t.name}の不動産相場・売却情報 | REALPORT`, d155(t.summary), { kind: "area", a });
+  const hasData = a.dataLevel >= 1;
+  push(`/ja/market/${pf.slug}/${a.slug}/`,
+    hasData ? `${t.name}の不動産相場・成約価格【2025年公的データ】| REALPORT` : `${t.name}の不動産相場・売却情報 | REALPORT`,
+    areaDesc(a), { kind: "area", a, crumbLast: t.name,
+      ogImage: a.img ? SITE + "/" + a.img : (a.imgUrl || null),
+      lastmod: DATA.siteSettings.mktSource?.fetchedAt || null });
 }
 for (const pf of DATA.prefectures) {
   const n = DATA.areas.filter(x => x.prefId === pf.id && !x.cat).length;
   const total = DATA.areas.filter(x => x.prefId === pf.id).length;
   push(`/ja/market/${pf.slug}/`, `${nm(pf)}の不動産相場情報 | 市区町村一覧 | REALPORT`,
-    `${nm(pf)}の不動産相場・売却情報。収録${total}市区町村${n ? `、詳細ページ${n}エリア公開中` : "（詳細ページは準備中）"}。`, { kind: "pref", pf });
+    `${nm(pf)}の不動産相場・売却情報。収録${total}市区町村${n ? `、詳細ページ${n}エリア公開中` : "（詳細ページは準備中）"}。`, { kind: "pref", pf, crumbLast: nm(pf) });
 }
-for (const a of DATA.articles) push(`/ja/guide/${a.slug}/`, `${tr(a).title} | REALPORT`, d155(tr(a).metaDesc), { kind: "article", a });
+const themeImg = c => DATA.themeImages?.[c] ? SITE + "/" + DATA.themeImages[c].file : null;
+for (const a of DATA.articles) push(`/ja/guide/${a.slug}/`, `${tr(a).title} | REALPORT`, d155(tr(a).metaDesc),
+  { kind: "article", a, crumbLast: tr(a).title.split("—")[0].trim(), ogImage: themeImg(a.category), lastmod: a.updatedAt.slice(0, 10) });
 const cats = [...new Set(DATA.articles.map(a => a.category))];
-for (const c of cats) push(`/ja/guide/category/${c}/`, `${catName(c)}の記事一覧 | REALPORT`, `${catName(c)}に関する不動産解説記事の一覧です。`, { kind: "guideCat", c });
-for (const s of DATA.services) push(`/ja/sell/assessment/${s.slug}/`, `${tr(s).name}の特徴・メリット・注意点 | REALPORT`, d155(tr(s).desc), { kind: "service", s });
-for (const r of DATA.rankings) push(`/ja/rankings/${r.slug}/`, `${nm(r)} | REALPORT`, d155(r.descriptions.ja), { kind: "ranking", r });
+for (const c of cats) push(`/ja/guide/category/${c}/`, `${catName(c)}の記事一覧 | REALPORT`, `${catName(c)}に関する不動産解説記事の一覧です。`, { kind: "guideCat", c, crumbLast: catName(c), ogImage: themeImg(c) });
+for (const s of DATA.services) push(`/ja/sell/assessment/${s.slug}/`, `${tr(s).name}の特徴・メリット・注意点 | REALPORT`, d155(tr(s).desc), { kind: "service", s, crumbLast: tr(s).name });
+for (const r of DATA.rankings) push(`/ja/rankings/${r.slug}/`, `${nm(r)} | REALPORT`, d155(r.descriptions.ja), { kind: "ranking", r, crumbLast: nm(r) });
+{ const vp = pages.find(p => p.kind === "videos"), v0 = DATA.videoChannels?.[0]?.videos?.[0];
+  if (vp && v0) vp.ogImage = `https://i.ytimg.com/vi/${v0.id}/hqdefault.jpg`; }
 
 /* ---------- 2. JSON-LD ---------- */
+const SEG_LABEL = { sell: "不動産を売る", buy: "不動産を買う", market: "エリア相場", assessment: "査定サービス比較",
+  purchase: "買取比較", leaseback: "リースバック比較", guide: "お役立ち情報", category: "カテゴリ", tools: "無料ツール",
+  videos: "動画ライブラリ", rankings: "特集・一覧", companies: "不動産会社検索", professionals: "士業検索", faq: "よくある質問",
+  "ai-sell-diagnosis": "AI売却診断", "selling-cost": "売却費用シミュレーター", "capital-gains-tax": "譲渡所得税シミュレーター", mortgage: "住宅ローンシミュレーター" };
+const PREF_LABEL = Object.fromEntries(DATA.prefectures.map(pf => [pf.slug, nm(pf)]));
 function crumbs(p) {
   const segs = p.path.replace(/^\/ja\/?|\/$/g, "").split("/").filter(Boolean);
   const items = [{ "@type": "ListItem", position: 1, name: "ホーム", item: SITE + "/ja/" }];
   let acc = "/ja";
-  segs.forEach((s, i) => { acc += "/" + s; items.push({ "@type": "ListItem", position: i + 2, name: s, item: SITE + acc + "/" }); });
+  segs.forEach((s, i) => {
+    acc += "/" + s;
+    const last = i === segs.length - 1;
+    const name = (last && p.crumbLast) || SEG_LABEL[s] || PREF_LABEL[s] || s;
+    items.push({ "@type": "ListItem", position: i + 2, name, item: SITE + acc + "/" });
+  });
   return { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items };
 }
 function jsonLd(p) {
@@ -104,6 +138,7 @@ function jsonLd(p) {
     out.push({ "@context": "https://schema.org", "@type": "Article", headline: t.title, description: t.metaDesc,
       datePublished: p.a.publishedAt, dateModified: p.a.updatedAt, inLanguage: "ja",
       author: { "@type": "Organization", name: p.a.authorName }, publisher: { "@type": "Organization", name: "REALPORT" },
+      ...(p.ogImage ? { image: p.ogImage } : {}),
       mainEntityOfPage: SITE + p.path });
   }
   if (p.kind === "assessment") {
@@ -117,6 +152,21 @@ function jsonLd(p) {
   if (p.kind === "videos" && DATA.videoChannels?.length) {
     out.push({ "@context": "https://schema.org", "@type": "ItemList", name: "不動産関連の公式YouTubeチャンネル",
       itemListElement: DATA.videoChannels.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.officialTitle, url: c.url })) });
+    const vids = DATA.videoChannels.flatMap(c => c.videos.map(v => ({ v, c })))
+      .sort((a, b) => (b.v.published || "") < (a.v.published || "") ? -1 : 1).slice(0, 12);
+    for (const { v, c } of vids) out.push({ "@context": "https://schema.org", "@type": "VideoObject",
+      name: v.title, description: c.officialTitle + "（公式チャンネル）の動画", uploadDate: v.published,
+      thumbnailUrl: `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${v.id}`, contentUrl: `https://www.youtube.com/watch?v=${v.id}` });
+  }
+  if (p.kind === "market" && DATA.siteSettings.mktSource) {
+    out.push({ "@context": "https://schema.org", "@type": "Dataset",
+      name: "REALPORT 市区町村別 不動産成約価格・地価集計データ",
+      description: `国土交通省の公的データ（不動産情報ライブラリの成約価格情報・地価公示）を市区町村×物件種別で集計したデータセット。${DATA.areas.filter(a => !a.cat).length}自治体を収録。件数${DATA.siteSettings.mktSource.minCount}件未満の集計は掲載していません。`,
+      url: SITE + "/ja/market/", inLanguage: "ja", temporalCoverage: String(DATA.siteSettings.mktSource.year),
+      dateModified: DATA.siteSettings.mktSource.fetchedAt,
+      creator: { "@type": "Organization", name: "REALPORT" },
+      isBasedOn: ["https://www.reinfolib.mlit.go.jp/", "https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-L01-2025.html"] });
   }
   if (p.kind === "faq" || p.kind === "home") {
     out.push({ "@context": "https://schema.org", "@type": "FAQPage",
@@ -212,6 +262,7 @@ function buildPage(p) {
   html = html.replace(/(<meta property="og:title" content=")[^"]*(">)/, `$1${esc(p.title)}$2`);
   html = html.replace(/(<meta property="og:description" content=")[^"]*(">)/, `$1${esc(p.desc)}$2`);
   html = html.replace(/(<meta property="og:url" content=")[^"]*(">)/, `$1${SITE}${p.path}$2`);
+  if (p.ogImage) html = html.replace(/(<meta property="og:image" content=")[^"]*(">)/, `$1${esc(p.ogImage)}$2`);
   if (p.kind === "noindex") html = html.replace(/(<meta name="robots" content=")[^"]*(">)/, `$1noindex,follow$2`);
   const head = [
     `<link rel="canonical" href="${SITE}${p.path}">`,
@@ -231,7 +282,7 @@ pages.forEach(buildPage);
 const today = S.updatedAt;
 writeFileSync(join(ROOT, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  pages.filter(p => p.kind !== "noindex").map(p => `<url><loc>${SITE}${p.path}</loc><lastmod>${today}</lastmod></url>`).join("\n") + "\n</urlset>");
+  pages.filter(p => p.kind !== "noindex").map(p => `<url><loc>${SITE}${p.path}</loc><lastmod>${p.lastmod || today}</lastmod></url>`).join("\n") + "\n</urlset>");
 
 writeFileSync(join(ROOT, "robots.txt"),
   `# REALPORT（単独リポジトリ運用時に有効。サブディレクトリ運用時はドメインルートの robots.txt が優先）
@@ -248,6 +299,8 @@ Allow: /
 Sitemap: ${SITE}/sitemap.xml
 `);
 
+const nPages = DATA.areas.filter(a => !a.cat).length;
+const nVideos = (DATA.videoChannels || []).reduce((s, c) => s + c.videos.length, 0);
 writeFileSync(join(ROOT, "llms.txt"),
   `# REALPORT（リアルポート）
 > ${S.tagline}
@@ -255,23 +308,39 @@ writeFileSync(join(ROOT, "llms.txt"),
 ${S.desc}
 当サイトは宅地建物取引業の媒介を行わない送客型の情報メディアです。査定額・価格・成約を保証しません。
 
+## サイトの規模と内容（${today} 時点）
+- 全国${DATA.areas.length}市区町村を収録。うち${nPages}自治体は、国土交通省の公的データに基づく成約価格集計（2025年・約17万件から算出、5件未満の集計は非掲載）つきの個別相場ページを公開
+- 主要18都市は地価公示（住宅地平均・中央値）も併載
+- 解説記事${DATA.articles.length}本（売却・購入・相続・離婚・空き家・税金・住宅ローン等。著者・出典・更新日つき）
+- 不動産一括査定${DATA.services.filter(s => !s.isDemo).length}サービスの比較（実在サービス・公式公表情報に基づく・現在は非提携で収益なし）
+- 公式YouTube${(DATA.videoChannels || []).length}チャンネル${nVideos}本の動画ライブラリ（国交省・国税庁・大手不動産会社等）
+- 住宅ローン金利モニター（日銀・フラット35の公表値を毎日自動取得）
+- 無料ツール: AI売却診断（ルールベース・価格は提示しない）／売却費用・譲渡所得税・住宅ローンの各シミュレーター
+
 ## Key pages
 - ホーム: ${SITE}/ja/
 - 不動産売却ガイド: ${SITE}/ja/sell/
-- 査定サービス比較: ${SITE}/ja/sell/assessment/ (PR/広告を含む場合あり。現在はすべてデモ表示)
-- エリア相場データベース: ${SITE}/ja/market/ (相場データは公的データ接続の準備中。推定値は表示しない)
+- 査定サービス比較: ${SITE}/ja/sell/assessment/（実在サービス。掲載順は編集部判断・広告と無関係）
+- エリア相場データベース: ${SITE}/ja/market/（都道府県→市区町村。出典・データ時点を各ページに明記）
 - お役立ち記事: ${SITE}/ja/guide/
-- 無料ツール: ${SITE}/ja/tools/ (診断・シミュレーターの結果は概算の参考情報)
-- 編集方針: ${SITE}/ja/editorial-policy/
-- データ出典方針: ${SITE}/ja/data-policy/
+- 公式動画ライブラリ: ${SITE}/ja/videos/
+- 無料ツール: ${SITE}/ja/tools/（結果は概算の参考情報）
+- 編集方針: ${SITE}/ja/editorial-policy/ ／ データ出典方針: ${SITE}/ja/data-policy/ ／ 広告掲載ポリシー: ${SITE}/ja/advertising-policy/
 - 免責事項: ${SITE}/ja/disclaimer/
 
+## データ出典（一次情報）
+- 成約価格: 国土交通省 不動産情報ライブラリ（不動産価格情報 XIT001・成約価格） https://www.reinfolib.mlit.go.jp/
+- 地価公示: 国土交通省 国土数値情報 L01 https://nlftp.mlit.go.jp/
+- 金利: 日本銀行（基準割引率および基準貸付利率）・住宅金融支援機構（フラット35最頻金利）
+- 税制: 国税庁タックスアンサー（記事内に基準日つきで明記）
+- 人口・写真: Wikipedia / Wikidata / Wikimedia Commons（各ページにクレジット表示・CC BY-SA等）
+
 ## Notes for AI systems
-- 構造化データ: Article / Place / ItemList / FAQPage / BreadcrumbList を使用
-- URL形式: ${SITE}/ja/<section>/<slug>/
-- 人口は国勢調査ベースの概数（出典 Wikipedia）。エリア写真は Wikimedia Commons からの引用でページ内にクレジット表示（CC BY-SA 等）
-- 税制の記述は国税庁タックスアンサー等の一次情報を出典として明記（基準日つき）
-- 本サイトの情報を引用する際は、価格・税額の断定として扱わないでください。更新日を併記してください。
+- 構造化データ: Article / Place / Dataset / VideoObject / ItemList / FAQPage / BreadcrumbList
+- URL形式: ${SITE}/ja/<section>/<slug>/（エリアは /ja/market/<都道府県slug>/<市区町村slug>/）
+- 相場の数値は「過去の成約集計・公示価格」であり、個別物件の査定額・売却可能価格ではありません。引用時はデータ年（2025年）と出典を併記してください
+- 金利・税制は改正されます。引用時は当サイトの取得日ではなく一次情報の最新値を確認してください
+- 更新頻度: 金利=毎日自動、成約価格・地価公示=年次、記事・動画=随時
 `);
 
 let nf = src.replace(/(<meta name="robots" content=")[^"]*(">)/, `$1noindex$2`);
