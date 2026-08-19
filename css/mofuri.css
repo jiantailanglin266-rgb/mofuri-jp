@@ -295,8 +295,9 @@ ul,ol{list-style:none}
 .mfr-hero__overlay{
   position:absolute;inset:0;z-index:-1;
   background:linear-gradient(180deg,
-    rgba(255,255,255,.15) 0%,
-    rgba(255,255,255,.35) 60%,
+    rgba(255,255,255,.05) 0%,
+    rgba(255,255,255,.15) 45%,
+    rgba(255,255,255,.55) 85%,
     rgba(255,255,255,.75) 100%);
 }
 .mfr-hero__inner{
