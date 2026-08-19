@@ -5,9 +5,9 @@
   <url>
     <loc>https://mofuri.jp/</loc>
     <image:image>
-      <image:loc>https://mofuri.jp/ogp.webp</image:loc>
-      <image:title>MOFURI. - ずっと一緒にいたいから。</image:title>
-      <image:caption>犬猫のためのペットサプリメント・ケアブランド MOFURI.</image:caption>
+      <image:loc>https://mofuri.jp/ogp.jpg</image:loc>
+      <image:title>MOFURI. — ずっと一緒にいたいから。</image:title>
+      <image:caption>犬猫のためのペットケアブランド MOFURI. Pet Life Innovation Company</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://mofuri.jp/logo.jpg</image:loc>
@@ -15,7 +15,7 @@
       <image:caption>株式会社MOFURI. 公式ロゴ</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://mofuri.jp/product-eclair-main.webp</image:loc>
+      <image:loc>https://mofuri.jp/product-eclair-main.jpg</image:loc>
       <image:title>わんにゃんエクラ - 犬猫用サプリメント</image:title>
       <image:caption>目・歯・毛並み・腸活をトータルサポートする犬猫用サプリメント</image:caption>
     </image:image>
@@ -25,21 +25,49 @@
       <image:caption>家族として愛されるペットの健やかな毎日のために</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://mofuri.jp/product-eclair-features.png</image:loc>
+      <image:loc>https://mofuri.jp/product-eclair-features.jpg</image:loc>
       <image:title>わんにゃんエクラの特徴</image:title>
       <image:caption>国内製造・涙やけ・ハミガキサポート・1日1包</image:caption>
     </image:image>
     <image:image>
+      <image:loc>https://mofuri.jp/product-eclair-ingredients.jpg</image:loc>
+      <image:title>わんにゃんエクラの原材料</image:title>
+      <image:caption>厳選された原材料で品質と安全性を最優先に設計</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://mofuri.jp/founder-message.jpg</image:loc>
+      <image:title>代表 藤澤せな メッセージ</image:title>
+      <image:caption>ペットはかけがえのない家族 — MOFURI. 代表</image:caption>
+    </image:image>
+    <image:image>
       <image:loc>https://mofuri.jp/digital-pet.png</image:loc>
       <image:title>デジタルで広がるアニマルライフ体験</image:title>
-      <image:caption>MOFURI.のデジタルケアサービス</image:caption>
+      <image:caption>MOFURI.のデジタルペットケアサービス構想</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://mofuri.jp/about.html</loc>
+    <image:image>
+      <image:loc>https://mofuri.jp/ogp.jpg</image:loc>
+      <image:title>About MOFURI.</image:title>
+      <image:caption>Pet Life Innovation Company — 犬猫を家族として考えるブランド哲学</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://mofuri.jp/business.html</loc>
+    <image:image>
+      <image:loc>https://mofuri.jp/ogp.jpg</image:loc>
+      <image:title>Business — MOFURI.</image:title>
+      <image:caption>FOOD × SUPPLEMENT × GOODS × DIGITAL の4事業領域</image:caption>
     </image:image>
   </url>
 
   <url>
     <loc>https://mofuri.jp/products.html</loc>
     <image:image>
-      <image:loc>https://mofuri.jp/product-eclair-main.webp</image:loc>
+      <image:loc>https://mofuri.jp/product-eclair-main.jpg</image:loc>
       <image:title>わんにゃんエクラ 商品一覧</image:title>
       <image:caption>MOFURI.のペットサプリメント製品ラインナップ</image:caption>
     </image:image>
@@ -48,7 +76,7 @@
   <url>
     <loc>https://mofuri.jp/supplement.html</loc>
     <image:image>
-      <image:loc>https://mofuri.jp/ogp.webp</image:loc>
+      <image:loc>https://mofuri.jp/product-eclair-features.jpg</image:loc>
       <image:title>ペットサプリメントとは</image:title>
       <image:caption>犬猫の健康を支えるペットサプリメントについて</image:caption>
     </image:image>
@@ -57,7 +85,7 @@
   <url>
     <loc>https://mofuri.jp/quality.html</loc>
     <image:image>
-      <image:loc>https://mofuri.jp/ogp.webp</image:loc>
+      <image:loc>https://mofuri.jp/product-eclair-ingredients.jpg</image:loc>
       <image:title>開発・品質へのこだわり</image:title>
       <image:caption>MOFURI.の安全性と信頼性の製品づくり</image:caption>
     </image:image>
@@ -66,7 +94,7 @@
   <url>
     <loc>https://mofuri.jp/veterinarian.html</loc>
     <image:image>
-      <image:loc>https://mofuri.jp/ogp.webp</image:loc>
+      <image:loc>https://mofuri.jp/ogp.jpg</image:loc>
       <image:title>監修獣医師 佐々木唯可先生</image:title>
       <image:caption>JAHA認定総合臨床医による科学的根拠に基づく監修</image:caption>
     </image:image>
@@ -78,6 +106,15 @@
       <image:loc>https://mofuri.jp/logo.jpg</image:loc>
       <image:title>株式会社MOFURI. 会社概要</image:title>
       <image:caption>東京新宿のペットケアブランド</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://mofuri.jp/message.html</loc>
+    <image:image>
+      <image:loc>https://mofuri.jp/founder-message.jpg</image:loc>
+      <image:title>代表メッセージ - 藤澤せな</image:title>
+      <image:caption>ペットはかけがえのない家族</image:caption>
     </image:image>
   </url>
 
