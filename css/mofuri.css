@@ -85,11 +85,19 @@
 
 /* ── RESET ─────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{
+  scroll-behavior:smooth;-webkit-text-size-adjust:100%;
+  /* 横スクロール完全封鎖（clip は sticky / smooth-scroll を壊さない） */
+  overflow-x:hidden;overflow-x:clip;
+  overscroll-behavior-x:none;
+}
 body{
   color:var(--text);
   font-family:var(--font-ja);font-weight:400;line-height:1.8;
-  overflow-x:hidden;position:relative;
+  width:100%;max-width:100%;
+  overflow-x:hidden;overflow-x:clip;
+  overscroll-behavior-x:none;
+  position:relative;
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   /* Ambient POP color blobs + gold hairline mesh (fixed background) */
   background-color:var(--mfr-white);
@@ -407,7 +415,8 @@ ul,ol{list-style:none}
 
 /* ── ECOSYSTEM ORBIT ───────────────────────────────── */
 .mfr-orbit{
-  position:relative;width:min(560px,90vw);aspect-ratio:1;margin:0 auto;
+  /* 100vw ではなく % 基準（スクロールバー幅を含まない）で横あふれを防ぐ */
+  position:relative;width:min(560px,100%);aspect-ratio:1;margin:0 auto;
 }
 .mfr-orbit__center{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
@@ -419,7 +428,8 @@ ul,ol{list-style:none}
   box-shadow:0 20px 60px rgba(94,200,229,.4);
 }
 .mfr-orbit__ring{
-  position:absolute;inset:6%;border-radius:50%;
+  /* inset はノード半径(38px)より内側に取り、周回ノードが箱からはみ出さないようにする */
+  position:absolute;inset:9%;border-radius:50%;
   border:1.5px dashed rgba(94,200,229,.4);
   animation:orbitSpin 40s linear infinite;
 }
@@ -756,9 +766,11 @@ ul,ol{list-style:none}
 }
 
 /* 主要コンテンツを装飾より前面に（絶対配置の背景要素は除外） */
-.mfr-hero__inner,.mfr-hero__scroll,
+.mfr-hero__inner,
 .mfr-video-scene__inner,
 .mfr-story__text{position:relative;z-index:3}
+/* scroll hint は absolute のまま前面へ（position を上書きしない） */
+.mfr-hero__scroll{z-index:3}
 /* 動画・オーバーレイの背景配置を保持 */
 .mfr-hero__video{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
 .mfr-hero__overlay{position:absolute;inset:0;z-index:-1}
@@ -868,6 +880,38 @@ ul,ol{list-style:none}
 @keyframes mfrGoldShine{
   0%{background-position:0% 50%}
   100%{background-position:200% 50%}
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE — 横スクロール(横揺れ)防止ガード
+   ══════════════════════════════════════════════════════════ */
+
+/* メディア要素が親を超えない保険 */
+img,video,svg,iframe,canvas,table{max-width:100%}
+
+/* 装飾レイヤーは絶対にスクロール範囲を広げない */
+.mfr-story::before,.mfr-story::after,
+.mfr-hero::after,.mfr-video-scene::after,
+.mfr-video-scene::before,.mfr-page-hero::after,
+.mfr-section::before{contain:paint}
+
+/* 全画面セクションは自身の内側で装飾を切る */
+.mfr-hero,.mfr-video-scene,.mfr-story,.mfr-page-hero{overflow:hidden}
+
+@media(max-width:768px){
+  /* Orbit: 周回ノードを小さくし、リングをさらに内側へ */
+  .mfr-orbit__ring{inset:14%}
+  .mfr-orbit__ring--inner{inset:30%}
+  .mfr-orbit__node{
+    width:58px;height:58px;font-size:.5rem;letter-spacing:.06em;
+  }
+  .mfr-orbit__node span{font-size:.95rem;margin-bottom:.05rem}
+
+  /* 長い英数字・URLがはみ出すのを防ぐ */
+  body{word-break:break-word;overflow-wrap:anywhere}
+
+  /* グリッド系は1カラムに落として横あふれを断つ */
+  .mfr-tiles{grid-template-columns:1fr}
 }
 
 /* ── REDUCED MOTION ────────────────────────────────── */
