@@ -106,6 +106,23 @@ for (const r of DATA.rankings) push(`/ja/rankings/${r.slug}/`, `${nm(r)} | REALP
 { const vp = pages.find(p => p.kind === "videos"), v0 = DATA.videoChannels?.[0]?.videos?.[0];
   if (vp && v0) vp.ogImage = `https://i.ytimg.com/vi/${v0.id}/hqdefault.jpg`; }
 
+/* エリアのデータ連動FAQ（SPA側 areaFaqs と同一ロジック） */
+const areaFaqsOf = a => {
+  const t = tr(a), rows = DATA.marketData.filter(m => m.areaId === a.id).concat(mktOf(a));
+  const out = [], tn = { mansion: "マンション", house: "戸建て" };
+  for (const ty of ["mansion", "house"]) {
+    const r = rows.find(x => x.propertyType === ty && x.medianPrice != null);
+    if (r) out.push({ q: `${t.name}の${tn[ty]}の売却相場（成約価格）は？`,
+      a: `2025年の成約価格の中央値は約${Math.round(r.medianPrice / 10000).toLocaleString("ja-JP")}万円（${r.txCount}件・平均約${Math.round(r.avgPrice / 10000).toLocaleString("ja-JP")}万円）です。出典は国土交通省 不動産情報ライブラリ（成約価格情報）で、個別物件の査定額・売却可能価格を示すものではありません。` });
+  }
+  const l = rows.find(x => x.propertyType === "land" && x.pricePerSqm != null && /地価公示/.test(x.label || ""));
+  if (l) out.push({ q: `${t.name}の住宅地の地価はどのくらい？`,
+    a: `2025年地価公示の住宅地平均は${l.pricePerSqm.toLocaleString("ja-JP")}円/㎡（${l.txCount}地点）です。出典は国土交通省の地価公示（各年1月1日時点）です。` });
+  if (out.length) out.push({ q: `${t.name}の不動産を売却するにはどう進めればいい？`,
+    a: `上記の相場を目安に、複数の不動産会社へ査定を依頼して価格帯と根拠を比較するのが一般的です。当サイトの査定サービス比較やAI売却診断（無料）も参考にしてください。` });
+  return out;
+};
+
 /* ---------- 2. JSON-LD ---------- */
 const SEG_LABEL = { sell: "不動産を売る", buy: "不動産を買う", market: "エリア相場", assessment: "査定サービス比較",
   purchase: "買取比較", leaseback: "リースバック比較", guide: "お役立ち情報", category: "カテゴリ", tools: "無料ツール",
@@ -132,12 +149,16 @@ function jsonLd(p) {
       url: SITE + p.path, geo: { "@type": "GeoCoordinates", latitude: p.a.lat, longitude: p.a.lng },
       address: { "@type": "PostalAddress", addressRegion: nm(pf), addressCountry: "JP" },
       ...(p.a.img ? { image: SITE + "/" + p.a.img } : p.a.imgUrl ? { image: p.a.imgUrl } : {}) });
+    const afq = areaFaqsOf(p.a);
+    if (afq.length) out.push({ "@context": "https://schema.org", "@type": "FAQPage",
+      mainEntity: afq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) });
   }
   if (p.kind === "article") {
     const t = tr(p.a);
     out.push({ "@context": "https://schema.org", "@type": "Article", headline: t.title, description: t.metaDesc,
       datePublished: p.a.publishedAt, dateModified: p.a.updatedAt, inLanguage: "ja",
-      author: { "@type": "Organization", name: p.a.authorName }, publisher: { "@type": "Organization", name: "REALPORT" },
+      author: { "@type": "Organization", name: p.a.authorName },
+      publisher: { "@type": "Organization", name: "REALPORT", logo: { "@type": "ImageObject", url: SITE + "/images/logo.png" } },
       ...(p.ogImage ? { image: p.ogImage } : {}),
       mainEntityOfPage: SITE + p.path });
   }
@@ -208,7 +229,7 @@ ${RATES && RATES.boj ? `<h2>住宅ローン金利モニター（自動取得: ${
       const t = tr(p.a), pf = prefOf(p.a);
       return `<h1>${esc(t.name)}の不動産相場・売却情報</h1><p>${esc(t.summary)}</p>
 <ul><li>都道府県: ${esc(nm(pf))}</li><li>人口: 約${p.a.population}万人（国勢調査ベースの概数・出典 Wikipedia）</li><li>相場データ: ${(() => { const mds = DATA.marketData.filter(m => m.areaId === p.a.id).concat(mktOf(p.a)); if (!mds.length) return "準備中（公的データ接続後に出典・更新日つきで公開。実データに基づかない推定相場は表示しません）"; const tn = { mansion: "マンション", house: "戸建て", land: "土地" }; return mds.map(m => `${tn[m.propertyType]}${m.label ? `（${esc(m.label)}）` : ""} ${m.period}: ${m.avgPrice != null ? `平均${Math.round(m.avgPrice / 10000).toLocaleString()}万円・` : ""}㎡単価${m.pricePerSqm != null ? m.pricePerSqm.toLocaleString() + "円" : "—"}${m.medianPerSqm != null ? `・中央値${m.medianPerSqm.toLocaleString()}円/㎡` : ""}・${m.txCount != null ? m.txCount + (m.unit || "件") : ""}（出典 ${esc(m.sourceName)}・${esc(m.sourceDate)}時点）`).join("、"); })()}</li></ul>
-<h2>売却時のポイント</h2><p>${esc(t.sellNotes)}</p>${p.a.imgCredit ? `<p>写真: ${esc(p.a.imgCredit)}</p>` : ""}${foot}`;
+<h2>売却時のポイント</h2><p>${esc(t.sellNotes)}</p>${(() => { const fs = areaFaqsOf(p.a); return fs.length ? `<h2>よくある質問</h2>${fs.map(f => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join("")}` : ""; })()}${p.a.imgCredit ? `<p>写真: ${esc(p.a.imgCredit)}</p>` : ""}${foot}`;
     }
     case "pref": {
       const as = DATA.areas.filter(x => x.prefId === p.pf.id && !x.cat);
@@ -263,6 +284,7 @@ function buildPage(p) {
   html = html.replace(/(<meta property="og:description" content=")[^"]*(">)/, `$1${esc(p.desc)}$2`);
   html = html.replace(/(<meta property="og:url" content=")[^"]*(">)/, `$1${SITE}${p.path}$2`);
   if (p.ogImage) html = html.replace(/(<meta property="og:image" content=")[^"]*(">)/, `$1${esc(p.ogImage)}$2`);
+  if (p.kind === "home") html = html.replace("</head>", `<link rel="preload" as="image" href="${SITE}/images/hero-tokyo.jpg">\n</head>`);
   if (p.kind === "noindex") html = html.replace(/(<meta name="robots" content=")[^"]*(">)/, `$1noindex,follow$2`);
   const head = [
     `<link rel="canonical" href="${SITE}${p.path}">`,
@@ -342,6 +364,27 @@ ${S.desc}
 - 金利・税制は改正されます。引用時は当サイトの取得日ではなく一次情報の最新値を確認してください
 - 更新頻度: 金利=毎日自動、成約価格・地価公示=年次、記事・動画=随時
 `);
+
+/* RSS（記事フィード） */
+const rssItems = DATA.articles.slice().sort((a, b) => b.publishedAt < a.publishedAt ? -1 : 1).slice(0, 30)
+  .map(a => `<item><title>${esc(tr(a).title)}</title><link>${SITE}/ja/guide/${a.slug}/</link><guid isPermaLink="true">${SITE}/ja/guide/${a.slug}/</guid><pubDate>${new Date(a.publishedAt).toUTCString()}</pubDate><description>${esc(tr(a).metaDesc)}</description></item>`).join("\n");
+writeFileSync(join(ROOT, "feed.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>REALPORT お役立ち情報</title><link>${SITE}/ja/guide/</link><description>${esc(S.desc)}</description><language>ja</language><lastBuildDate>${new Date(today + "T09:00:00+09:00").toUTCString()}</lastBuildDate>\n${rssItems}\n</channel></rss>`);
+
+/* llms-full.txt（AI向けの全ページインベントリ） */
+writeFileSync(join(ROOT, "llms-full.txt"),
+  readFileSync(join(ROOT, "llms.txt"), "utf-8")
+  + `\n## 全記事一覧（${DATA.articles.length}本）\n`
+  + DATA.articles.map(a => `- [${tr(a).title}](${SITE}/ja/guide/${a.slug}/) — ${tr(a).metaDesc}`).join("\n")
+  + `\n\n## 相場ページ一覧（${DATA.areas.filter(a => !a.cat).length}自治体・都道府県別）\n`
+  + DATA.prefectures.map(pf => {
+      const as = DATA.areas.filter(x => x.prefId === pf.id && !x.cat);
+      return as.length ? `- ${nm(pf)}（${SITE}/ja/market/${pf.slug}/）: ${as.map(x => `[${tr(x).name}](${SITE}/ja/market/${pf.slug}/${x.slug}/)`).join(" / ")}` : null;
+    }).filter(Boolean).join("\n")
+  + `\n\n## 査定サービス比較（実在・非提携）\n`
+  + DATA.services.filter(s => !s.isDemo).map(s => `- [${tr(s).name}](${SITE}/ja/sell/assessment/${s.slug}/) — 運営: ${s.company} ／ ${s.partnerLabel}`).join("\n")
+  + `\n\n## 公式YouTubeチャンネル（動画ライブラリ収載）\n`
+  + (DATA.videoChannels || []).map(c => `- ${c.officialTitle}（${c.url}）`).join("\n") + "\n");
 
 let nf = src.replace(/(<meta name="robots" content=")[^"]*(">)/, `$1noindex$2`);
 writeFileSync(join(ROOT, "404.html"), nf);
